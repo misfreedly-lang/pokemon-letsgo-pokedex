@@ -1199,7 +1199,350 @@
       color: #718096;
       font-size: 0.95rem;
     }
-  </style>
+  
+    /* ========================================================
+       기술 상성 직관적 그림표 스타일
+       ======================================================== */
+    .type-chart-section {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 26px 20px;
+      box-shadow: var(--card-shadow);
+      border: 4px solid #FFCC00;
+      margin-bottom: 25px;
+    }
+
+    .type-chart-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .type-chart-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 2rem;
+      color: #1A202C;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .type-chart-desc {
+      font-size: 1.05rem;
+      color: #718096;
+    }
+
+    /* 1. 가위바위보 핵심 순환 그림 카드들 */
+    .core-cycle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .cycle-card {
+      background: #F8FAFC;
+      border-radius: 20px;
+      padding: 18px;
+      border: 2px solid #E2E8F0;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .cycle-card-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cycle-relation-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background: white;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid #EDF2F7;
+    }
+
+    .cycle-item {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .cycle-icon {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+      transition: transform 0.2s;
+    }
+
+    .cycle-item:hover .cycle-icon {
+      transform: scale(1.2);
+    }
+
+    .cycle-name {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.05rem;
+      font-weight: bold;
+    }
+
+    .cycle-arrow-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #E53E3E;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.85rem;
+      animation: arrowBlink 1.5s infinite alternate;
+    }
+
+    .cycle-arrow {
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    @keyframes arrowBlink {
+      from { transform: scale(0.95); opacity: 0.8; }
+      to { transform: scale(1.1); opacity: 1; }
+    }
+
+    .cycle-desc-bubble {
+      background: #FFFDF0;
+      border-left: 4px solid #ECC94B;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      color: #744210;
+      line-height: 1.5;
+    }
+
+    /* 2. 인터랙티브 마법 상성 돋보기 (타입 터치 탐색기) */
+    .magic-type-selector-box {
+      background: linear-gradient(180deg, #F0F9FF 0%, #FFFFFF 100%);
+      border: 3px solid #63B3ED;
+      border-radius: 24px;
+      padding: 22px 18px;
+      margin-bottom: 28px;
+    }
+
+    .magic-selector-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.45rem;
+      color: #2B6CB0;
+      text-align: center;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .type-touch-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .touch-type-btn {
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .touch-type-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .touch-type-btn.active {
+      transform: translateY(-4px) scale(1.12);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+      outline: 3px solid #1A202C;
+    }
+
+    /* 마법 상성 결과 패널 */
+    .magic-result-panel {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      border: 2px solid #E2E8F0;
+      animation: panelPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes panelPop {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .magic-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 2px dashed #E2E8F0;
+    }
+
+    .magic-current-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.5rem;
+      padding: 6px 18px;
+      border-radius: 20px;
+      color: white;
+    }
+
+    .magic-columns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .magic-column {
+      background: #F8FAFC;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .magic-col-win {
+      border: 2px solid #C6F6D5;
+      background: #F0FFF4;
+    }
+
+    .magic-col-lose {
+      border: 2px solid #FED7D7;
+      background: #FFF5F5;
+    }
+
+    .magic-col-weak {
+      border: 2px solid #FEEBC8;
+      background: #FFFAF0;
+    }
+
+    .magic-col-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .magic-poke-targets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .target-tag {
+      background: white;
+      border: 1px solid #CBD5E0;
+      padding: 5px 12px;
+      border-radius: 14px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    .target-tag strong {
+      font-weight: bold;
+    }
+
+    /* 3. 직관적인 상성 그림표 (종합 매트릭스 테이블) */
+    .visual-table-wrapper {
+      overflow-x: auto;
+      border-radius: 18px;
+      border: 2px solid #E2E8F0;
+      margin-top: 20px;
+      background: white;
+    }
+
+    .visual-type-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      font-size: 0.9rem;
+      min-width: 650px;
+    }
+
+    .visual-type-table th, .visual-type-table td {
+      padding: 10px 8px;
+      border: 1px solid #EDF2F7;
+    }
+
+    .visual-type-table th {
+      background: #2D3748;
+      color: white;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      position: sticky;
+      top: 0;
+    }
+
+    .visual-type-table td.header-col {
+      background: #F7FAFC;
+      font-family: 'Jua', sans-serif;
+      font-weight: bold;
+    }
+
+    .cell-2x {
+      background: #C6F6D5 !important;
+      color: #22543D;
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 1.15rem;
+    }
+
+    .cell-half {
+      background: #E2E8F0 !important;
+      color: #718096;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .cell-zero {
+      background: #FED7D7 !important;
+      color: #C53030;
+      font-weight: 900;
+      font-size: 1.15rem;
+      cursor: pointer;
+    }
+
+    .cell-normal {
+      color: #CBD5E0;
+    }
+
+</style>
 </head>
 <body>
 
@@ -1302,7 +1645,7 @@
         <nav class="nav-tabs">
           <button class="nav-btn active" onclick="switchTab('pokedex')">📖 내 진도 맞춤 도감</button>
           <button class="nav-btn" onclick="switchTab('writing')">✍️ 패드 펜슬 한글 쓰기</button>
-          <button class="nav-btn" onclick="switchTab('typeClass')">⚖️ 상성 & 배틀 시뮬레이터</button>
+          <button class="nav-btn" onclick="switchTab('typeClass')">⚖️ 직관적 상성 그림표 & 배틀</button>
           <button class="nav-btn" onclick="switchTab('strategy')">💡 렛츠고 모험 공략</button>
         </nav>
       </div>
@@ -1400,6 +1743,143 @@
            탭 3: 알기 쉬운 상성 & 배틀 시뮬레이터
            ---------------------------------------------------- -->
       <section id="tab-typeClass" class="tab-section">
+
+      <!-- ========================================================
+           기술 상성 직관적 그림표 (어린이 눈높이 인포그래픽)
+           ======================================================== -->
+      <div class="type-chart-section">
+        <div class="type-chart-header">
+          <h3 class="type-chart-title">
+            <span>🎨 한눈에 쏙 들어오는 기술 상성 그림표</span>
+            <button class="tts-speaker-btn" onclick="speakAllTypeRelations()">🔊 상성 공식 전체 듣기</button>
+          </h3>
+          <p class="type-chart-desc">어떤 기술을 써야 상대방을 한 방에 이길 수 있을까요? 아래 그림표를 보며 비밀을 풀어봐요!</p>
+        </div>
+
+        <!-- 1. 어린이 눈높이 3대 핵심 상성 공식 카드 -->
+        <div class="core-cycle-grid">
+          
+          <!-- 카드 1: 물·불·풀 가위바위보 -->
+          <div class="cycle-card">
+            <div class="cycle-card-title">
+              <span style="color:#2B6CB0;">💧 물 ➔ 🔥 불 ➔ 🌿 풀</span>
+              <button class="card-voice-btn" onclick="speakCoreCycle('water-fire-grass')">🔊 듣기</button>
+            </div>
+            <div class="cycle-relation-row">
+              <div class="cycle-item">
+                <div class="cycle-icon">💧</div>
+                <div class="cycle-name" style="color:#3182CE;">물</div>
+              </div>
+              <div class="cycle-arrow-box">
+                <span>쏴아! 꺼버림</span>
+                <span class="cycle-arrow">➔</span>
+                <strong style="color:#2F855A;">2배!</strong>
+              </div>
+              <div class="cycle-item">
+                <div class="cycle-icon">🔥</div>
+                <div class="cycle-name" style="color:#DD6B20;">불꽃</div>
+              </div>
+              <div class="cycle-arrow-box">
+                <span>활활! 태워버림</span>
+                <span class="cycle-arrow">➔</span>
+                <strong style="color:#2F855A;">2배!</strong>
+              </div>
+              <div class="cycle-item">
+                <div class="cycle-icon">🌿</div>
+                <div class="cycle-name" style="color:#38A169;">풀</div>
+              </div>
+            </div>
+            <div class="cycle-desc-bubble">
+              💡 <strong>기억해요:</strong> 물은 불을 끄고, 불은 풀을 태우고, 풀은 물을 꿀꺽 흡수해요! 완벽한 가위바위보 삼총사!
+            </div>
+          </div>
+
+          <!-- 카드 2: 전기와 땅/바위의 비밀 -->
+          <div class="cycle-card">
+            <div class="cycle-card-title">
+              <span style="color:#D69E2E;">⚡ 전기 ➔ 💧 물·🦅 새 vs 🪨 돌멩이</span>
+              <button class="card-voice-btn" onclick="speakCoreCycle('electric-ground')">🔊 듣기</button>
+            </div>
+            <div class="cycle-relation-row">
+              <div class="cycle-item">
+                <div class="cycle-icon">⚡</div>
+                <div class="cycle-name" style="color:#D69E2E;">피카츄 전기</div>
+              </div>
+              <div class="cycle-arrow-box">
+                <span>찌릿찌릿!</span>
+                <span class="cycle-arrow">➔</span>
+                <strong style="color:#2F855A;">2배 효과!</strong>
+              </div>
+              <div class="cycle-item">
+                <div class="cycle-icon">💧 🦅</div>
+                <div class="cycle-name" style="color:#3182CE;">물고기·새</div>
+              </div>
+            </div>
+            <div class="cycle-desc-bubble" style="background:#FFF5F5; border-left-color:#E53E3E; color:#9B1C1C;">
+              ⚠️ <strong>가장 중요한 규칙:</strong> 바위·땅 포켓몬(웅이의 꼬마돌, 롱스톤)에게 전기는 <strong>0배(전혀 안 통함)</strong>예요! 전기가 땅속으로 쏙 숨어버려요!
+            </div>
+          </div>
+
+          <!-- 카드 3: 격투 주먹과 바위의 비밀 (웅이 깰 때) -->
+          <div class="cycle-card">
+            <div class="cycle-card-title">
+              <span style="color:#C53030;">🥊 격투 ➔ 🪨 단단한 바위를 부숴요!</span>
+              <button class="card-voice-btn" onclick="speakCoreCycle('fight-rock')">🔊 듣기</button>
+            </div>
+            <div class="cycle-relation-row">
+              <div class="cycle-item">
+                <div class="cycle-icon">🥊</div>
+                <div class="cycle-name" style="color:#C53030;">망키 격투</div>
+              </div>
+              <div class="cycle-arrow-box">
+                <span>쾅! 산산조각</span>
+                <span class="cycle-arrow">➔</span>
+                <strong style="color:#2F855A;">2배 폭발!</strong>
+              </div>
+              <div class="cycle-item">
+                <div class="cycle-icon">🪨 ⭐</div>
+                <div class="cycle-name" style="color:#718096;">바위·노말</div>
+              </div>
+            </div>
+            <div class="cycle-desc-bubble" style="background:#F0FFF4; border-left-color:#38A169; color:#22543D;">
+              ⭐ <strong>웅이 이기는 비법:</strong> 피카츄(Lv.9)와 이브이(Lv.10)가 배우는 <strong>'두번치기'</strong>와 망키의 <strong>'안다리걸기'</strong>가 바로 이 격투 기술이에요!
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2. 인터랙티브: 타입을 콕! 누르면 나타나는 마법 상성 돋보기 -->
+        <div class="magic-type-selector-box">
+          <div class="magic-selector-title">
+            <span>✨ 타입을 콕 터치해보세요! 공격과 방어의 비밀이 열려요!</span>
+          </div>
+
+          <!-- 12개 타입 터치 버튼들 -->
+          <div class="type-touch-buttons" id="type-touch-buttons">
+            <!-- JS 동적 렌더링 -->
+          </div>
+
+          <!-- 선택된 타입 상세 패널 -->
+          <div class="magic-result-panel" id="magic-result-panel">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+
+        <!-- 3. 한눈에 보는 알록달록 상성 요약표 -->
+        <div style="margin-top:20px;">
+          <h4 style="font-family:'Jua'; font-size:1.3rem; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+            <span>📊 알록달록 상성 기호표</span>
+            <span style="font-size:0.95rem; font-weight:normal; color:#718096;">(💥=효과 짱 2배 / 🛡️=별로야 0.5배 / ❌=안 통해 0배)</span>
+          </h4>
+          <div class="visual-table-wrapper">
+            <table class="visual-type-table" id="visual-type-table">
+              <!-- JS 동적 생성 -->
+            </table>
+          </div>
+        </div>
+
+      </div>
+
         <div class="battle-box">
           <div style="text-align: center; margin-bottom: 12px;">
             <h3 style="font-family:'Jua'; font-size:1.7rem; color:#1A202C;">🥊 1대1 포켓몬 상성 대결 시뮬레이터</h3>
@@ -2491,7 +2971,295 @@
       speakText(`${p.name}! ${p.types.join('과 ')} 타입 ${p.category}입니다.`);
     }
 
-// 4. 배틀 상성 시뮬레이터
+
+    // ========================================================
+    // 5. 직관적 기술 상성 그림표 데이터 및 로직
+    // ========================================================
+    const TYPE_CHART_DATA = {
+      "전기": {
+        name: "전기", icon: "⚡", color: "#F8D030", textColor: "#4A3A00",
+        pokes: "피카츄, 쥬피썬더",
+        strong: [{ type: "물", pokes: "잉어킹, 꼬부기, 아쿠스타" }, { type: "비행", pokes: "구구, 깨비참, 주뱃" }],
+        weak: [{ type: "풀", pokes: "이상해씨, 뚜벅초" }, { type: "드래곤", pokes: "미뇽, 망나뇽" }],
+        immune: [{ type: "땅", pokes: "꼬마돌, 롱스톤, 모래두지" }],
+        defWeak: ["땅"],
+        story: "전기 기술은 물고기와 새 포켓몬에게 찌릿찌릿 2배의 강력한 피해를 줘요! 하지만 땅이나 바위 포켓몬에게는 전기가 땅속으로 흘러가서 전혀(0배) 통하지 않으니 절대 쓰면 안 돼요!"
+      },
+      "물": {
+        name: "물", icon: "💧", color: "#6890F0", textColor: "#FFF",
+        pokes: "잉어킹, 거북왕, 샤미드",
+        strong: [{ type: "불꽃", pokes: "파이리, 리자몽" }, { type: "땅", pokes: "모래두지, 닥트리오" }, { type: "바위", pokes: "꼬마돌, 롱스톤" }],
+        weak: [{ type: "물", pokes: "물 포켓몬끼리" }, { type: "풀", pokes: "이상해씨" }, { type: "드래곤", pokes: "망나뇽" }],
+        immune: [],
+        defWeak: ["전기", "풀"],
+        story: "물 기술은 불을 쏴아 끄고, 바위와 땅을 쓸어버려서 2배의 엄청난 대미지를 입혀요! 하지만 전기 감전과 풀의 흡수 공격은 무서워해요!"
+      },
+      "불꽃": {
+        name: "불꽃", icon: "🔥", color: "#F08030", textColor: "#FFF",
+        pokes: "파이리, 리자드, 부스터",
+        strong: [{ type: "풀", pokes: "이상해씨, 뚜벅초" }, { type: "벌레", pokes: "캐터피, 뿔충이, 버터플" }, { type: "얼음", pokes: "라프라스" }, { type: "강철", pokes: "코일" }],
+        weak: [{ type: "물", pokes: "잉어킹" }, { type: "바위", pokes: "꼬마돌, 롱스톤" }, { type: "드래곤", pokes: "망나뇽" }],
+        immune: [],
+        defWeak: ["물", "땅", "바위"],
+        story: "불꽃 기술은 상록숲의 캐터피, 뿔충이 같은 벌레와 풀 포켓몬을 활활 태워버려요! 하지만 물과 바위 공격을 맞으면 불이 꺼져버려요!"
+      },
+      "풀": {
+        name: "풀", icon: "🌿", color: "#78C850", textColor: "#FFF",
+        pokes: "이상해씨, 이상해풀, 뚜벅초",
+        strong: [{ type: "물", pokes: "잉어킹, 아쿠스타" }, { type: "땅", pokes: "모래두지" }, { type: "바위", pokes: "꼬마돌, 롱스톤" }],
+        weak: [{ type: "불꽃", pokes: "파이리" }, { type: "풀", pokes: "풀 포켓몬끼리" }, { type: "독", pokes: "아보, 독침붕" }, { type: "비행", pokes: "구구, 깨비참" }, { type: "벌레", pokes: "버터플" }],
+        immune: [],
+        defWeak: ["불꽃", "얼음", "독", "비행", "벌레"],
+        story: "풀 기술은 회색시티 웅이(바위/땅)와 블루시티 이슬이(물)를 모두 무너뜨릴 수 있는 초반의 절대 영웅 기술이에요!"
+      },
+      "격투": {
+        name: "격투", icon: "🥊", color: "#C03028", textColor: "#FFF",
+        pokes: "망키, 성원숭, 홍수몬",
+        strong: [{ type: "노말", pokes: "꼬렛, 이브이, 잠만보" }, { type: "바위", pokes: "꼬마돌, 롱스톤" }, { type: "얼음", pokes: "라프라스" }, { type: "강철", pokes: "코일" }],
+        weak: [{ type: "독", pokes: "아보, 니드런" }, { type: "비행", pokes: "구구, 깨비참" }, { type: "에스퍼", pokes: "케이시, 뮤츠" }, { type: "벌레", pokes: "버터플" }, { type: "페어리", pokes: "푸린, 삐삐" }],
+        immune: [{ type: "고스트", pokes: "팬텀" }],
+        defWeak: ["비행", "에스퍼", "페어리"],
+        story: "격투 기술은 단단한 바위와 노말 포켓몬을 주먹과 발차기로 부숴버려요! 회색시티 웅이의 롱스톤을 깰 때 최고의 특효약입니다!"
+      },
+      "바위": {
+        name: "바위", icon: "🪨", color: "#B8A038", textColor: "#FFF",
+        pokes: "꼬마돌, 롱스톤, 프테라",
+        strong: [{ type: "불꽃", pokes: "파이리" }, { type: "얼음", pokes: "라프라스" }, { type: "비행", pokes: "구구, 깨비참, 주뱃" }, { type: "벌레", pokes: "버터플, 독침붕" }],
+        weak: [{ type: "격투", pokes: "망키" }, { type: "땅", pokes: "모래두지" }, { type: "강철", pokes: "코일" }],
+        immune: [],
+        defWeak: ["물", "풀", "격투", "땅", "강철"],
+        story: "바위 기술은 날아다니는 새(비행)와 불꽃, 벌레를 낙석으로 떨어뜨려요! 하지만 물💧과 풀🌿 공격에는 4배의 치명상을 입으니 조심하세요!"
+      },
+      "비행": {
+        name: "비행", icon: "🦅", color: "#A890F0", textColor: "#FFF",
+        pokes: "구구, 피죤투, 깨비참, 리자몽",
+        strong: [{ type: "풀", pokes: "이상해씨" }, { type: "격투", pokes: "망키" }, { type: "벌레", pokes: "캐터피, 버터플" }],
+        weak: [{ type: "전기", pokes: "피카츄" }, { type: "바위", pokes: "꼬마돌, 롱스톤" }, { type: "강철", pokes: "코일" }],
+        immune: [],
+        defWeak: ["전기", "얼음", "바위"],
+        story: "비행 기술은 하늘에서 부리로 콕콕 쪼아 풀과 벌레, 격투 포켓몬을 제압해요! 피카츄의 전기나 바위 공격은 매우 아파요!"
+      },
+      "독": {
+        name: "독", icon: "☠️", color: "#A040A0", textColor: "#FFF",
+        pokes: "니드런, 아보, 독침붕, 주뱃",
+        strong: [{ type: "풀", pokes: "이상해씨, 뚜벅초" }, { type: "페어리", pokes: "푸린, 삐삐" }],
+        weak: [{ type: "독", pokes: "독 포켓몬끼리" }, { type: "땅", pokes: "모래두지" }, { type: "바위", pokes: "꼬마돌" }, { type: "고스트", pokes: "고오스" }],
+        immune: [{ type: "강철", pokes: "코일" }],
+        defWeak: ["땅", "에스퍼"],
+        story: "독 기술은 풀 포켓몬과 귀여운 페어리 포켓몬에게 치명적인 독침 공격을 날려요! 에스퍼 초능력과 땅 공격은 조심해야 해요!"
+      },
+      "벌레": {
+        name: "벌레", icon: "🐛", color: "#A8B820", textColor: "#FFF",
+        pokes: "캐터피, 단데기, 버터플, 뿔충이",
+        strong: [{ type: "풀", pokes: "이상해씨" }, { type: "에스퍼", pokes: "케이시, 윤겔라" }, { type: "악", pokes: "아보크" }],
+        weak: [{ type: "불꽃", pokes: "파이리" }, { type: "격투", pokes: "망키" }, { type: "독", pokes: "아보" }, { type: "비행", pokes: "구구" }, { type: "고스트", pokes: "고오스" }, { type: "강철", pokes: "코일" }, { type: "페어리", pokes: "푸린" }],
+        immune: [],
+        defWeak: ["불꽃", "비행", "바위"],
+        story: "벌레 기술은 풀과 에스퍼를 제압할 수 있어요! 불꽃과 비행 새들에게 잡히지 않도록 조심하세요!"
+      },
+      "페어리": {
+        name: "페어리", icon: "✨", color: "#EE99AC", textColor: "#FFF",
+        pokes: "푸린, 삐삐, 픽시",
+        strong: [{ type: "격투", pokes: "망키, 괴력몬" }, { type: "드래곤", pokes: "미뇽, 망나뇽" }, { type: "악", pokes: "악 타입" }],
+        weak: [{ type: "불꽃", pokes: "파이리" }, { type: "독", pokes: "아보, 니드런" }, { type: "강철", pokes: "코일" }],
+        immune: [],
+        defWeak: ["독", "강철"],
+        story: "페어리는 무서운 용(드래곤)들의 공격을 0배로 완전히 무효화하는 요정의 마법 방패를 가졌어요! 격투 포켓몬도 혼내줍니다!"
+      },
+      "노말": {
+        name: "노말", icon: "⭐", color: "#A8A878", textColor: "#FFF",
+        pokes: "이브이, 꼬렛, 잠만보, 푸린",
+        strong: [],
+        weak: [{ type: "바위", pokes: "꼬마돌, 롱스톤" }, { type: "강철", pokes: "코일" }],
+        immune: [{ type: "고스트", pokes: "고오스, 팬텀" }],
+        defWeak: ["격투"],
+        story: "노말 기술은 약점이 격투 하나뿐이라 매우 안정적이에요! 고스트 포켓몬과는 서로의 공격이 통하지 않아요!"
+      },
+      "땅": {
+        name: "땅", icon: "🏜️", color: "#E0C068", textColor: "#4A3A00",
+        pokes: "모래두지, 닥트리오, 꼬마돌",
+        strong: [{ type: "불꽃", pokes: "파이리" }, { type: "전기", pokes: "피카츄" }, { type: "독", pokes: "아보" }, { type: "바위", pokes: "꼬마돌" }, { type: "강철", pokes: "코일" }],
+        weak: [{ type: "풀", pokes: "이상해씨" }, { type: "벌레", pokes: "캐터피" }],
+        immune: [{ type: "비행", pokes: "구구(하늘을 날아서 안 맞음!)" }],
+        defWeak: ["물", "풀", "얼음"],
+        story: "땅 기술은 전기를 100% 무효화하고 불꽃과 바위를 뒤흔들어요! 하지만 하늘을 나는 비행 포켓몬에게는 땅 기술이 닿지 않아요!"
+      }
+    };
+
+    let currentSelectedType = "전기";
+
+    function initTypeChart() {
+      renderTypeTouchButtons();
+      selectMagicType("전기");
+      renderVisualTypeTable();
+    }
+
+    function renderTypeTouchButtons() {
+      const container = document.getElementById('type-touch-buttons');
+      if (!container) return;
+      container.innerHTML = '';
+
+      Object.keys(TYPE_CHART_DATA).forEach(tName => {
+        const t = TYPE_CHART_DATA[tName];
+        const btn = document.createElement('button');
+        btn.className = `touch-type-btn ${tName === currentSelectedType ? 'active' : ''}`;
+        btn.style.background = t.color;
+        btn.style.color = t.textColor;
+        btn.innerHTML = `<span>${t.icon}</span> <span>${t.name}</span>`;
+        btn.onclick = () => selectMagicType(tName);
+        container.appendChild(btn);
+      });
+    }
+
+    function selectMagicType(tName) {
+      playBeep('pop');
+      currentSelectedType = tName;
+      const t = TYPE_CHART_DATA[tName];
+      if (!t) return;
+
+      // 버튼 active 업데이트
+      document.querySelectorAll('.touch-type-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.includes(t.name));
+      });
+
+      const panel = document.getElementById('magic-result-panel');
+      if (!panel) return;
+
+      const strongTags = t.strong.length > 0 
+        ? t.strong.map(s => `<span class="target-tag"><strong style="color:#22543D;">💥 ${s.type}</strong> <span style="font-size:0.8rem; color:#718096;">(${s.pokes})</span></span>`).join('')
+        : '<span style="color:#718096; font-size:0.9rem;">특별히 강한 타입 없음</span>';
+
+      const weakTags = (t.weak.concat(t.immune)).length > 0
+        ? t.weak.map(w => `<span class="target-tag"><span style="color:#718096;">🛡️ ${w.type} (0.5배)</span></span>`).concat(
+            t.immune.map(im => `<span class="target-tag" style="background:#FFF5F5; border-color:#FEB2B2;"><strong style="color:#C53030;">❌ ${im.type} (0배 안통함!)</strong></span>`)
+          ).join('')
+        : '<span style="color:#718096; font-size:0.9rem;">없음</span>';
+
+      const defWeakTags = t.defWeak.map(d => `<span class="target-tag" style="background:#FFFDF0; border-color:#FBD38D;"><strong style="color:#DD6B20;">⚠️ ${d} 기술에 2배 아픔</strong></span>`).join('');
+
+      panel.innerHTML = `
+        <div class="magic-panel-header">
+          <div class="magic-current-type-badge" style="background:${t.color}; color:${t.textColor};">
+            <span>${t.icon}</span>
+            <span>${t.name} 기술 상성 분석</span>
+          </div>
+          <button class="tts-speaker-btn" onclick="speakTypeDetails('${t.name}')">🔊 이 타입 설명 듣기</button>
+        </div>
+
+        <div style="margin-bottom:14px; font-family:'Jua'; color:#4A5568; font-size:1.05rem; background:#F7FAFC; padding:10px 14px; border-radius:12px;">
+          대표 포켓몬: <strong style="color:#2D3748;">${t.pokes}</strong>
+        </div>
+
+        <div class="magic-columns-grid">
+          <!-- 공격: 효과 짱 -->
+          <div class="magic-column magic-col-win">
+            <div class="magic-col-title" style="color:#22543D;">
+              <span>💥 ${t.name} 기술로 때리면 효과 짱! (2배)</span>
+            </div>
+            <div class="magic-poke-targets">
+              ${strongTags}
+            </div>
+          </div>
+
+          <!-- 공격: 효과 별로 / 안 통함 -->
+          <div class="magic-column magic-col-lose">
+            <div class="magic-col-title" style="color:#9B1C1C;">
+              <span>🛡️ 이 상대에겐 공격 효과가 낮아요</span>
+            </div>
+            <div class="magic-poke-targets">
+              ${weakTags}
+            </div>
+          </div>
+
+          <!-- 방어: 내가 맞으면 아픔 -->
+          <div class="magic-column magic-col-weak">
+            <div class="magic-col-title" style="color:#C05621;">
+              <span>⚠️ 내가 맞을 때 조심할 공격 (약점)</span>
+            </div>
+            <div class="magic-poke-targets">
+              ${defWeakTags}
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px; background:#F7FAFC; border-left:4px solid ${t.color}; padding:10px 14px; border-radius:8px; font-size:0.95rem; color:#4A5568;">
+          💡 <strong>어린이 꿀팁:</strong> ${t.story}
+        </div>
+      `;
+    }
+
+    function speakTypeDetails(tName) {
+      const t = TYPE_CHART_DATA[tName];
+      if (!t) return;
+      speakText(`${t.name} 타입의 상성 설명입니다. ${t.story}`);
+    }
+
+    function speakCoreCycle(type) {
+      if (type === 'water-fire-grass') {
+        speakText("물, 불꽃, 풀의 가위바위보 공식입니다! 물은 불을 쏴아 꺼버리고, 불은 풀을 활활 태우고, 풀은 물을 꿀꺽 흡수해요! 서로 물고 물리는 최고의 삼총사입니다!");
+      } else if (type === 'electric-ground') {
+        speakText("전기 기술의 중요한 비밀입니다! 피카츄의 전기는 물고기와 새 포켓몬에게 효과가 짱이에요! 하지만 바위와 땅 포켓몬에게는 전기가 0배로 전혀 안 통하니까 절대 쓰면 안 돼요!");
+      } else if (type === 'fight-rock') {
+        speakText("격투 기술의 비밀입니다! 망키의 주먹이나 피카츄, 이브이가 배운 두번치기 같은 격투 기술은 단단한 바위를 산산조각 내서 2배의 피해를 줘요! 웅이를 이길 때 최고입니다!");
+      }
+    }
+
+    function speakAllTypeRelations() {
+      const text = "포켓몬 기술 상성 공식입니다! 물은 불을 끄고, 불은 풀을 태우고, 풀은 물을 이겨요! 피카츄의 전기는 물과 새에게 강하지만 바위와 땅에는 전혀 통하지 않아요! 바위 포켓몬을 이길 땐 격투 기술인 두번치기나 안다리걸기를 쓰면 한 방에 이길 수 있습니다!";
+      speakText(text);
+    }
+
+    // 알록달록 상성 매트릭스 표 렌더링
+    function renderVisualTypeTable() {
+      const table = document.getElementById('visual-type-table');
+      if (!table) return;
+
+      const mainTypes = ["노말", "불꽃", "물", "풀", "전기", "격투", "바위", "땅", "비행", "독", "페어리"];
+      
+      let htmlStr = '<thead><tr><th>공격 ➔ 수비</th>';
+      mainTypes.forEach(t => {
+        htmlStr += `<th>${t}</th>`;
+      });
+      htmlStr += '</tr></thead><tbody>';
+
+      mainTypes.forEach(att => {
+        const attData = TYPE_CHART_DATA[att] || {};
+        htmlStr += `<tr><td class="header-col" style="background:${attData.color || '#EEE'}; color:${attData.textColor || '#000'};">${att}</td>`;
+        
+        mainTypes.forEach(def => {
+          let mark = '<span class="cell-normal">-</span>';
+          let cls = '';
+          let title = `${att} ➔ ${def}: 보통 (1배)`;
+
+          if (attData.strong && attData.strong.some(s => s.type === def)) {
+            mark = '💥';
+            cls = 'cell-2x';
+            title = `${att} ➔ ${def}: 효과 짱! (2배 대미지)`;
+          } else if (attData.immune && attData.immune.some(im => im.type === def)) {
+            mark = '❌';
+            cls = 'cell-zero';
+            title = `${att} ➔ ${def}: 전혀 안 통함! (0배)`;
+          } else if (attData.weak && attData.weak.some(w => w.type === def)) {
+            mark = '🛡️';
+            cls = 'cell-half';
+            title = `${att} ➔ ${def}: 효과가 별로임 (0.5배)`;
+          }
+
+          htmlStr += `<td class="${cls}" title="${title}" onclick="onTableCellClick('${att}', '${def}', '${title}')">${mark}</td>`;
+        });
+        htmlStr += '</tr>';
+      });
+
+      htmlStr += '</tbody>';
+      table.innerHTML = htmlStr;
+    }
+
+    function onTableCellClick(att, def, title) {
+      playBeep('correct');
+      speakText(title);
+    }
+
+    // 4. 배틀 상성 시뮬레이터
     function initBattleSimSelectors() {
       const mySel = document.getElementById('sim-my-poke');
       const enemySel = document.getElementById('sim-enemy-poke');
@@ -2659,6 +3427,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       updateIntroStats();
       initCanvas();
+      initTypeChart();
     });
   </script>
 </body>
