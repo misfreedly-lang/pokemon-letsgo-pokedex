@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>⚡ 예서 & 서우의 렛츠고 포켓몬 모험 도감 & 한글 쓰기 교실 🎮</title>
+  <title>⚡ 예서 & 서우의 렛츠고 포켓몬 모험 도감 & 한글 쓰기 교실 (음성 지원) 🎮</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -15,9 +15,7 @@
       --poke-green: #34C759;
       --poke-purple: #AF52DE;
       --yeseo-color: #FF5E7E;
-      --yeseo-bg: #FFF0F4;
       --seowoo-color: #00A6FF;
-      --seowoo-bg: #E6F7FF;
       --card-shadow: 0 10px 24px rgba(0,0,0,0.07);
       --border-radius: 24px;
     }
@@ -39,9 +37,77 @@
         radial-gradient(#dce5f2 1.5px, #f4f7fc 1.5px);
       background-size: 28px 28px;
       background-position: 0 0, 14px 14px;
-      padding-bottom: 70px;
+      padding-bottom: 90px;
       user-select: none;
       -webkit-user-select: none;
+    }
+
+    /* 음성 읽기 공통 버튼 스타일 */
+    .tts-speaker-btn {
+      background: #ED8936;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(237, 137, 54, 0.35);
+      transition: all 0.2s;
+    }
+
+    .tts-speaker-btn:hover {
+      background: #DD6B20;
+      transform: scale(1.04);
+    }
+
+    .tts-speaker-btn.reading {
+      background: #E53E3E;
+      animation: pulseBtn 1s infinite alternate;
+    }
+
+    @keyframes pulseBtn {
+      from { transform: scale(1); box-shadow: 0 0 4px #E53E3E; }
+      to { transform: scale(1.06); box-shadow: 0 0 14px #E53E3E; }
+    }
+
+    /* 플로팅 음성 컨트롤 바 (읽어주는 중 표시) */
+    #global-speech-bar {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1A202C;
+      color: #FFFA65;
+      padding: 12px 24px;
+      border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 9999;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.15rem;
+      border: 3px solid #FFCC00;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #global-speech-bar.active {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .stop-speech-btn {
+      background: #E53E3E;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 16px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      cursor: pointer;
     }
 
     /* ========================================================
@@ -92,7 +158,7 @@
     .intro-desc {
       font-size: 1.2rem;
       color: #4A5568;
-      margin-bottom: 35px;
+      margin-bottom: 30px;
     }
 
     .profile-cards-grid {
@@ -224,13 +290,12 @@
     }
 
     /* ========================================================
-       2. 메인 앱 화면 (도감 / 글씨쓰기 / 공략)
+       2. 메인 앱 화면
        ======================================================== */
     #view-app {
       display: none;
     }
 
-    /* 상단 헤더 & 트레이너 프로필 바 */
     header {
       background: linear-gradient(135deg, #1F2A44 0%, #2D3748 100%);
       color: white;
@@ -291,6 +356,12 @@
       color: #FFFA65;
     }
 
+    .header-action-btns {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .switch-user-btn {
       background: #E2E8F0;
       color: #2D3748;
@@ -311,7 +382,6 @@
       transform: scale(1.05);
     }
 
-    /* 진도 진행 바 (진도 선택기) */
     .progress-bar-card {
       background: rgba(0,0,0,0.3);
       padding: 10px 16px;
@@ -353,7 +423,6 @@
       font-weight: bold;
     }
 
-    /* 탭 내비게이션 */
     .nav-tabs {
       display: flex;
       gap: 8px;
@@ -390,7 +459,6 @@
       box-shadow: 0 4px 12px rgba(255,204,0,0.35);
     }
 
-    /* 메인 탭 컨텐츠 컨테이너 */
     main {
       max-width: 1200px;
       margin: 22px auto;
@@ -411,9 +479,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ========================================================
-       탭 1: 맞춤 도감 & 포획 체크
-       ======================================================== */
+    /* 탭 1: 도감 그리드 & 카드 */
     .filter-bar {
       background: white;
       padding: 16px 20px;
@@ -537,6 +603,26 @@
       color: white;
     }
 
+    .card-voice-btn {
+      background: #FFF5F5;
+      border: 1px solid #FEB2B2;
+      color: #C53030;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+
+    .card-voice-btn:hover {
+      background: #FED7D7;
+      transform: scale(1.05);
+    }
+
     .poke-img-wrap {
       width: 100%;
       height: 170px;
@@ -596,7 +682,6 @@
       font-size: 0.85rem;
     }
 
-    /* 타입별 색상 */
     .type-전기 { background: #F8D030; color: #4A3A00; }
     .type-노말 { background: #A8A878; }
     .type-풀 { background: #78C850; }
@@ -638,9 +723,7 @@
     .btn-practice { background: #FFCC00; color: #1A202C; }
     .btn-practice:hover { background: #ECC94B; }
 
-    /* ========================================================
-       탭 2: 태블릿 펜슬 최적화 한글 쓰기장 (Apple Pencil/터치)
-       ======================================================== */
+    /* 탭 2: 태블릿 펜슬 쓰기장 */
     .writing-wrapper-card {
       background: white;
       border-radius: var(--border-radius);
@@ -677,21 +760,6 @@
       cursor: pointer;
     }
 
-    .tts-btn {
-      background: #3182CE;
-      color: white;
-      border: none;
-      padding: 9px 18px;
-      border-radius: 16px;
-      font-family: 'Jua', sans-serif;
-      font-size: 1.05rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* 캔버스 공책 영역 */
     .pad-canvas-container {
       position: relative;
       width: 100%;
@@ -700,7 +768,7 @@
       border: 4px dashed #CBD5E0;
       border-radius: 24px;
       overflow: hidden;
-      touch-action: none; /* 태블릿 펜슬/터치 시 화면 스크롤 방지 */
+      touch-action: none;
       cursor: crosshair;
       box-shadow: inset 0 2px 10px rgba(0,0,0,0.04);
     }
@@ -709,7 +777,6 @@
       .pad-canvas-container { height: 300px; }
     }
 
-    /* 칸공책 십자선 격자 */
     .pad-grid-lines {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -750,7 +817,6 @@
       touch-action: none;
     }
 
-    /* 펜슬 툴바 */
     .pencil-toolbar {
       display: flex;
       justify-content: space-between;
@@ -853,9 +919,7 @@
       opacity: 1;
     }
 
-    /* ========================================================
-       탭 3: 알기 쉬운 상성 & 배틀 시뮬레이터
-       ======================================================== */
+    /* 탭 3: 배틀 상성 시뮬레이터 */
     .battle-box {
       background: white;
       border-radius: var(--border-radius);
@@ -907,6 +971,7 @@
       border-radius: 20px;
       padding: 20px;
       margin-top: 15px;
+      position: relative;
     }
 
     .sim-status {
@@ -926,9 +991,7 @@
       font-weight: bold;
     }
 
-    /* ========================================================
-       탭 4: 진도별 게임 모험 공략
-       ======================================================== */
+    /* 탭 4: 모험 공략 */
     .strategy-container {
       display: flex;
       flex-direction: column;
@@ -949,10 +1012,18 @@
     .strategy-card.mtmoon { border-left-color: #805AD5; background: linear-gradient(to right, #FAF5FF, #FFF); }
     .strategy-card.cerulean { border-left-color: #00A6FF; }
 
+    .strategy-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
     .strategy-card h3 {
       font-family: 'Jua', sans-serif;
       font-size: 1.5rem;
-      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -990,7 +1061,7 @@
       flex-shrink: 0;
     }
 
-    /* 포켓몬 상세 모달 */
+    /* 상세 모달 */
     .modal-backdrop {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -1009,7 +1080,7 @@
       background: white;
       border-radius: 28px;
       width: 100%;
-      max-width: 640px;
+      max-width: 650px;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: 0 20px 50px rgba(0,0,0,0.3);
@@ -1035,12 +1106,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 5;
     }
 
     .modal-hero {
       background: linear-gradient(180deg, #F0F4F8 0%, white 100%);
       padding: 30px 20px 15px;
       text-align: center;
+      position: relative;
     }
 
     .modal-hero-img {
@@ -1054,6 +1127,22 @@
       padding: 10px 24px 28px;
     }
 
+    .modal-main-read-btn {
+      background: linear-gradient(135deg, #FF4554, #E60012);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.15rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      box-shadow: 0 4px 12px rgba(230,0,18,0.3);
+    }
+
     .section-box {
       background: #F8FAFC;
       border-radius: 18px;
@@ -1062,11 +1151,17 @@
       border: 1px solid #E2E8F0;
     }
 
+    .section-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
     .section-box-title {
       font-family: 'Jua', sans-serif;
       font-size: 1.2rem;
       color: #2D3748;
-      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -1089,7 +1184,7 @@
       border: 1px solid #EDF2F7;
     }
 
-    /* 콘페티 폭죽 캔버스 */
+    /* 콘페티 */
     #confetti-canvas {
       position: fixed;
       top: 0; left: 0;
@@ -1117,7 +1212,7 @@
         <span>🎮 닌텐도 스위치 레츠고! 피카츄·이브이 맞춤형 도감</span>
       </div>
       <h1 class="intro-title">⭐ 예서 & 서우의 포켓몬 모험 도감 ⭐</h1>
-      <p class="intro-desc">오늘 모험을 떠날 트레이너를 선택해주세요! 각자의 진도와 잡은 포켓몬이 따로 저장돼요!</p>
+      <p class="intro-desc">오늘 모험을 떠날 트레이너를 선택해주세요! 각 파트마다 친절한 음성 읽어주기 기능이 있어요!</p>
 
       <div class="profile-cards-grid">
         <!-- 예서 카드 -->
@@ -1154,8 +1249,14 @@
   <!-- 콘페티 폭죽 캔버스 -->
   <canvas id="confetti-canvas"></canvas>
 
+  <!-- 플로팅 음성 재생 바 -->
+  <div id="global-speech-bar">
+    <span id="speech-status-text">🔊 음성으로 또박또박 읽어주는 중...</span>
+    <button class="stop-speech-btn" onclick="stopSpeaking()">⏹️ 읽기 멈춤</button>
+  </div>
+
   <!-- ========================================================
-       2. 메인 앱 화면 (도감 / 글씨쓰기 / 상성 / 공략)
+       2. 메인 앱 화면
        ======================================================== -->
   <div id="view-app">
     
@@ -1171,9 +1272,11 @@
             <div class="trainer-title" id="current-trainer-title">예서의 도감</div>
           </div>
 
-          <button class="switch-user-btn" onclick="goToHome()">
-            <span>🔄 트레이너 바꾸기 (홈으로)</span>
-          </button>
+          <div class="header-action-btns">
+            <button class="switch-user-btn" onclick="goToHome()">
+              <span>🔄 트레이너 바꾸기</span>
+            </button>
+          </div>
         </div>
 
         <!-- 각자 진도 맞춤 선택 바 -->
@@ -1195,7 +1298,7 @@
           </div>
         </div>
 
-        <!-- 탭 네비게이션 -->
+        <!-- 탭 내비게이션 -->
         <nav class="nav-tabs">
           <button class="nav-btn active" onclick="switchTab('pokedex')">📖 내 진도 맞춤 도감</button>
           <button class="nav-btn" onclick="switchTab('writing')">✍️ 패드 펜슬 한글 쓰기</button>
@@ -1216,7 +1319,7 @@
         <div class="filter-bar">
           <div class="search-box">
             <span>🔍</span>
-            <input type="text" id="poke-search" placeholder="포켓몬 이름이나 타입 검색 (예: 피카츄, 불꽃, 격투)" oninput="filterPokemon()">
+            <input type="text" id="poke-search" placeholder="포켓몬 이름이나 타입 검색 (예: 피카츄, 불꽃, 3번도로)" oninput="filterPokemon()">
           </div>
           <div class="filter-tags">
             <button class="filter-chip active" onclick="setFilter('currentStage', this)">📍 현재 진도까지</button>
@@ -1227,12 +1330,12 @@
 
         <!-- 카드 그리드 -->
         <div class="pokemon-grid" id="pokemon-grid">
-          <!-- JS로 동적 렌더링 -->
+          <!-- JS 동적 렌더링 -->
         </div>
       </section>
 
       <!-- ----------------------------------------------------
-           탭 2: 태블릿 펜슬 최적화 한글 쓰기장
+           탭 2: 태블릿 펜슬 한글 쓰기장
            ---------------------------------------------------- -->
       <section id="tab-writing" class="tab-section">
         <div class="writing-wrapper-card">
@@ -1240,7 +1343,7 @@
             <div class="poke-select-box">
               <label for="writing-poke-select" style="font-family:'Jua'; font-size:1.2rem;">✏️ 따라 쓸 포켓몬:</label>
               <select id="writing-poke-select" class="poke-select" onchange="changeWritingPokemon()"></select>
-              <button class="tts-btn" onclick="speakCurrentPokemon()">🔊 발음 듣기</button>
+              <button class="tts-speaker-btn" onclick="speakCurrentPokemon()">🔊 이름 소리 듣기</button>
             </div>
             <div style="font-family:'Jua'; color:#718096; font-size:1.05rem;">
               애플펜슬 / S펜 / 손가락으로 점선을 따라 써보세요!
@@ -1261,7 +1364,7 @@
             </div>
           </div>
 
-          <!-- 펜슬 툴바 (펜, 지우개, 색상, 굵기, 칭찬 도장) -->
+          <!-- 펜슬 툴바 -->
           <div class="pencil-toolbar">
             <div class="tool-group">
               <button class="tool-btn active" id="btn-mode-pen" onclick="setToolMode('pen')">✏️ 펜 모드</button>
@@ -1323,6 +1426,7 @@
             </div>
           </div>
 
+          <!-- 시뮬레이션 결과창 및 음성 읽기 버튼 -->
           <div class="sim-result-box" id="sim-result-box">
             <!-- JS 렌더링 -->
           </div>
@@ -1337,7 +1441,10 @@
           
           <!-- 회색시티 웅이 공략 -->
           <div class="strategy-card gym">
-            <h3>🪨 1단계 클리어: 회색시티 웅이(바위/땅) 이기는 3대 비법!</h3>
+            <div class="strategy-card-header">
+              <h3>🪨 1단계 클리어: 회색시티 웅이(바위/땅) 이기는 3대 비법!</h3>
+              <button class="tts-speaker-btn" onclick="speakStrategy('gym')">🔊 웅이 공략 듣기</button>
+            </div>
             <p>웅이의 꼬마돌과 롱스톤은 전기가 안 통하지만 약점은 명확해요!</p>
             <ul class="strategy-steps">
               <li class="strategy-step-item">
@@ -1366,7 +1473,10 @@
 
           <!-- 3번 도로 공략 -->
           <div class="strategy-card route3">
-            <h3>🛣️ 3번 도로 공략: 푸린을 꼭 잡아두세요!</h3>
+            <div class="strategy-card-header">
+              <h3>🛣️ 3번 도로 공략: 푸린을 꼭 잡아두세요!</h3>
+              <button class="tts-speaker-btn" onclick="speakStrategy('route3')">🔊 3번 도로 공략 듣기</button>
+            </div>
             <p>회색시티를 지나 3번 도로에 오면 풀숲에서 폴짝폴짝 뛰는 귀여운 <strong>푸린</strong>이 나타나요.</p>
             <ul class="strategy-steps">
               <li class="strategy-step-item">
@@ -1381,7 +1491,10 @@
 
           <!-- 4번 도로 잉어킹 공략 -->
           <div class="strategy-card magikarp">
-            <h3>🐟 4번 도로 포켓몬센터: 500원 잉어킹 아저씨 비밀!</h3>
+            <div class="strategy-card-header">
+              <h3>🐟 4번 도로 포켓몬센터: 500원 잉어킹 아저씨 비밀!</h3>
+              <button class="tts-speaker-btn" onclick="speakStrategy('magikarp')">🔊 잉어킹 비밀 듣기</button>
+            </div>
             <p>달맞이산 앞 포켓몬센터에 수상한 아저씨가 잉어킹을 500원에 팔고 있어요.</p>
             <ul class="strategy-steps">
               <li class="strategy-step-item">
@@ -1396,7 +1509,10 @@
 
           <!-- 달맞이산 탐험 -->
           <div class="strategy-card mtmoon">
-            <h3>🌙 다음 목적지: 신비한 '달맞이산' 탐험 가이드</h3>
+            <div class="strategy-card-header">
+              <h3>🌙 다음 목적지: 신비한 '달맞이산' 탐험 가이드</h3>
+              <button class="tts-speaker-btn" onclick="speakStrategy('mtmoon')">🔊 달맞이산 공략 듣기</button>
+            </div>
             <p>4번 도로에서 연결되는 거대한 동굴 '달맞이산' 공략 팁입니다.</p>
             <ul class="strategy-steps">
               <li class="strategy-step-item">
@@ -1418,7 +1534,10 @@
 
           <!-- 블루시티 이슬이 예고 -->
           <div class="strategy-card cerulean">
-            <h3>🌊 블루시티 체육관 관장 '이슬이' 미리 대비하기!</h3>
+            <div class="strategy-card-header">
+              <h3>🌊 블루시티 체육관 관장 '이슬이' 미리 대비하기!</h3>
+              <button class="tts-speaker-btn" onclick="speakStrategy('cerulean')">🔊 이슬이 대비 듣기</button>
+            </div>
             <p>달맞이산을 통과하면 아름다운 물의 도시 '블루시티'에 도착합니다.</p>
             <ul class="strategy-steps">
               <li class="strategy-step-item">
@@ -1447,11 +1566,19 @@
         <h2 style="font-family:'Jua'; font-size:2rem; color:#1A202C;" id="modal-name">포켓몬 이름</h2>
         <div id="modal-category" style="color:#718096; font-size:0.95rem;">분류</div>
         <div id="modal-types" class="types-wrap" style="margin-top:8px;"></div>
+        
+        <!-- 모달 전체 음성 듣기 버튼 -->
+        <button class="modal-main-read-btn" onclick="speakCurrentModalPokemon()">
+          🔊 이 포켓몬의 모든 이야기 듣기
+        </button>
       </div>
 
       <div class="modal-body">
         <div class="section-box">
-          <div class="section-box-title">📖 재미있는 도감 이야기</div>
+          <div class="section-box-header">
+            <div class="section-box-title">📖 재미있는 도감 이야기</div>
+            <button class="tts-speaker-btn" onclick="speakModalStoryOnly()">🔊 이야기 듣기</button>
+          </div>
           <p id="modal-story" style="color:#4A5568; line-height:1.7;"></p>
         </div>
 
@@ -1464,12 +1591,18 @@
         </div>
 
         <div class="section-box">
-          <div class="section-box-title">⚔️ 추천 기술 BEST 4</div>
+          <div class="section-box-header">
+            <div class="section-box-title">⚔️ 추천 기술 BEST 4</div>
+            <button class="tts-speaker-btn" onclick="speakModalMovesOnly()">🔊 기술 듣기</button>
+          </div>
           <div class="moves-grid" id="modal-moves"></div>
         </div>
 
         <div class="section-box">
-          <div class="section-box-title">⚖️ 배틀 팁</div>
+          <div class="section-box-header">
+            <div class="section-box-title">⚖️ 배틀 팁</div>
+            <button class="tts-speaker-btn" onclick="speakModalTipOnly()">🔊 팁 듣기</button>
+          </div>
           <div id="modal-tip" style="color:#2B6CB0; font-weight:bold;"></div>
         </div>
       </div>
@@ -1477,15 +1610,14 @@
   </div>
 
   <footer>
-    <p>🎮 렛츠고! 피카츄·이브이 맞춤형 어린이 도감 | 예서 & 서우의 포켓몬 모험 노트</p>
+    <p>🎮 렛츠고! 피카츄·이브이 맞춤형 어린이 도감 | 예서 & 서우의 포켓몬 모험 노트 (소리 지원)</p>
   </footer>
 
   <!-- ========================================================
-       자바스크립트 로직 (데이터, 다중 프로필 관리, 태블릿 펜슬 캔버스 등)
+       자바스크립트 로직 (데이터, 다중 프로필 관리, 태블릿 펜슬, TTS 음성 지원)
        ======================================================== -->
   <script>
-    // 1. 포켓몬 전체 데이터 (단계 stage 속성 포함)
-    // stage: 1=태초/1-2번도로, 2=상록숲, 3=회색시티, 4=3번도로, 5=4번도로(잉어킹), 6=달맞이산, 7=블루시티
+    // 1. 포켓몬 전체 데이터
     const POKEMON_DATA = [
       {
         id: 25, num: "#025", name: "피카츄", enName: "Pikachu", types: ["전기"], category: "쥐포켓몬",
@@ -1769,19 +1901,133 @@
       }
     ];
 
-    // 2. 다중 사용자 프로필 관리 (localStorage 기반)
-    let currentTrainer = 'yeseo'; // 'yeseo' or 'seowoo'
+    // ========================================================
+    // TTS (음성 읽어주기) 엔진
+    // ========================================================
+    let currentSpeakingUtterance = null;
+
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) {
+        alert("이 기기에서는 음성 읽어주기를 지원하지 않아요.");
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      playBeep('pop');
+
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ko-KR';
+      u.rate = 0.88; // 아이들이 듣기 편한 또박또박한 속도
+      u.pitch = 1.05; // 밝고 친근한 톤
+
+      const bar = document.getElementById('global-speech-bar');
+      document.getElementById('speech-status-text').textContent = "🔊 음성으로 읽어주는 중...";
+      bar.classList.add('active');
+
+      u.onend = () => {
+        bar.classList.remove('active');
+        currentSpeakingUtterance = null;
+      };
+
+      u.onerror = () => {
+        bar.classList.remove('active');
+        currentSpeakingUtterance = null;
+      };
+
+      currentSpeakingUtterance = u;
+      window.speechSynthesis.speak(u);
+    }
+
+    function stopSpeaking() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      document.getElementById('global-speech-bar').classList.remove('active');
+    }
+
+    // 도감 카드에서 읽어주기
+    function speakCardPokemon(id, event) {
+      event.stopPropagation();
+      const p = POKEMON_DATA.find(x => x.id === id);
+      if (!p) return;
+      const text = `${p.name}! ${p.types.join('과 ')} 타입, ${p.category}입니다. 만나는 곳은 ${p.location.split(',')[0]}입니다. 배틀 꿀팁: ${p.tip}`;
+      speakText(text);
+    }
+
+    // 모달에서 읽어주기
+    let currentModalPokeId = null;
+
+    function speakCurrentModalPokemon() {
+      const p = POKEMON_DATA.find(x => x.id === currentModalPokeId);
+      if (!p) return;
+      const movesText = p.moves.map(m => m.name).join(', ');
+      const text = `${p.name}! ${p.category}. ${p.types.join('과 ')} 포켓몬입니다. 이야기: ${p.story}. 추천 기술로는 ${movesText}가 있습니다. 배틀 꿀팁: ${p.tip}`;
+      speakText(text);
+    }
+
+    function speakModalStoryOnly() {
+      const p = POKEMON_DATA.find(x => x.id === currentModalPokeId);
+      if (!p) return;
+      speakText(`${p.name}의 이야기입니다. ${p.story}`);
+    }
+
+    function speakModalMovesOnly() {
+      const p = POKEMON_DATA.find(x => x.id === currentModalPokeId);
+      if (!p) return;
+      const text = `${p.name}의 추천 기술 BEST 4입니다. ` + p.moves.map(m => `${m.name}, ${m.type} 타입, ${m.desc}`).join('. ');
+      speakText(text);
+    }
+
+    function speakModalTipOnly() {
+      const p = POKEMON_DATA.find(x => x.id === currentModalPokeId);
+      if (!p) return;
+      speakText(`배틀 꿀팁! ${p.tip}`);
+    }
+
+    // 배틀 시뮬레이터 결과 읽어주기
+    function speakSimResult() {
+      const myId = parseInt(document.getElementById('sim-my-poke').value);
+      const enemyId = parseInt(document.getElementById('sim-enemy-poke').value);
+      const me = POKEMON_DATA.find(p => p.id === myId);
+      const enemy = POKEMON_DATA.find(p => p.id === enemyId);
+      if (!me || !enemy) return;
+
+      const status = document.querySelector('#sim-result-box .sim-status')?.innerText || "";
+      const desc = document.querySelector('#sim-result-box .sim-desc-text')?.innerText || "";
+      const rec = document.querySelector('#sim-result-box .sim-recommendation')?.innerText || "";
+      speakText(`${me.name} 대 ${enemy.name}의 배틀 분석입니다. ${status}. ${desc}. ${rec}`);
+    }
+
+    // 모험 공략 파트 읽어주기
+    function speakStrategy(type) {
+      if (type === 'gym') {
+        const text = "회색시티 웅이 바위 체육관을 이기는 3가지 비법입니다! 첫째, 피카츄는 9레벨, 이브이는 10레벨에 격투 기술인 두번치기를 배워요. 바위 포켓몬에게 2배의 큰 대미지를 줍니다! 둘째, 상록숲에서 잡은 이상해씨의 덩굴채찍은 무려 4배의 치명타를 입혀 한 방에 쓰러뜨려요! 셋째, 3번 도로의 망키를 잡아서 안다리걸기를 쓰면 무거운 롱스톤에게 엄청난 대미지가 들어갑니다!";
+        speakText(text);
+      } else if (type === 'route3') {
+        const text = "3번 도로 공략입니다! 3번 도로 풀숲에 가면 분홍색 귀여운 푸린이 통통 튀어 다녀요. 푸린의 노래하기 기술은 적을 100% 잠재워버려서 야생 포켓몬을 잡기 아주 쉬워집니다! 꼭 잡아두세요!";
+        speakText(text);
+      } else if (type === 'magikarp') {
+        const text = "4번 도로 포켓몬센터의 500원 잉어킹 비밀입니다! 지금은 튀어오르기만 하고 약해 보이지만, 절대 속은 게 아니에요! 레벨 20까지 꾹 참고 키우면 바다의 최강 바다 괴물 갸라도스로 진화하여 파티의 슈퍼 에이스가 됩니다!";
+        speakText(text);
+      } else if (type === 'mtmoon') {
+        const text = "달맞이산 동굴 탐험 가이드입니다! 동굴 속 분화구에서 반짝이는 달의 돌을 찾으면, 푸린을 푸크린으로, 니드런을 니드퀸이나 니드킹으로 즉시 최종 진화시킬 수 있어요! 동굴 속 꼬마돌은 풀이나 물 기술로 잡고, 주뱃은 피카츄의 전기 기술로 쉽게 잡으세요!";
+        speakText(text);
+      } else if (type === 'cerulean') {
+        const text = "다음 목적지, 블루시티 체육관 관장 이슬이 대비 팁입니다! 이슬이는 별가사리와 아쿠스타 등 물 포켓몬을 사용해요. 피카츄의 전기 기술과 이상해씨의 덩굴채찍을 미리 훈련해두면 쉽게 배지를 얻을 수 있습니다!";
+        speakText(text);
+      }
+    }
+
+    // 2. 다중 사용자 프로필 관리
+    let currentTrainer = 'yeseo';
     let currentFilter = 'currentStage';
 
-    // 트레이너 데이터 로드
     function getTrainerData(name) {
       const key = `poke_trainer_${name}`;
       const saved = localStorage.getItem(key);
-      if (saved) {
-        return JSON.parse(saved);
-      }
+      if (saved) return JSON.parse(saved);
       return {
-        stage: (name === 'yeseo' ? 4 : 4), // 기본 4단계(3번 도로)
+        stage: 4,
         caught: (name === 'yeseo' ? [25, 16, 19, 10, 1] : [133, 16, 19, 13, 56]),
         stamps: 0
       };
@@ -1795,7 +2041,6 @@
     function updateIntroStats() {
       const yData = getTrainerData('yeseo');
       const sData = getTrainerData('seowoo');
-
       const stageNames = {
         1: "1·2번 도로", 2: "상록숲", 3: "회색시티(웅이)",
         4: "3번 도로", 5: "4번 도로(잉어킹)", 6: "달맞이산", 7: "블루시티(이슬이)"
@@ -1803,12 +2048,10 @@
 
       document.getElementById('intro-yeseo-stage').textContent = stageNames[yData.stage] || "3번 도로";
       document.getElementById('intro-yeseo-stamps').textContent = `${yData.stamps}개`;
-
       document.getElementById('intro-seowoo-stage').textContent = stageNames[sData.stage] || "4번 도로";
       document.getElementById('intro-seowoo-stamps').textContent = `${sData.stamps}개`;
     }
 
-    // 트레이너 선택 후 앱 진입
     function selectTrainer(name) {
       playBeep('pop');
       currentTrainer = name;
@@ -1817,7 +2060,6 @@
       document.getElementById('view-intro').style.display = 'none';
       document.getElementById('view-app').style.display = 'block';
 
-      // 상단 헤더 업데이트
       if (name === 'yeseo') {
         document.getElementById('current-trainer-title').textContent = "👧 예서의 모험 도감 (피카츄 파트너)";
         document.getElementById('current-trainer-img').src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png";
@@ -1826,18 +2068,20 @@
         document.getElementById('current-trainer-img').src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png";
       }
 
-      // 진도 선택기 동기화
       document.getElementById('stage-select').value = data.stage;
-
       updateCaughtCounter();
       renderPokemonGrid();
       initWritingSelect();
       initBattleSimSelectors();
       setTimeout(resizeCanvas, 150);
+
+      // 음성 환영 인사
+      speakText(`${name === 'yeseo' ? '예서' : '서우'}의 포켓몬 모험 도감에 온 걸 환영해요! 각 버튼을 누르면 소리로 읽어줄게요!`);
     }
 
     function goToHome() {
       playBeep('pop');
+      stopSpeaking();
       updateIntroStats();
       document.getElementById('view-app').style.display = 'none';
       document.getElementById('view-intro').style.display = 'flex';
@@ -1863,6 +2107,8 @@
       } else {
         data.caught.push(id);
         launchConfetti();
+        const p = POKEMON_DATA.find(x => x.id === id);
+        if (p) speakText(`축하해요! ${p.name}을 잡았어요!`);
       }
       saveTrainerData(currentTrainer, data);
       updateCaughtCounter();
@@ -1876,9 +2122,9 @@
         `내가 잡은 포켓몬: ${data.caught.length} / ${total} 마리 🔴`;
     }
 
-    // 탭 전환
     function switchTab(tabId) {
       playBeep('pop');
+      stopSpeaking();
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
 
@@ -1891,7 +2137,6 @@
       }
     }
 
-    // 필터 설정
     function setFilter(type, btn) {
       playBeep('pop');
       currentFilter = type;
@@ -1904,7 +2149,6 @@
       renderPokemonGrid();
     }
 
-    // 도감 렌더링
     function renderPokemonGrid() {
       const grid = document.getElementById('pokemon-grid');
       grid.innerHTML = '';
@@ -1914,11 +2158,9 @@
       const keyword = document.getElementById('poke-search').value.trim().toLowerCase();
 
       const filtered = POKEMON_DATA.filter(p => {
-        // 진도 필터
         if (currentFilter === 'currentStage' && p.stage > currentStage) return false;
         if (currentFilter === 'caughtOnly' && !data.caught.includes(p.id)) return false;
 
-        // 검색어 필터
         if (keyword) {
           const match = p.name.includes(keyword) || 
             p.enName.toLowerCase().includes(keyword) ||
@@ -1946,9 +2188,12 @@
         card.innerHTML = `
           <div class="card-top">
             <span class="poke-number">${p.num}</span>
-            <button class="catch-check-btn" onclick="toggleCatch(${p.id}, event)">
-              ${isCaught ? '🔴 잡았어요!' : '⚪ 아직 못 잡음'}
-            </button>
+            <div style="display:flex; gap:6px;">
+              <button class="card-voice-btn" onclick="speakCardPokemon(${p.id}, event)">🔊 소리</button>
+              <button class="catch-check-btn" onclick="toggleCatch(${p.id}, event)">
+                ${isCaught ? '🔴 잡음' : '⚪ 안잡음'}
+              </button>
+            </div>
           </div>
           <div class="poke-img-wrap" onclick="openPokeModal(${p.id})">
             <img src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'120\\' height=\\'120\\'><circle cx=\\'50\\' cy=\\'50\\' r=\\'40\\' fill=\\'%23FF3B30\\'/></svg>'">
@@ -1959,8 +2204,8 @@
             <div class="types-wrap">${typesHtml}</div>
           </div>
           <div class="card-footer-btns">
-            <button class="card-action-btn btn-detail" onclick="openPokeModal(${p.id})">🔍 정보 보기</button>
-            <button class="card-action-btn btn-practice" onclick="goToPractice('${p.name}')">✍️ 이름 쓰기</button>
+            <button class="card-action-btn btn-detail" onclick="openPokeModal(${p.id})">🔍 이야기</button>
+            <button class="card-action-btn btn-practice" onclick="goToPractice('${p.name}')">✍️ 쓰기</button>
           </div>
         `;
         grid.appendChild(card);
@@ -1969,16 +2214,16 @@
 
     function goToPractice(name) {
       playBeep('pop');
-      document.querySelectorAll('.nav-btn')[1].click(); // 쓰기 탭 클릭
+      document.querySelectorAll('.nav-btn')[1].click();
       document.getElementById('writing-poke-select').value = name;
       changeWritingPokemon();
     }
 
-    // 모달창 열기
     function openPokeModal(id) {
       playBeep('pop');
       const p = POKEMON_DATA.find(x => x.id === id);
       if (!p) return;
+      currentModalPokeId = id;
 
       document.getElementById('modal-img').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png`;
       document.getElementById('modal-number').textContent = p.num;
@@ -2010,6 +2255,7 @@
     }
 
     function closeModal() {
+      stopSpeaking();
       document.getElementById('poke-modal').classList.remove('show');
     }
 
@@ -2017,12 +2263,10 @@
       if (e.target.id === 'poke-modal') closeModal();
     }
 
-    // ========================================================
-    // 3. 태블릿 펜슬/터치 캔버스 한글 쓰기장 로직
-    // ========================================================
+    // 3. 한글 쓰기장 (Canvas)
     let canvas, ctx;
     let isDrawing = false;
-    let penMode = 'pen'; // 'pen' or 'eraser'
+    let penMode = 'pen';
     let penColor = '#2D3748';
     let penSize = 14;
 
@@ -2038,9 +2282,7 @@
         select.appendChild(opt);
       });
 
-      if (prevVal) {
-        select.value = prevVal;
-      }
+      if (prevVal) select.value = prevVal;
       changeWritingPokemon();
     }
 
@@ -2057,13 +2299,11 @@
       ctx = canvas.getContext('2d');
       resizeCanvas();
 
-      // 마우스 이벤트
       canvas.addEventListener('mousedown', onPointerDown);
       canvas.addEventListener('mousemove', onPointerMove);
       canvas.addEventListener('mouseup', onPointerUp);
       canvas.addEventListener('mouseleave', onPointerUp);
 
-      // 태블릿 터치 / 애플펜슬 이벤트 (터치 제스처 스크롤 방지 완벽 처리)
       canvas.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const touch = e.touches[0];
@@ -2111,7 +2351,7 @@
 
       if (penMode === 'eraser') {
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.lineWidth = penSize * 2.2; // 지우개는 좀 더 넉넉하게
+        ctx.lineWidth = penSize * 2.2;
       } else {
         ctx.globalCompositeOperation = 'source-over';
         ctx.strokeStyle = penColor;
@@ -2164,47 +2404,34 @@
 
     function clearCanvas() {
       playBeep('pop');
-      if (ctx) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
+      if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    // 도장 쾅! & 스티커 누적
     function celebrateStamp() {
       playBeep('stamp');
       const stamp = document.getElementById('stamp-overlay');
       stamp.classList.add('show');
       launchConfetti();
 
-      // 현재 트레이너 스탬프 개수 +1 누적 저장
       const data = getTrainerData(currentTrainer);
       data.stamps = (data.stamps || 0) + 1;
       saveTrainerData(currentTrainer, data);
+
+      speakText("참 잘했어요! 글씨를 정말 예쁘게 썼네요!");
 
       setTimeout(() => {
         stamp.classList.remove('show');
       }, 2200);
     }
 
-    // 음성 읽어주기 (TTS)
     function speakCurrentPokemon() {
       const name = document.getElementById('writing-poke-select').value;
       const p = POKEMON_DATA.find(x => x.name === name);
       if (!p) return;
-
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const text = `${p.name}! ${p.types.join('과 ')} 타입 ${p.category}입니다.`;
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'ko-KR';
-        u.rate = 0.9;
-        window.speechSynthesis.speak(u);
-      }
+      speakText(`${p.name}! ${p.types.join('과 ')} 타입 ${p.category}입니다.`);
     }
 
-    // ========================================================
     // 4. 배틀 상성 시뮬레이터
-    // ========================================================
     function initBattleSimSelectors() {
       const mySel = document.getElementById('sim-my-poke');
       const enemySel = document.getElementById('sim-enemy-poke');
@@ -2223,8 +2450,8 @@
         enemySel.appendChild(o2);
       });
 
-      mySel.value = 25; // 피카츄
-      enemySel.value = 95; // 롱스톤
+      mySel.value = 25;
+      enemySel.value = 95;
       runBattleSim();
     }
 
@@ -2265,15 +2492,16 @@
       }
 
       box.innerHTML = `
-        <div class="sim-status">${status}</div>
-        <div style="font-size:1rem; line-height:1.6; color:#E2E8F0;">${desc}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div class="sim-status">${status}</div>
+          <button class="tts-speaker-btn" onclick="speakSimResult()">🔊 결과 소리 듣기</button>
+        </div>
+        <div class="sim-desc-text" style="font-size:1rem; line-height:1.6; color:#E2E8F0;">${desc}</div>
         <div class="sim-recommendation">${advice}</div>
       `;
     }
 
-    // ========================================================
-    // 사운드 & 콘페티 효과
-    // ========================================================
+    // 효과음 및 콘페티
     function playBeep(type) {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2368,7 +2596,6 @@
       anim();
     }
 
-    // 초기화
     window.addEventListener('DOMContentLoaded', () => {
       updateIntroStats();
       initCanvas();
