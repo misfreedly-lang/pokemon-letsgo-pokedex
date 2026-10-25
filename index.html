@@ -2073,7 +2073,7 @@
       renderPokemonGrid();
       initWritingSelect();
       initBattleSimSelectors();
-      setTimeout(resizeCanvas, 150);
+      setTimeout(resizeCanvas, 100); setTimeout(resizeCanvas, 300);
 
       // 음성 환영 인사
       speakText(`${name === 'yeseo' ? '예서' : '서우'}의 포켓몬 모험 도감에 온 걸 환영해요! 각 버튼을 누르면 소리로 읽어줄게요!`);
@@ -2133,7 +2133,8 @@
       if (targetSec) targetSec.classList.add('active');
 
       if (tabId === 'writing') {
-        setTimeout(resizeCanvas, 120);
+        setTimeout(resizeCanvas, 50);
+        setTimeout(resizeCanvas, 200);
       }
     }
 
@@ -2217,6 +2218,8 @@
       document.querySelectorAll('.nav-btn')[1].click();
       document.getElementById('writing-poke-select').value = name;
       changeWritingPokemon();
+      setTimeout(resizeCanvas, 50);
+      setTimeout(resizeCanvas, 200);
     }
 
     function openPokeModal(id) {
@@ -2263,12 +2266,16 @@
       if (e.target.id === 'poke-modal') closeModal();
     }
 
-    // 3. 한글 쓰기장 (Canvas)
+        // ========================================================
+    // 3. 한글 쓰기장 (Canvas & Pointer Events 완벽 대응)
+    // ========================================================
     let canvas, ctx;
     let isDrawing = false;
-    let penMode = 'pen';
+    let penMode = 'pen'; // 'pen' or 'eraser'
     let penColor = '#2D3748';
     let penSize = 14;
+    let lastX = 0;
+    let lastY = 0;
 
     function initWritingSelect() {
       const select = document.getElementById('writing-poke-select');
@@ -2296,83 +2303,136 @@
 
     function initCanvas() {
       canvas = document.getElementById('drawing-canvas');
-      ctx = canvas.getContext('2d');
-      resizeCanvas();
+      if (!canvas) return;
+      ctx = canvas.getContext('2d', { willReadFrequently: true });
 
-      canvas.addEventListener('mousedown', onPointerDown);
-      canvas.addEventListener('mousemove', onPointerMove);
-      canvas.addEventListener('mouseup', onPointerUp);
-      canvas.addEventListener('mouseleave', onPointerUp);
+      // 초기 기본 크기 설정 (0x0 크기 방지)
+      canvas.width = 800;
+      canvas.height = 420;
 
-      canvas.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        onPointerDown({ clientX: touch.clientX, clientY: touch.clientY });
-      }, { passive: false });
+      // 모던 Pointer Events 등록 (마우스, 터치, 애플펜슬, S-Pen 완벽 통합)
+      canvas.addEventListener('pointerdown', handlePointerDown);
+      canvas.addEventListener('pointermove', handlePointerMove);
+      canvas.addEventListener('pointerup', handlePointerUp);
+      canvas.addEventListener('pointercancel', handlePointerUp);
+      canvas.addEventListener('pointerleave', handlePointerUp);
 
-      canvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        onPointerMove({ clientX: touch.clientX, clientY: touch.clientY });
-      }, { passive: false });
+      // 모바일/태블릿 제스처 스크롤 차단
+      canvas.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+      canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 
-      canvas.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        onPointerUp();
-      }, { passive: false });
-
-      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('resize', () => {
+        const writingTab = document.getElementById('tab-writing');
+        if (writingTab && writingTab.classList.contains('active')) {
+          resizeCanvas();
+        }
+      });
     }
 
+    // 캔버스 크기를 컨테이너 크기에 맞춤 (기존 그린 내용 안전하게 유지)
     function resizeCanvas() {
-      if (!canvas) return;
+      if (!canvas || !ctx) return;
       const container = document.getElementById('pad-container');
-      const rect = container.getBoundingClientRect();
-      const tempImage = ctx ? ctx.getImageData(0, 0, canvas.width, canvas.height) : null;
+      if (!container) return;
 
-      canvas.width = rect.width;
-      canvas.height = rect.height;
+      const w = container.clientWidth;
+      const h = container.clientHeight || 420;
 
-      if (tempImage && ctx) {
-        ctx.putImageData(tempImage, 0, 0);
+      // 컨테이너가 숨겨져 있어서 크기가 0이면 무시 (버그 원천 차단!)
+      if (w <= 0 || h <= 0) return;
+
+      // 크기가 같으면 재할당하지 않음 (불필요한 클리어 방지)
+      if (canvas.width === w && canvas.height === h) return;
+
+      // 이전 그림 임시 백업
+      let tempCanvas = null;
+      if (canvas.width > 0 && canvas.height > 0) {
+        tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.drawImage(canvas, 0, 0);
+      }
+
+      // 새 크기 할당
+      canvas.width = w;
+      canvas.height = h;
+
+      // 이전 그림 복원
+      if (tempCanvas) {
+        ctx.drawImage(tempCanvas, 0, 0, w, h);
       }
     }
 
-    function onPointerDown(e) {
-      isDrawing = true;
+    // 터치/펜 좌표를 캔버스 내부 좌표로 정확하게 변환 (오차 0px)
+    function getCanvasCoords(e) {
       const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      return {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY
+      };
+    }
 
-      ctx.beginPath();
-      ctx.moveTo(x, y);
+    function applyBrushStyle() {
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-
       if (penMode === 'eraser') {
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.lineWidth = penSize * 2.2;
+        ctx.lineWidth = penSize * 2.5; // 지우개는 지우기 편하게 더 큼직하게
       } else {
         ctx.globalCompositeOperation = 'source-over';
         ctx.strokeStyle = penColor;
+        ctx.fillStyle = penColor;
         ctx.lineWidth = penSize;
       }
     }
 
-    function onPointerMove(e) {
-      if (!isDrawing) return;
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    function handlePointerDown(e) {
+      if (!canvas || !ctx) return;
+      e.preventDefault();
+      try {
+        canvas.setPointerCapture(e.pointerId);
+      } catch (err) {}
 
-      ctx.lineTo(x, y);
-      ctx.stroke();
+      isDrawing = true;
+      const pos = getCanvasCoords(e);
+      lastX = pos.x;
+      lastY = pos.y;
+
+      applyBrushStyle();
+
+      // 점(점 찍기 또는 탭)도 바로 그려지도록 즉시 원/선 그리기
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, (penMode === 'eraser' ? (penSize * 1.25) : (penSize / 2)), 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
     }
 
-    function onPointerUp() {
+    function handlePointerMove(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const pos = getCanvasCoords(e);
+
+      applyBrushStyle();
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+
+      lastX = pos.x;
+      lastY = pos.y;
+    }
+
+    function handlePointerUp(e) {
       if (isDrawing) {
-        ctx.closePath();
         isDrawing = false;
+        try {
+          if (e && e.pointerId) canvas.releasePointerCapture(e.pointerId);
+        } catch (err) {}
       }
     }
 
@@ -2404,7 +2464,7 @@
 
     function clearCanvas() {
       playBeep('pop');
-      if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     function celebrateStamp() {
@@ -2417,7 +2477,7 @@
       data.stamps = (data.stamps || 0) + 1;
       saveTrainerData(currentTrainer, data);
 
-      speakText("참 잘했어요! 글씨를 정말 예쁘게 썼네요!");
+      speakText('참 잘했어요! 글씨를 정말 예쁘게 썼네요!');
 
       setTimeout(() => {
         stamp.classList.remove('show');
@@ -2431,7 +2491,7 @@
       speakText(`${p.name}! ${p.types.join('과 ')} 타입 ${p.category}입니다.`);
     }
 
-    // 4. 배틀 상성 시뮬레이터
+// 4. 배틀 상성 시뮬레이터
     function initBattleSimSelectors() {
       const mySel = document.getElementById('sim-my-poke');
       const enemySel = document.getElementById('sim-enemy-poke');
