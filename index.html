@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>⚡ 예서 & 서우의 렛츠고 포켓몬 모험 도감 & 한글 쓰기 교실 🎮</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --poke-red: #FF3B30;
+      --poke-blue: #007AFF;
+      --poke-yellow: #FFCC00;
+      --poke-green: #34C759;
+      --poke-purple: #AF52DE;
+      --yeseo-color: #FF5E7E;
+      --yeseo-bg: #FFF0F4;
+      --seowoo-color: #00A6FF;
+      --seowoo-bg: #E6F7FF;
+      --card-shadow: 0 10px 24px rgba(0,0,0,0.07);
+      --border-radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', 'Jua', sans-serif;
+      background: #F4F7FC;
+      color: #2D3748;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(#dce5f2 1.5px, transparent 1.5px),
+        radial-gradient(#dce5f2 1.5px, #f4f7fc 1.5px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+      padding-bottom: 70px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ========================================================
+       1. 인트로 홈 화면: 예서 & 서우 프로필 선택
+       ======================================================== */
+    #view-intro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 95vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .intro-box {
+      max-width: 900px;
+      width: 100%;
+      background: white;
+      border-radius: 36px;
+      padding: 40px 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      border: 6px solid #FFCC00;
+      position: relative;
+    }
+
+    .intro-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1A202C;
+      color: #FFFA65;
+      padding: 8px 22px;
+      border-radius: 30px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+    }
+
+    .intro-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 2.7rem;
+      color: #1A202C;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 0px rgba(255, 204, 0, 0.4);
+    }
+
+    .intro-desc {
+      font-size: 1.2rem;
+      color: #4A5568;
+      margin-bottom: 35px;
+    }
+
+    .profile-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 650px) {
+      .profile-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .intro-title { font-size: 2rem; }
+    }
+
+    .profile-card {
+      background: #FFF;
+      border-radius: 28px;
+      padding: 30px 20px;
+      cursor: pointer;
+      transition: all 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 5px solid transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+
+    .profile-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 18px 35px rgba(0,0,0,0.14);
+    }
+
+    .profile-card.yeseo {
+      border-color: var(--yeseo-color);
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFF5F7 100%);
+    }
+
+    .profile-card.seowoo {
+      border-color: var(--seowoo-color);
+      background: linear-gradient(180deg, #FFFFFF 0%, #F0F9FF 100%);
+    }
+
+    .avatar-wrapper {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .avatar-wrapper img {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+      transition: transform 0.3s;
+    }
+
+    .profile-card:hover .avatar-wrapper img {
+      transform: scale(1.15) rotate(5deg);
+    }
+
+    .yeseo .avatar-wrapper {
+      background: radial-gradient(circle, #FFE4EC 0%, #FFB6C8 100%);
+      border: 4px solid var(--yeseo-color);
+    }
+
+    .seowoo .avatar-wrapper {
+      background: radial-gradient(circle, #E1F5FE 0%, #B3E5FC 100%);
+      border: 4px solid var(--seowoo-color);
+    }
+
+    .profile-name {
+      font-family: 'Jua', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .yeseo .profile-name { color: #D61A46; }
+    .seowoo .profile-name { color: #0077B6; }
+
+    .profile-subtitle {
+      font-size: 1rem;
+      color: #718096;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+
+    .profile-stats-pill {
+      background: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      color: #4A5568;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      width: 90%;
+      display: flex;
+      justify-content: space-around;
+      font-weight: 600;
+    }
+
+    .profile-enter-btn {
+      margin-top: 18px;
+      padding: 12px 28px;
+      border-radius: 20px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.25rem;
+      border: none;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.15s;
+    }
+
+    .yeseo .profile-enter-btn { background: var(--yeseo-color); }
+    .seowoo .profile-enter-btn { background: var(--seowoo-color); }
+
+    .profile-enter-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* ========================================================
+       2. 메인 앱 화면 (도감 / 글씨쓰기 / 공략)
+       ======================================================== */
+    #view-app {
+      display: none;
+    }
+
+    /* 상단 헤더 & 트레이너 프로필 바 */
+    header {
+      background: linear-gradient(135deg, #1F2A44 0%, #2D3748 100%);
+      color: white;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border-bottom: 4px solid #FFCC00;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .top-trainer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .trainer-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.12);
+      padding: 6px 18px;
+      border-radius: 30px;
+      border: 2px solid rgba(255,255,255,0.25);
+    }
+
+    .trainer-avatar-mini {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .trainer-avatar-mini img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .trainer-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.35rem;
+      color: #FFFA65;
+    }
+
+    .switch-user-btn {
+      background: #E2E8F0;
+      color: #2D3748;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 18px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .switch-user-btn:hover {
+      background: white;
+      transform: scale(1.05);
+    }
+
+    /* 진도 진행 바 (진도 선택기) */
+    .progress-bar-card {
+      background: rgba(0,0,0,0.3);
+      padding: 10px 16px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .progress-label {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.05rem;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stage-select {
+      background: #FFCC00;
+      color: #1A202C;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.05rem;
+      padding: 6px 14px;
+      border-radius: 14px;
+      border: 2px solid white;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .progress-count-pill {
+      background: rgba(255,255,255,0.2);
+      color: #FFF;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    /* 탭 내비게이션 */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .nav-btn {
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.35);
+      color: white;
+      padding: 9px 16px;
+      border-radius: 18px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .nav-btn.active {
+      background: #FFCC00;
+      color: #1A202C;
+      border-color: #FFCC00;
+      font-weight: 900;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255,204,0,0.35);
+    }
+
+    /* 메인 탭 컨텐츠 컨테이너 */
+    main {
+      max-width: 1200px;
+      margin: 22px auto;
+      padding: 0 16px;
+    }
+
+    .tab-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================================
+       탭 1: 맞춤 도감 & 포획 체크
+       ======================================================== */
+    .filter-bar {
+      background: white;
+      padding: 16px 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--card-shadow);
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 18px 12px 42px;
+      border-radius: 24px;
+      border: 2px solid #E2E8F0;
+      font-size: 1.05rem;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .search-box span {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+    }
+
+    .filter-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      border: none;
+      background: #EDF2F7;
+      padding: 8px 14px;
+      border-radius: 18px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: #4A5568;
+    }
+
+    .filter-chip.active {
+      background: #1A202C;
+      color: white;
+    }
+
+    .pokemon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .poke-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 18px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      border: 3px solid transparent;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s;
+    }
+
+    .poke-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 28px rgba(0,0,0,0.1);
+      border-color: #FFCC00;
+    }
+
+    .poke-card.caught {
+      border-color: #48BB78;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F0FFF4 100%);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .poke-number {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.05rem;
+      color: #A0AEC0;
+      background: #F7FAFC;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .catch-check-btn {
+      background: #EDF2F7;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+
+    .poke-card.caught .catch-check-btn {
+      background: #48BB78;
+      color: white;
+    }
+
+    .poke-img-wrap {
+      width: 100%;
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: radial-gradient(circle, #F8FAFC 0%, transparent 70%);
+      border-radius: 16px;
+      margin-bottom: 10px;
+    }
+
+    .poke-img-wrap img {
+      max-width: 145px;
+      max-height: 145px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.1));
+      transition: transform 0.25s;
+    }
+
+    .poke-card:hover .poke-img-wrap img {
+      transform: scale(1.12);
+    }
+
+    .poke-info {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .poke-name {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.55rem;
+      color: #1A202C;
+      margin-bottom: 4px;
+    }
+
+    .poke-category {
+      font-size: 0.88rem;
+      color: #718096;
+      margin-bottom: 8px;
+    }
+
+    .types-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .type-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 14px;
+      color: white;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.85rem;
+    }
+
+    /* 타입별 색상 */
+    .type-전기 { background: #F8D030; color: #4A3A00; }
+    .type-노말 { background: #A8A878; }
+    .type-풀 { background: #78C850; }
+    .type-독 { background: #A040A0; }
+    .type-불꽃 { background: #F08030; }
+    .type-물 { background: #6890F0; }
+    .type-벌레 { background: #A8B820; }
+    .type-비행 { background: #A890F0; }
+    .type-격투 { background: #C03028; }
+    .type-땅 { background: #E0C068; color: #4A3A00; }
+    .type-바위 { background: #B8A038; }
+    .type-페어리 { background: #EE99AC; }
+    .type-에스퍼 { background: #F85888; }
+
+    .card-footer-btns {
+      display: flex;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 10px;
+    }
+
+    .card-action-btn {
+      flex: 1;
+      padding: 8px;
+      border-radius: 12px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+
+    .btn-detail { background: #EDF2F7; color: #2D3748; }
+    .btn-detail:hover { background: #E2E8F0; }
+    .btn-practice { background: #FFCC00; color: #1A202C; }
+    .btn-practice:hover { background: #ECC94B; }
+
+    /* ========================================================
+       탭 2: 태블릿 펜슬 최적화 한글 쓰기장 (Apple Pencil/터치)
+       ======================================================== */
+    .writing-wrapper-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      border: 4px solid #48BB78;
+    }
+
+    .writing-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .poke-select-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .poke-select {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.25rem;
+      padding: 8px 16px;
+      border-radius: 16px;
+      border: 3px solid #48BB78;
+      background: #F0FFF4;
+      color: #22543D;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .tts-btn {
+      background: #3182CE;
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 16px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 캔버스 공책 영역 */
+    .pad-canvas-container {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      background: #FFFDF8;
+      border: 4px dashed #CBD5E0;
+      border-radius: 24px;
+      overflow: hidden;
+      touch-action: none; /* 태블릿 펜슬/터치 시 화면 스크롤 방지 */
+      cursor: crosshair;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.04);
+    }
+
+    @media (max-width: 600px) {
+      .pad-canvas-container { height: 300px; }
+    }
+
+    /* 칸공책 십자선 격자 */
+    .pad-grid-lines {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background-image: 
+        linear-gradient(to right, rgba(226,232,240,0.85) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(226,232,240,0.85) 2px, transparent 2px);
+      background-size: 33.333% 50%;
+    }
+
+    .guide-text-layer {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .guide-text-char {
+      font-family: 'Jua', sans-serif;
+      font-size: 7.5rem;
+      color: rgba(203, 213, 225, 0.45);
+      letter-spacing: 28px;
+      text-align: center;
+      line-height: 1;
+    }
+
+    @media (max-width: 600px) {
+      .guide-text-char { font-size: 4rem; letter-spacing: 12px; }
+    }
+
+    #drawing-canvas {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 10;
+      touch-action: none;
+    }
+
+    /* 펜슬 툴바 */
+    .pencil-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+      background: #F7FAFC;
+      padding: 14px 20px;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .tool-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      background: white;
+      border: 2px solid #CBD5E0;
+      padding: 8px 14px;
+      border-radius: 14px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .tool-btn.active {
+      background: #2D3748;
+      color: white;
+      border-color: #2D3748;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .color-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .color-dot.active {
+      transform: scale(1.25);
+      border-color: #2D3748;
+    }
+
+    .stamp-btn {
+      background: linear-gradient(135deg, #FF3B30, #E60012);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 16px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(230,0,18,0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: heartBeat 2s infinite;
+    }
+
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .stamp-overlay {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0) rotate(-15deg);
+      background: rgba(229, 62, 62, 0.95);
+      color: #FFFA65;
+      border: 6px solid #FFF;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      padding: 20px 40px;
+      border-radius: 30px;
+      font-family: 'Jua', sans-serif;
+      font-size: 2.8rem;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
+    }
+
+    .stamp-overlay.show {
+      transform: translate(-50%, -50%) scale(1) rotate(-8deg);
+      opacity: 1;
+    }
+
+    /* ========================================================
+       탭 3: 알기 쉬운 상성 & 배틀 시뮬레이터
+       ======================================================== */
+    .battle-box {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      border: 4px solid var(--poke-blue);
+      margin-bottom: 24px;
+    }
+
+    .battle-selectors {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 16px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .fighter-card {
+      flex: 1;
+      min-width: 220px;
+      text-align: center;
+      background: #F8FAFC;
+      padding: 16px;
+      border-radius: 20px;
+      border: 2px solid #E2E8F0;
+    }
+
+    .fighter-card select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 14px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.1rem;
+      border: 2px solid #CBD5E0;
+      margin-bottom: 12px;
+      background: white;
+    }
+
+    .fighter-img {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+    }
+
+    .sim-result-box {
+      background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%);
+      color: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin-top: 15px;
+    }
+
+    .sim-status {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.4rem;
+      color: #FFCC00;
+      margin-bottom: 6px;
+    }
+
+    .sim-recommendation {
+      background: rgba(255, 204, 0, 0.15);
+      border-left: 4px solid #FFCC00;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-top: 10px;
+      color: #FFF9C4;
+      font-weight: bold;
+    }
+
+    /* ========================================================
+       탭 4: 진도별 게임 모험 공략
+       ======================================================== */
+    .strategy-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .strategy-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      border-left: 8px solid var(--poke-red);
+    }
+
+    .strategy-card.gym { border-left-color: #B8A038; background: linear-gradient(to right, #FFFDF2, #FFF); }
+    .strategy-card.route3 { border-left-color: #48BB78; }
+    .strategy-card.magikarp { border-left-color: #3182CE; background: linear-gradient(to right, #F0F9FF, #FFF); }
+    .strategy-card.mtmoon { border-left-color: #805AD5; background: linear-gradient(to right, #FAF5FF, #FFF); }
+    .strategy-card.cerulean { border-left-color: #00A6FF; }
+
+    .strategy-card h3 {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .strategy-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .strategy-step-item {
+      background: white;
+      border: 1px solid #E2E8F0;
+      padding: 12px 16px;
+      border-radius: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step-num {
+      background: #E53E3E;
+      color: white;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.1rem;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* 포켓몬 상세 모달 */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.show { display: flex; }
+
+    .modal-card {
+      background: white;
+      border-radius: 28px;
+      width: 100%;
+      max-width: 640px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      position: relative;
+      border: 4px solid #FFCC00;
+      animation: modalPop 0.25s ease;
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px; right: 18px;
+      background: #EDF2F7;
+      border: none;
+      font-size: 1.5rem;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-hero {
+      background: linear-gradient(180deg, #F0F4F8 0%, white 100%);
+      padding: 30px 20px 15px;
+      text-align: center;
+    }
+
+    .modal-hero-img {
+      width: 170px;
+      height: 170px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,0.15));
+    }
+
+    .modal-body {
+      padding: 10px 24px 28px;
+    }
+
+    .section-box {
+      background: #F8FAFC;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .section-box-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.2rem;
+      color: #2D3748;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .moves-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 500px) {
+      .moves-grid { grid-template-columns: 1fr; }
+    }
+
+    .move-cell {
+      background: white;
+      border-radius: 12px;
+      padding: 8px 12px;
+      border: 1px solid #EDF2F7;
+    }
+
+    /* 콘페티 폭죽 캔버스 */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #718096;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================
+       1. 인트로 첫 화면: 예서 & 서우 프로필 선택
+       ======================================================== -->
+  <div id="view-intro">
+    <div class="intro-box">
+      <div class="intro-logo-badge">
+        <span>🎮 닌텐도 스위치 레츠고! 피카츄·이브이 맞춤형 도감</span>
+      </div>
+      <h1 class="intro-title">⭐ 예서 & 서우의 포켓몬 모험 도감 ⭐</h1>
+      <p class="intro-desc">오늘 모험을 떠날 트레이너를 선택해주세요! 각자의 진도와 잡은 포켓몬이 따로 저장돼요!</p>
+
+      <div class="profile-cards-grid">
+        <!-- 예서 카드 -->
+        <div class="profile-card yeseo" onclick="selectTrainer('yeseo')">
+          <div class="avatar-wrapper">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="예서 피카츄">
+          </div>
+          <h2 class="profile-name">👧 예서의 도감</h2>
+          <div class="profile-subtitle">⚡ 레츠고 피카츄 파트너!</div>
+          <div class="profile-stats-pill">
+            <span>📍 진도: <strong id="intro-yeseo-stage">3번 도로</strong></span>
+            <span>⭐ 도장: <strong id="intro-yeseo-stamps">0개</strong></span>
+          </div>
+          <button class="profile-enter-btn">모험 시작하기 ➔</button>
+        </div>
+
+        <!-- 서우 카드 -->
+        <div class="profile-card seowoo" onclick="selectTrainer('seowoo')">
+          <div class="avatar-wrapper">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png" alt="서우 이브이">
+          </div>
+          <h2 class="profile-name">👦 서우의 도감</h2>
+          <div class="profile-subtitle">✨ 레츠고 이브이 파트너!</div>
+          <div class="profile-stats-pill">
+            <span>📍 진도: <strong id="intro-seowoo-stage">4번 도로</strong></span>
+            <span>⭐ 도장: <strong id="intro-seowoo-stamps">0개</strong></span>
+          </div>
+          <button class="profile-enter-btn">모험 시작하기 ➔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 콘페티 폭죽 캔버스 -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ========================================================
+       2. 메인 앱 화면 (도감 / 글씨쓰기 / 상성 / 공략)
+       ======================================================== -->
+  <div id="view-app">
+    
+    <!-- 상단 헤더 -->
+    <header>
+      <div class="header-inner">
+        <!-- 트레이너 전환 및 타이틀 바 -->
+        <div class="top-trainer-bar">
+          <div class="trainer-badge">
+            <div class="trainer-avatar-mini" id="current-avatar-mini">
+              <img id="current-trainer-img" src="" alt="파트너">
+            </div>
+            <div class="trainer-title" id="current-trainer-title">예서의 도감</div>
+          </div>
+
+          <button class="switch-user-btn" onclick="goToHome()">
+            <span>🔄 트레이너 바꾸기 (홈으로)</span>
+          </button>
+        </div>
+
+        <!-- 각자 진도 맞춤 선택 바 -->
+        <div class="progress-bar-card">
+          <div class="progress-label">
+            <span>📍 현재 내 모험 진도:</span>
+            <select id="stage-select" class="stage-select" onchange="onStageChange()">
+              <option value="1">1단계: 태초마을 ~ 1·2번 도로</option>
+              <option value="2">2단계: 상록숲 (버터플 & 독침붕 & 이상해씨)</option>
+              <option value="3">3단계: 회색시티 체육관 (웅이 바위 배틀)</option>
+              <option value="4" selected>4단계: 3번 도로 (푸린 & 망키 & 니드런)</option>
+              <option value="5">5단계: 4번 도로 포켓몬센터 (500원 잉어킹!)</option>
+              <option value="6">6단계: 달맞이산 동굴 (주뱃 & 삐삐 & 달의돌)</option>
+              <option value="7">7단계: 블루시티 (이슬이 물 체육관 대비)</option>
+            </select>
+          </div>
+          <div class="progress-count-pill" id="caught-counter-pill">
+            내가 잡은 포켓몬: 0 / 22 마리 🔴
+          </div>
+        </div>
+
+        <!-- 탭 네비게이션 -->
+        <nav class="nav-tabs">
+          <button class="nav-btn active" onclick="switchTab('pokedex')">📖 내 진도 맞춤 도감</button>
+          <button class="nav-btn" onclick="switchTab('writing')">✍️ 패드 펜슬 한글 쓰기</button>
+          <button class="nav-btn" onclick="switchTab('typeClass')">⚖️ 상성 & 배틀 시뮬레이터</button>
+          <button class="nav-btn" onclick="switchTab('strategy')">💡 렛츠고 모험 공략</button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main>
+
+      <!-- ----------------------------------------------------
+           탭 1: 맞춤 도감
+           ---------------------------------------------------- -->
+      <section id="tab-pokedex" class="tab-section active">
+        <!-- 검색 및 필터 -->
+        <div class="filter-bar">
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="poke-search" placeholder="포켓몬 이름이나 타입 검색 (예: 피카츄, 불꽃, 격투)" oninput="filterPokemon()">
+          </div>
+          <div class="filter-tags">
+            <button class="filter-chip active" onclick="setFilter('currentStage', this)">📍 현재 진도까지</button>
+            <button class="filter-chip" onclick="setFilter('caughtOnly', this)">🔴 내가 잡은 친구들</button>
+            <button class="filter-chip" onclick="setFilter('all', this)">전체보기</button>
+          </div>
+        </div>
+
+        <!-- 카드 그리드 -->
+        <div class="pokemon-grid" id="pokemon-grid">
+          <!-- JS로 동적 렌더링 -->
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------
+           탭 2: 태블릿 펜슬 최적화 한글 쓰기장
+           ---------------------------------------------------- -->
+      <section id="tab-writing" class="tab-section">
+        <div class="writing-wrapper-card">
+          <div class="writing-top-bar">
+            <div class="poke-select-box">
+              <label for="writing-poke-select" style="font-family:'Jua'; font-size:1.2rem;">✏️ 따라 쓸 포켓몬:</label>
+              <select id="writing-poke-select" class="poke-select" onchange="changeWritingPokemon()"></select>
+              <button class="tts-btn" onclick="speakCurrentPokemon()">🔊 발음 듣기</button>
+            </div>
+            <div style="font-family:'Jua'; color:#718096; font-size:1.05rem;">
+              애플펜슬 / S펜 / 손가락으로 점선을 따라 써보세요!
+            </div>
+          </div>
+
+          <!-- 캔버스 패드 공책 -->
+          <div class="pad-canvas-container" id="pad-container">
+            <div class="pad-grid-lines"></div>
+            <div class="guide-text-layer">
+              <div class="guide-text-char" id="pad-guide-text">피 카 추</div>
+            </div>
+            <canvas id="drawing-canvas"></canvas>
+            
+            <div class="stamp-overlay" id="stamp-overlay">
+              💮 참 잘했어요! 💮<br>
+              <span style="font-size:1.6rem; color:#FFF;">⭐⭐⭐⭐⭐</span>
+            </div>
+          </div>
+
+          <!-- 펜슬 툴바 (펜, 지우개, 색상, 굵기, 칭찬 도장) -->
+          <div class="pencil-toolbar">
+            <div class="tool-group">
+              <button class="tool-btn active" id="btn-mode-pen" onclick="setToolMode('pen')">✏️ 펜 모드</button>
+              <button class="tool-btn" id="btn-mode-eraser" onclick="setToolMode('eraser')">🧼 부분 지우개</button>
+              <button class="tool-btn" onclick="clearCanvas()">🧹 싹 지우기</button>
+            </div>
+
+            <div class="tool-group" id="palette-group">
+              <span style="font-family:'Jua';">색상:</span>
+              <div class="color-dot active" style="background: #2D3748;" onclick="setPenColor('#2D3748', this)"></div>
+              <div class="color-dot" style="background: #E53E3E;" onclick="setPenColor('#E53E3E', this)"></div>
+              <div class="color-dot" style="background: #3182CE;" onclick="setPenColor('#3182CE', this)"></div>
+              <div class="color-dot" style="background: #38A169;" onclick="setPenColor('#38A169', this)"></div>
+              <div class="color-dot" style="background: #D69E2E;" onclick="setPenColor('#D69E2E', this)"></div>
+              <div class="color-dot" style="background: #805AD5;" onclick="setPenColor('#805AD5', this)"></div>
+            </div>
+
+            <div class="tool-group">
+              <span style="font-family:'Jua';">굵기:</span>
+              <button class="tool-btn" onclick="setPenSize(6, this)">가는펜</button>
+              <button class="tool-btn active" onclick="setPenSize(14, this)">보통</button>
+              <button class="tool-btn" onclick="setPenSize(26, this)">붓펜</button>
+            </div>
+
+            <button class="stamp-btn" onclick="celebrateStamp()">
+              💮 칭찬 도장 쾅!
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------
+           탭 3: 알기 쉬운 상성 & 배틀 시뮬레이터
+           ---------------------------------------------------- -->
+      <section id="tab-typeClass" class="tab-section">
+        <div class="battle-box">
+          <div style="text-align: center; margin-bottom: 12px;">
+            <h3 style="font-family:'Jua'; font-size:1.7rem; color:#1A202C;">🥊 1대1 포켓몬 상성 대결 시뮬레이터</h3>
+            <p style="color:#718096;">내 포켓몬과 상대 포켓몬을 고르면 배틀 승리 비법을 알려줘요!</p>
+          </div>
+
+          <div class="battle-selectors">
+            <!-- 내 포켓몬 -->
+            <div class="fighter-card">
+              <h4 style="font-family:'Jua'; color:#2B6CB0; margin-bottom:6px;">👦 나의 포켓몬</h4>
+              <select id="sim-my-poke" onchange="runBattleSim()"></select>
+              <div><img id="sim-my-img" class="fighter-img" src="" alt="나의 포켓몬"></div>
+              <div id="sim-my-type" class="types-wrap" style="margin-top:6px;"></div>
+            </div>
+
+            <div style="font-family:'Jua'; font-size:2.5rem; color:#E53E3E; font-weight:900;">VS</div>
+
+            <!-- 상대 포켓몬 -->
+            <div class="fighter-card">
+              <h4 style="font-family:'Jua'; color:#C53030; margin-bottom:6px;">👾 상대 포켓몬</h4>
+              <select id="sim-enemy-poke" onchange="runBattleSim()"></select>
+              <div><img id="sim-enemy-img" class="fighter-img" src="" alt="상대 포켓몬"></div>
+              <div id="sim-enemy-type" class="types-wrap" style="margin-top:6px;"></div>
+            </div>
+          </div>
+
+          <div class="sim-result-box" id="sim-result-box">
+            <!-- JS 렌더링 -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------
+           탭 4: 렛츠고 모험 공략
+           ---------------------------------------------------- -->
+      <section id="tab-strategy" class="tab-section">
+        <div class="strategy-container">
+          
+          <!-- 회색시티 웅이 공략 -->
+          <div class="strategy-card gym">
+            <h3>🪨 1단계 클리어: 회색시티 웅이(바위/땅) 이기는 3대 비법!</h3>
+            <p>웅이의 꼬마돌과 롱스톤은 전기가 안 통하지만 약점은 명확해요!</p>
+            <ul class="strategy-steps">
+              <li class="strategy-step-item">
+                <div class="step-num">1</div>
+                <div>
+                  <strong>피카츄 & 이브이의 '두번치기' (격투 타입)</strong>
+                  <p style="color:#718096; font-size:0.95rem;">피카츄(Lv.9), 이브이(Lv.10)에 배우는 격투 발차기! 바위 포켓몬에게 2배의 큰 대미지를 줘요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num">2</div>
+                <div>
+                  <strong>상록숲의 숨은 영웅 '이상해씨'의 덩굴채찍 (풀 타입)</strong>
+                  <p style="color:#718096; font-size:0.95rem;">꼬마돌과 롱스톤은 풀 공격에 무려 <strong>4배</strong> 아파서 덩굴채찍 한 방에 기절해요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num">3</div>
+                <div>
+                  <strong>3번 도로 '망키'의 안다리걸기</strong>
+                  <p style="color:#718096; font-size:0.95rem;">무거운 롱스톤에게 망키의 '안다리걸기'를 쓰면 엄청난 대미지가 들어가요!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 3번 도로 공략 -->
+          <div class="strategy-card route3">
+            <h3>🛣️ 3번 도로 공략: 푸린을 꼭 잡아두세요!</h3>
+            <p>회색시티를 지나 3번 도로에 오면 풀숲에서 폴짝폴짝 뛰는 귀여운 <strong>푸린</strong>이 나타나요.</p>
+            <ul class="strategy-steps">
+              <li class="strategy-step-item">
+                <div class="step-num">★</div>
+                <div>
+                  <strong>푸린의 '노래하기'로 포켓몬 쉽게 잡기</strong>
+                  <p style="color:#718096; font-size:0.95rem;">야생 포켓몬에게 노래하기를 쓰면 잠이 들어요. 잠든 포켓몬은 몬스터볼로 잡기가 아주 쉬워집니다!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 4번 도로 잉어킹 공략 -->
+          <div class="strategy-card magikarp">
+            <h3>🐟 4번 도로 포켓몬센터: 500원 잉어킹 아저씨 비밀!</h3>
+            <p>달맞이산 앞 포켓몬센터에 수상한 아저씨가 잉어킹을 500원에 팔고 있어요.</p>
+            <ul class="strategy-steps">
+              <li class="strategy-step-item">
+                <div class="step-num">👑</div>
+                <div>
+                  <strong>무조건 사서 레벨 20까지 키우세요!</strong>
+                  <p style="color:#718096; font-size:0.95rem;">지금은 튀어오르기만 하지만, <strong>레벨 20이 되면 최강의 바다 괴물 '갸라도스'로 진화</strong>해요! 파티의 슈퍼 에이스가 됩니다!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 달맞이산 탐험 -->
+          <div class="strategy-card mtmoon">
+            <h3>🌙 다음 목적지: 신비한 '달맞이산' 탐험 가이드</h3>
+            <p>4번 도로에서 연결되는 거대한 동굴 '달맞이산' 공략 팁입니다.</p>
+            <ul class="strategy-steps">
+              <li class="strategy-step-item">
+                <div class="step-num">1</div>
+                <div>
+                  <strong>동굴 속 반짝이는 '달의 돌' 찾기!</strong>
+                  <p style="color:#718096; font-size:0.95rem;">달맞이산 분화구에서 달의 돌을 얻으면 <strong>니드런을 니드퀸/니드킹으로, 푸린을 푸크린으로</strong> 즉시 최종 진화시킬 수 있어요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num">2</div>
+                <div>
+                  <strong>동굴 속 꼬마돌과 주뱃 상대법</strong>
+                  <p style="color:#718096; font-size:0.95rem;">동굴 속 꼬마돌은 이상해씨나 물 기술로 잡고, 주뱃은 피카츄의 전기 기술 한 방으로 잡으세요!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 블루시티 이슬이 예고 -->
+          <div class="strategy-card cerulean">
+            <h3>🌊 블루시티 체육관 관장 '이슬이' 미리 대비하기!</h3>
+            <p>달맞이산을 통과하면 아름다운 물의 도시 '블루시티'에 도착합니다.</p>
+            <ul class="strategy-steps">
+              <li class="strategy-step-item">
+                <div class="step-num">⚡</div>
+                <div>
+                  <strong>이슬이는 물 포켓몬(별가사리, 아쿠스타)을 써요!</strong>
+                  <p style="color:#718096; font-size:0.95rem;">피카츄의 '전기쇼크/10만볼트'와 이상해씨의 '덩굴채찍'을 미리 훈련해두면 쉽게 배지를 얻을 수 있어요!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 포켓몬 상세 모달 -->
+  <div class="modal-backdrop" id="poke-modal" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal()">✕</button>
+      <div class="modal-hero">
+        <img id="modal-img" class="modal-hero-img" src="" alt="포켓몬">
+        <div style="font-family:'Jua'; color:#A0AEC0; margin-top:6px;" id="modal-number">#000</div>
+        <h2 style="font-family:'Jua'; font-size:2rem; color:#1A202C;" id="modal-name">포켓몬 이름</h2>
+        <div id="modal-category" style="color:#718096; font-size:0.95rem;">분류</div>
+        <div id="modal-types" class="types-wrap" style="margin-top:8px;"></div>
+      </div>
+
+      <div class="modal-body">
+        <div class="section-box">
+          <div class="section-box-title">📖 재미있는 도감 이야기</div>
+          <p id="modal-story" style="color:#4A5568; line-height:1.7;"></p>
+        </div>
+
+        <div class="section-box">
+          <div class="section-box-title">📍 모험 정보 & 진화</div>
+          <div style="font-size:0.95rem; color:#4A5568;">
+            <div>🗺️ <strong>발견 위치:</strong> <span id="modal-location"></span></div>
+            <div style="margin-top:4px;">✨ <strong>진화 정보:</strong> <span id="modal-evolution"></span></div>
+          </div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-box-title">⚔️ 추천 기술 BEST 4</div>
+          <div class="moves-grid" id="modal-moves"></div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-box-title">⚖️ 배틀 팁</div>
+          <div id="modal-tip" style="color:#2B6CB0; font-weight:bold;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>🎮 렛츠고! 피카츄·이브이 맞춤형 어린이 도감 | 예서 & 서우의 포켓몬 모험 노트</p>
+  </footer>
+
+  <!-- ========================================================
+       자바스크립트 로직 (데이터, 다중 프로필 관리, 태블릿 펜슬 캔버스 등)
+       ======================================================== -->
+  <script>
+    // 1. 포켓몬 전체 데이터 (단계 stage 속성 포함)
+    // stage: 1=태초/1-2번도로, 2=상록숲, 3=회색시티, 4=3번도로, 5=4번도로(잉어킹), 6=달맞이산, 7=블루시티
+    const POKEMON_DATA = [
+      {
+        id: 25, num: "#025", name: "피카츄", enName: "Pikachu", types: ["전기"], category: "쥐포켓몬",
+        height: "0.4m", weight: "6.0kg", stage: 1, location: "스타팅 포켓몬(레츠고 피카츄), 상록숲",
+        story: "뺨 양쪽에 빨간 전기 주머니가 있어요. 화가 나거나 위험을 느끼면 전기를 파지직 방출해요! 꼬리를 세워 주변을 살핍니다.",
+        evolution: "파트너 피카츄는 진화하지 않고 번개전광 같은 특별 기술을 배워요! (야생 피카츄는 천둥의 돌로 라이츄 진화)",
+        moves: [
+          { name: "전기쇼크", type: "전기", desc: "찌릿찌릿 전기로 공격하며 상대를 마비시켜요." },
+          { name: "두번치기", type: "격투", desc: "★9레벨 습득! 웅이의 바위 포켓몬을 무찌르는 비밀 병기!" },
+          { name: "전광석화", type: "노말", desc: "눈 깜짝할 사이에 번개처럼 먼저 공격해요." },
+          { name: "10만볼트", type: "전기", desc: "엄청나게 강력한 전기를 뿜어내는 필살기!" }
+        ],
+        tip: "바위·땅 타입 웅이에게는 전기가 0배(무효)예요! 꼭 9레벨에 배우는 '두번치기(격투)'로 공격하세요!"
+      },
+      {
+        id: 133, num: "#133", name: "이브이", enName: "Eevee", types: ["노말"], category: "진화포켓몬",
+        height: "0.3m", weight: "6.5kg", stage: 1, location: "스타팅 포켓몬(레츠고 이브이)",
+        story: "환경에 따라 다양한 모습으로 진화할 수 있는 무한한 가능성의 포켓몬이에요. 애교가 많고 주인을 잘 따라요.",
+        evolution: "파트너 이브이는 진화 대신 물/불/전기 등의 특별한 파트너 기술을 배워요!",
+        moves: [
+          { name: "몸통박치기", type: "노말", desc: "온몸의 힘을 실어 상대에게 돌진해요." },
+          { name: "두번치기", type: "격투", desc: "★10레벨 습득! 웅이의 롱스톤을 무찌르는 강력한 발차기!" },
+          { name: "전광석화", type: "노말", desc: "빠른 스피드로 상대보다 먼저 때려요." },
+          { name: "물결도약", type: "물", desc: "파트너 전용 물 기술로 불과 바위 포켓몬을 이겨요!" }
+        ],
+        tip: "노말 타입이라 약점이 '격투' 하나뿐이에요! 웅이를 이길 땐 10레벨의 '두번치기'를 쓰세요!"
+      },
+      {
+        id: 16, num: "#016", name: "구구", enName: "Pidgey", types: ["노말", "비행"], category: "아기새포켓몬",
+        height: "0.3m", weight: "1.8kg", stage: 1, location: "1·2·3·4번 도로 어디서나",
+        story: "풀숲에서 모래를 차올려 적의 눈을 어지럽힌 뒤 도망치는 얌전한 성격의 아기 새 포켓몬이에요.",
+        evolution: "Lv.18 피죤 ➔ Lv.36 피죤투",
+        moves: [
+          { name: "바람일으키기", type: "비행", desc: "날개를 펄럭여 강한 돌풍으로 공격해요." },
+          { name: "모래뿌리기", type: "땅", desc: "모래를 뿌려 상대의 명중률을 떨어뜨려요." },
+          { name: "전광석화", type: "노말", desc: "날렵하게 날아들어 먼저 때려요." },
+          { name: "날개치기", type: "비행", desc: "큰 날개로 상대를 세게 내리쳐요." }
+        ],
+        tip: "풀숲의 벌레와 격투 포켓몬을 잡을 때 비행 기술이 매우 효과적이에요!"
+      },
+      {
+        id: 19, num: "#019", name: "꼬렛", enName: "Rattata", types: ["노말"], category: "쥐포켓몬",
+        height: "0.3m", weight: "3.5kg", stage: 1, location: "1·2·3·4·22번 도로",
+        story: "생명력이 강해서 어디서든 잘 살아가요. 큰 앞니로 단단한 나무나 열매를 갉아 먹어요.",
+        evolution: "Lv.20 레트라",
+        moves: [
+          { name: "몸통박치기", type: "노말", desc: "달려와서 힘차게 부딪혀요." },
+          { name: "전광석화", type: "노말", desc: "빠른 스피드로 선제공격해요." },
+          { name: "기습", type: "악", desc: "상대가 공격하려 할 때 허를 찔러 먼저 쳐요." },
+          { name: "필살앞니", type: "노말", desc: "큰 앞니로 세게 깨물어 상대를 쫄게 만들어요." }
+        ],
+        tip: "스피드가 빨라 선제공격하기 좋으며 필살앞니는 위력이 아주 세요!"
+      },
+      {
+        id: 10, num: "#010", name: "캐터피", enName: "Caterpie", types: ["벌레"], category: "애벌레포켓몬",
+        height: "0.3m", weight: "2.9kg", stage: 2, location: "2번 도로, 상록숲",
+        story: "초록색 피부로 숲속 나뭇잎 사이에 숨어요. 머리의 붉은 더듬이에서 고약한 냄새를 뿜어 적을 쫓아내요.",
+        evolution: "Lv.7 단데기 ➔ Lv.10 버터플 (초고속 진화!)",
+        moves: [
+          { name: "몸통박치기", type: "노말", desc: "작은 몸으로 콩 부딪혀요." },
+          { name: "실뿜기", type: "벌레", desc: "실을 뿜어 상대의 스피드를 늦춰요." }
+        ],
+        tip: "레벨 10에 바로 멋진 버터플로 진화하는 최고의 초반 친구예요!"
+      },
+      {
+        id: 12, num: "#012", name: "버터플", enName: "Butterfree", types: ["벌레", "비행"], category: "나비포켓몬",
+        height: "1.1m", weight: "32.0kg", stage: 2, location: "상록숲 (캐터피 진화)",
+        story: "아름다운 날개에서 마법 같은 가루를 뿌려요. 맛있는 꿀을 찾아 꽃밭을 날아다녀요.",
+        evolution: "최종 진화형",
+        moves: [
+          { name: "염동력", type: "에스퍼", desc: "★초반 치트키! 웅이의 꼬마돌과 롱스톤도 특수공격으로 제압!" },
+          { name: "수면가루", type: "풀", desc: "★포획의 신! 가루를 뿌려 상대를 100% 재워버려요!" },
+          { name: "저리가루", type: "풀", desc: "상대를 마비시켜서 기술을 못 쓰게 만들어요." },
+          { name: "은빛바람", type: "벌레", desc: "날개 바람으로 공격하며 모든 능력치를 올려요." }
+        ],
+        tip: "레벨 10에 배우는 '수면가루'와 '염동력'은 초반 어떤 적도 쉽게 잡게 해줍니다!"
+      },
+      {
+        id: 13, num: "#013", name: "뿔충이", enName: "Weedle", types: ["벌레", "독"], category: "애벌레포켓몬",
+        height: "0.3m", weight: "3.2kg", stage: 2, location: "2번 도로, 상록숲",
+        story: "머리 위에 날카롭고 뾰족한 독침이 솟아있어요. 숲에서 실수로 밟지 않도록 조심하세요!",
+        evolution: "Lv.7 딱충이 ➔ Lv.10 독침붕",
+        moves: [
+          { name: "독침", type: "독", desc: "머리의 독침으로 찔러 상대를 중독시켜요." },
+          { name: "실뿜기", type: "벌레", desc: "실을 감아 상대의 발을 묶어요." }
+        ],
+        tip: "레벨 10이 되면 무서운 3단 침을 가진 '독침붕'으로 초고속 진화해요!"
+      },
+      {
+        id: 15, num: "#015", name: "독침붕", enName: "Beedrill", types: ["벌레", "독"], category: "독벌포켓몬",
+        height: "1.0m", weight: "29.5kg", stage: 2, location: "상록숲 (뿔충이 진화)",
+        story: "양손과 엉덩이에 3개의 날카로운 독침을 달고 날아다녀요. 침을 연속으로 찔러댑니다.",
+        evolution: "최종 진화형",
+        moves: [
+          { name: "더블어택", type: "노말", desc: "양손의 독침으로 상대를 두 번 가격해요." },
+          { name: "독찌르기", type: "독", desc: "맹독 침으로 큰 대미지와 중독을 걸어요." },
+          { name: "마구찌르기", type: "노말", desc: "성난 벌처럼 쉬지 않고 찔러요." },
+          { name: "분노", type: "노말", desc: "공격을 받을수록 공격력이 올라가요." }
+        ],
+        tip: "공격력이 매우 높아 풀이나 페어리 포켓몬을 만나면 독침으로 혼내주세요!"
+      },
+      {
+        id: 1, num: "#001", name: "이상해씨", enName: "Bulbasaur", types: ["풀", "독"], category: "씨앗포켓몬",
+        height: "0.7m", weight: "6.9kg", stage: 2, location: "상록숲(풀숲 레어 출현), 옥빛시티 민가 선물",
+        story: "태어날 때부터 등에 큰 식물 씨앗을 지고 있어요. 햇볕을 쬐면 달콤한 꽃향기가 풍겨 나와요.",
+        evolution: "Lv.16 이상해풀 ➔ Lv.32 이상해꽃",
+        moves: [
+          { name: "덩굴채찍", type: "풀", desc: "★초반 최강! 웅이(바위/땅)와 이슬이(물)를 한 방에 KO!" },
+          { name: "씨뿌리기", type: "풀", desc: "상대에게 씨를 뿌려 매 턴 체력을 뺏어와요." },
+          { name: "수면가루", type: "풀", desc: "상대를 깊은 잠에 빠뜨려 안전하게 잡아요." },
+          { name: "잎날가르기", type: "풀", desc: "날카로운 잎을 마구 날려 급소를 쳐요." }
+        ],
+        tip: "회색시티 웅이와 블루시티 이슬이를 둘 다 박살 내는 최고의 든든한 친구!"
+      },
+      {
+        id: 74, num: "#074", name: "꼬마돌", enName: "Geodude", types: ["바위", "땅"], category: "암석포켓몬",
+        height: "0.4m", weight: "20.0kg", stage: 3, location: "회색시티 체육관(웅이), 달맞이산",
+        story: "돌멩이처럼 동그랗고 단단해요. 바위산 길가에 굴러다니는 돌인 줄 알고 밟았다간 큰코다쳐요!",
+        evolution: "Lv.25 데구리 ➔ 통신진화 딱구리",
+        moves: [
+          { name: "돌떨구기", type: "바위", desc: "단단한 바위를 던져 공격해요." },
+          { name: "몸통박치기", type: "노말", desc: "단단한 바위 몸으로 쾅 부딪혀요." },
+          { name: "매그니튜드", type: "땅", desc: "땅을 뒤흔들어 공격해요." },
+          { name: "방어", type: "노말", desc: "적의 공격을 한 번 막아내요." }
+        ],
+        tip: "물💧과 풀🌿 공격을 맞으면 4배의 치명타를 입고 한 방에 쓰러져요!"
+      },
+      {
+        id: 95, num: "#095", name: "롱스톤", enName: "Onix", types: ["바위", "땅"], category: "암석뱀포켓몬",
+        height: "8.8m", weight: "210.0kg", stage: 3, location: "회색시티 체육관 관장 웅이의 에이스!",
+        story: "거대한 바위들이 자석처럼 이어져 있는 거대한 뱀 포켓몬이에요. 땅속을 뚫고 다니며 굉음을 냅니다.",
+        evolution: "금속코트로 진화 ➔ 강철톤",
+        moves: [
+          { name: "조이기", type: "노말", desc: "거대한 바위 몸으로 상대를 꽉 조여요." },
+          { name: "돌떨구기", type: "바위", desc: "낙석을 떨어뜨려 공격해요." },
+          { name: "땅고르기", type: "땅", desc: "땅을 흔들어 상대의 스피드를 깎아요." },
+          { name: "락커트", type: "바위", desc: "몸을 날렵하게 깎아 스피드를 올려요." }
+        ],
+        tip: "방어력이 높지만 물/풀 공격에는 4배의 약점! 망키의 '안다리걸기'에도 쓰러져요."
+      },
+      {
+        id: 21, num: "#021", name: "깨비참", enName: "Spearow", types: ["노말", "비행"], category: "아기새포켓몬",
+        height: "0.3m", weight: "2.0kg", stage: 4, location: "3·4번 도로, 22번 도로",
+        story: "날개가 짧아 높이 날지는 못하지만 성격이 거칠고 용감해요. 부리로 연속 공격해요.",
+        evolution: "Lv.20 깨비드릴조",
+        moves: [
+          { name: "쪼기", type: "비행", desc: "날카로운 부리로 상대를 콕콕 쪼아요." },
+          { name: "째려보기", type: "노말", desc: "눈빛으로 노려봐 방어력을 낮춰요." },
+          { name: "마구찌르기", type: "노말", desc: "부리로 연속 2~5번 인정사정없이 찔러요." },
+          { name: "제비반환", type: "비행", desc: "절대 빗나가지 않는 번개 같은 비행 기술!" }
+        ],
+        tip: "구구보다 공격력이 높아 '쪼기' 기술로 적을 빠르게 쓰러뜨릴 수 있어요!"
+      },
+      {
+        id: 56, num: "#056", name: "망키", enName: "Mankey", types: ["격투"], category: "돈숭이포켓몬",
+        height: "0.5m", weight: "28.0kg", stage: 4, location: "3·4번 도로, 22번 도로",
+        story: "조그만 일에도 화를 펄럭 내며 날뛰어요! 한 번 화가 나면 주위가 보이지 않을 정도예요.",
+        evolution: "Lv.28 성원숭",
+        moves: [
+          { name: "안다리걸기", type: "격투", desc: "★상대가 무거울수록 위력 폭발! 롱스톤 전용기!" },
+          { name: "태권당수", type: "격투", desc: "손날로 급소를 정타로 내리쳐요." },
+          { name: "두번치기", type: "격투", desc: "발차기 두 방으로 바위와 노말을 박살내요." },
+          { name: "지구던지기", type: "격투", desc: "내 레벨만큼 무조건 상대 체력을 깎아요." }
+        ],
+        tip: "웅이 체육관과 바위 포켓몬을 쓰러뜨릴 때 가장 추천하는 에이스!"
+      },
+      {
+        id: 29, num: "#029", name: "니드런♀", enName: "Nidoran♀", types: ["독"], category: "독침포켓몬",
+        height: "0.4m", weight: "7.0kg", stage: 4, location: "3·4번 도로, 22번 도로",
+        story: "작고 온순하지만 독침을 품고 있어요. 동료를 지킬 땐 용감하게 돌진해요.",
+        evolution: "Lv.16 니드리나 ➔ 달의돌 니드퀸",
+        moves: [
+          { name: "할퀴기", type: "노말", desc: "앞발의 날카로운 발톱으로 긁어요." },
+          { name: "두번치기", type: "격투", desc: "★발로 2연속 차서 바위를 깨뜨려요!" },
+          { name: "독침", type: "독", desc: "독이 묻은 침을 발사해요." },
+          { name: "물기", type: "악", desc: "날카로운 이빨로 깨물어요." }
+        ],
+        tip: "3번 도로에서 잡아 '두번치기'를 배우면 바위 포켓몬을 쉽게 이겨요!"
+      },
+      {
+        id: 32, num: "#032", name: "니드런♂", enName: "Nidoran♂", types: ["독"], category: "독침포켓몬",
+        height: "0.5m", weight: "9.0kg", stage: 4, location: "3·4번 도로, 22번 도로",
+        story: "이마에 단단한 독뿔이 솟아있어요. 큰 귀로 소리를 들으며 뿔로 들이받아요.",
+        evolution: "Lv.16 니드리노 ➔ 달의돌 니드킹 (초강력!)",
+        moves: [
+          { name: "쪼기", type: "비행", desc: "단단한 이마와 뿔로 콕콕 쪼아요." },
+          { name: "두번치기", type: "격투", desc: "★바위 포켓몬을 날려버리는 2연타 발차기!" },
+          { name: "독침", type: "독", desc: "독침을 쏴서 중독을 노려요." },
+          { name: "뿔찌르기", type: "노말", desc: "강력한 뿔로 들이받아 큰 대미지를 줘요." }
+        ],
+        tip: "달맞이산에서 달의 돌을 얻으면 초반부터 무지막지한 '니드킹'으로 진화 가능!"
+      },
+      {
+        id: 39, num: "#039", name: "푸린", enName: "Jigglypuff", types: ["노말", "페어리"], category: "풍선포켓몬",
+        height: "0.5m", weight: "5.5kg", stage: 4, location: "3번 도로 풀숲 (가끔 등장)",
+        story: "초롱초롱한 눈으로 바라보다가 달콤한 자장가를 불러 모든 포켓몬을 잠재워요.",
+        evolution: "달의돌 ➔ 푸크린",
+        moves: [
+          { name: "노래하기", type: "노말", desc: "★상대를 100% 재워 쉽게 잡을 수 있게 해줘요!" },
+          { name: "막치기", type: "노말", desc: "작고 통통한 손으로 찰싹찰싹 때려요." },
+          { name: "웅크리기", type: "노말", desc: "몸을 둥글게 부풀려 방어력을 올려요." },
+          { name: "치근거리기", type: "페어리", desc: "귀엽게 치근대며 강력한 페어리 펀치를 날려요!" }
+        ],
+        tip: "야생 포켓몬을 잡을 때 '노래하기'로 재우면 몬스터볼 포획 확률이 대폭 상승!"
+      },
+      {
+        id: 27, num: "#027", name: "모래두지", enName: "Sandshrew", types: ["땅"], category: "쥐포켓몬",
+        height: "0.6m", weight: "12.0kg", stage: 4, location: "3·4번 도로 (피카츄 버전 한정)",
+        story: "메마른 땅속에 굴을 파고 살아요. 몸을 공처럼 둥글게 말아 단단한 비늘로 버텨내요.",
+        evolution: "Lv.22 고지",
+        moves: [
+          { name: "할퀴기", type: "노말", desc: "날카로운 발톱으로 공격해요." },
+          { name: "구르기", type: "바위", desc: "몸을 둥글게 말아 연속으로 굴러요." },
+          { name: "구멍파기", type: "땅", desc: "땅속으로 숨어 공격을 피한 뒤 솟구쳐요!" },
+          { name: "베어가르기", type: "노말", desc: "급소를 노려 강력하게 베어버려요." }
+        ],
+        tip: "땅 타입이라 전기를 100% 무효화(0배)! 피카츄 판 친구들에게 추천해요."
+      },
+      {
+        id: 23, num: "#023", name: "아보", enName: "Ekans", types: ["독"], category: "뱀포켓몬",
+        height: "2.0m", weight: "6.9kg", stage: 4, location: "3·4번 도로 (이브이 버전 한정)",
+        story: "소리 없이 풀숲을 기어 다녀요. 턱을 크게 벌려 자기 몸보다 큰 먹이도 삼켜요.",
+        evolution: "Lv.22 아보크",
+        moves: [
+          { name: "감아올리기", type: "노말", desc: "긴 몸으로 상대를 묶어 도망치지 못하게 해요." },
+          { name: "독침", type: "독", desc: "독액이 묻은 침을 날려요." },
+          { name: "물기", type: "악", desc: "날카로운 송곳니로 물어뜯어요." },
+          { name: "산성액", type: "독", desc: "산을 뿜어 상대의 특수방어를 떨어뜨려요." }
+        ],
+        tip: "이브이 판 한정 포켓몬! 풀 타입 포켓몬을 만나면 독 기술로 큰 피해를 줘요."
+      },
+      {
+        id: 129, num: "#129", name: "잉어킹", enName: "Magikarp", types: ["물"], category: "물고기포켓몬",
+        height: "0.9m", weight: "10.0kg", stage: 5, location: "4번 도로 포켓몬센터 아저씨에게 500원에 구입!",
+        story: "세상에서 가장 약하다고 불리며 아무 일도 안 일어나는 '튀어오르기'만 하지만...",
+        evolution: "Lv.20 ➔ 갸라도스 (최강의 바다 괴물로 대변신!)",
+        moves: [
+          { name: "튀어오르기", type: "노말", desc: "펄떡펄떡 뛰지만 아무 일도 일어나지 않아요!" },
+          { name: "몸통박치기", type: "노말", desc: "Lv.15에 겨우 배우는 유일한 공격 기술." }
+        ],
+        tip: "★절대 속은 게 아니에요! 레벨 20까지 키우면 바다의 폭풍 '갸라도스'가 되어 파티의 영웅이 됩니다!"
+      },
+      {
+        id: 41, num: "#041", name: "주뱃", enName: "Zubat", types: ["독", "비행"], category: "박쥐포켓몬",
+        height: "0.8m", weight: "7.5kg", stage: 6, location: "달맞이산 동굴 어디서나",
+        story: "어두운 동굴 속에 무리 지어 살아요. 눈이 없지만 입에서 초음파를 쏴서 주변을 탐지해요.",
+        evolution: "Lv.22 골뱃 ➔ 친밀도 크로뱃",
+        moves: [
+          { name: "흡혈", type: "벌레", desc: "상대의 피를 빨아 체력을 회복해요." },
+          { name: "초음파", type: "노말", desc: "초음파를 발사해 상대를 혼란에 빠뜨려요." },
+          { name: "물기", type: "악", desc: "날카로운 이빨로 깨물어요." },
+          { name: "날개치기", type: "비행", desc: "날개로 상대를 세게 내리쳐요." }
+        ],
+        tip: "피카츄의 전기 기술이나 에스퍼 기술을 쓰면 쉽게 잡을 수 있어요!"
+      },
+      {
+        id: 35, num: "#035", name: "삐삐", enName: "Clefairy", types: ["페어리"], category: "요정포켓몬",
+        height: "0.6m", weight: "7.5kg", stage: 6, location: "달맞이산 동굴 깊은 곳 (희귀)",
+        story: "보름달이 뜨는 밤에 모여 춤을 추는 신비한 요정이에요. 달맞이산의 상징 포켓몬!",
+        evolution: "달의돌 ➔ 픽시",
+        moves: [
+          { name: "손가락흔들기", type: "노말", desc: "★세상의 모든 기술 중 하나가 무작위로 발동되는 마법!" },
+          { name: "요정의바람", type: "페어리", desc: "신비한 바람으로 공격해요." },
+          { name: "노래하기", type: "노말", desc: "상대를 잠재워요." },
+          { name: "작아지기", type: "노말", desc: "몸을 작게 만들어 공격을 피해요." }
+        ],
+        tip: "'손가락흔들기'는 무슨 기술이 나올지 모르는 신나는 깜짝 선물 기술이에요!"
+      },
+      {
+        id: 4, num: "#004", name: "파이리", enName: "Charmander", types: ["불꽃"], category: "도롱뇽포켓몬",
+        height: "0.6m", weight: "8.5kg", stage: 7, location: "3·4번 도로 희귀 출현, 24번 도로 선물",
+        story: "꼬리의 불꽃은 파이리의 생명력이에요. 건강할 땐 활활 타오르고 기분이 좋으면 살랑거려요.",
+        evolution: "Lv.16 리자드 ➔ Lv.36 리자몽",
+        moves: [
+          { name: "불꽃세례", type: "불꽃", desc: "작은 불꽃을 뿜어 공격해요." },
+          { name: "할퀴기", type: "노말", desc: "날카로운 발톱으로 긁어요." },
+          { name: "용의분노", type: "드래곤", desc: "무조건 40의 고정 대미지를 주는 필살기!" },
+          { name: "화염방사", type: "불꽃", desc: "맹렬한 화염을 뿜어 공격해요." }
+        ],
+        tip: "벌레와 풀 포켓몬에게 아주 강해요! 단, 웅이나 이슬이의 물/바위 공격은 조심하세요!"
+      }
+    ];
+
+    // 2. 다중 사용자 프로필 관리 (localStorage 기반)
+    let currentTrainer = 'yeseo'; // 'yeseo' or 'seowoo'
+    let currentFilter = 'currentStage';
+
+    // 트레이너 데이터 로드
+    function getTrainerData(name) {
+      const key = `poke_trainer_${name}`;
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+      return {
+        stage: (name === 'yeseo' ? 4 : 4), // 기본 4단계(3번 도로)
+        caught: (name === 'yeseo' ? [25, 16, 19, 10, 1] : [133, 16, 19, 13, 56]),
+        stamps: 0
+      };
+    }
+
+    function saveTrainerData(name, data) {
+      localStorage.setItem(`poke_trainer_${name}`, JSON.stringify(data));
+      updateIntroStats();
+    }
+
+    function updateIntroStats() {
+      const yData = getTrainerData('yeseo');
+      const sData = getTrainerData('seowoo');
+
+      const stageNames = {
+        1: "1·2번 도로", 2: "상록숲", 3: "회색시티(웅이)",
+        4: "3번 도로", 5: "4번 도로(잉어킹)", 6: "달맞이산", 7: "블루시티(이슬이)"
+      };
+
+      document.getElementById('intro-yeseo-stage').textContent = stageNames[yData.stage] || "3번 도로";
+      document.getElementById('intro-yeseo-stamps').textContent = `${yData.stamps}개`;
+
+      document.getElementById('intro-seowoo-stage').textContent = stageNames[sData.stage] || "4번 도로";
+      document.getElementById('intro-seowoo-stamps').textContent = `${sData.stamps}개`;
+    }
+
+    // 트레이너 선택 후 앱 진입
+    function selectTrainer(name) {
+      playBeep('pop');
+      currentTrainer = name;
+      const data = getTrainerData(name);
+
+      document.getElementById('view-intro').style.display = 'none';
+      document.getElementById('view-app').style.display = 'block';
+
+      // 상단 헤더 업데이트
+      if (name === 'yeseo') {
+        document.getElementById('current-trainer-title').textContent = "👧 예서의 모험 도감 (피카츄 파트너)";
+        document.getElementById('current-trainer-img').src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png";
+      } else {
+        document.getElementById('current-trainer-title').textContent = "👦 서우의 모험 도감 (이브이 파트너)";
+        document.getElementById('current-trainer-img').src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png";
+      }
+
+      // 진도 선택기 동기화
+      document.getElementById('stage-select').value = data.stage;
+
+      updateCaughtCounter();
+      renderPokemonGrid();
+      initWritingSelect();
+      initBattleSimSelectors();
+      setTimeout(resizeCanvas, 150);
+    }
+
+    function goToHome() {
+      playBeep('pop');
+      updateIntroStats();
+      document.getElementById('view-app').style.display = 'none';
+      document.getElementById('view-intro').style.display = 'flex';
+    }
+
+    function onStageChange() {
+      playBeep('pop');
+      const val = parseInt(document.getElementById('stage-select').value);
+      const data = getTrainerData(currentTrainer);
+      data.stage = val;
+      saveTrainerData(currentTrainer, data);
+      renderPokemonGrid();
+      initWritingSelect();
+    }
+
+    function toggleCatch(id, event) {
+      event.stopPropagation();
+      playBeep('correct');
+      const data = getTrainerData(currentTrainer);
+      const idx = data.caught.indexOf(id);
+      if (idx > -1) {
+        data.caught.splice(idx, 1);
+      } else {
+        data.caught.push(id);
+        launchConfetti();
+      }
+      saveTrainerData(currentTrainer, data);
+      updateCaughtCounter();
+      renderPokemonGrid();
+    }
+
+    function updateCaughtCounter() {
+      const data = getTrainerData(currentTrainer);
+      const total = POKEMON_DATA.length;
+      document.getElementById('caught-counter-pill').textContent = 
+        `내가 잡은 포켓몬: ${data.caught.length} / ${total} 마리 🔴`;
+    }
+
+    // 탭 전환
+    function switchTab(tabId) {
+      playBeep('pop');
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      const targetSec = document.getElementById(`tab-${tabId}`);
+      if (targetSec) targetSec.classList.add('active');
+
+      if (tabId === 'writing') {
+        setTimeout(resizeCanvas, 120);
+      }
+    }
+
+    // 필터 설정
+    function setFilter(type, btn) {
+      playBeep('pop');
+      currentFilter = type;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      renderPokemonGrid();
+    }
+
+    function filterPokemon() {
+      renderPokemonGrid();
+    }
+
+    // 도감 렌더링
+    function renderPokemonGrid() {
+      const grid = document.getElementById('pokemon-grid');
+      grid.innerHTML = '';
+
+      const data = getTrainerData(currentTrainer);
+      const currentStage = data.stage;
+      const keyword = document.getElementById('poke-search').value.trim().toLowerCase();
+
+      const filtered = POKEMON_DATA.filter(p => {
+        // 진도 필터
+        if (currentFilter === 'currentStage' && p.stage > currentStage) return false;
+        if (currentFilter === 'caughtOnly' && !data.caught.includes(p.id)) return false;
+
+        // 검색어 필터
+        if (keyword) {
+          const match = p.name.includes(keyword) || 
+            p.enName.toLowerCase().includes(keyword) ||
+            p.types.some(t => t.includes(keyword)) ||
+            p.location.includes(keyword) ||
+            p.num.includes(keyword);
+          if (!match) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; font-family:\'Jua\'; font-size:1.4rem; color:#A0AEC0;">조건에 맞는 포켓몬이 없어요 😢<br>필터를 바꾸거나 검색어를 확인해보세요!</div>';
+        return;
+      }
+
+      filtered.forEach(p => {
+        const isCaught = data.caught.includes(p.id);
+        const card = document.createElement('div');
+        card.className = `poke-card ${isCaught ? 'caught' : ''}`;
+
+        const typesHtml = p.types.map(t => `<span class="type-badge type-${t}">${t}</span>`).join('');
+        const imgUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png`;
+
+        card.innerHTML = `
+          <div class="card-top">
+            <span class="poke-number">${p.num}</span>
+            <button class="catch-check-btn" onclick="toggleCatch(${p.id}, event)">
+              ${isCaught ? '🔴 잡았어요!' : '⚪ 아직 못 잡음'}
+            </button>
+          </div>
+          <div class="poke-img-wrap" onclick="openPokeModal(${p.id})">
+            <img src="${imgUrl}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'120\\' height=\\'120\\'><circle cx=\\'50\\' cy=\\'50\\' r=\\'40\\' fill=\\'%23FF3B30\\'/></svg>'">
+          </div>
+          <div class="poke-info" onclick="openPokeModal(${p.id})">
+            <h3 class="poke-name">${p.name}</h3>
+            <div class="poke-category">${p.category}</div>
+            <div class="types-wrap">${typesHtml}</div>
+          </div>
+          <div class="card-footer-btns">
+            <button class="card-action-btn btn-detail" onclick="openPokeModal(${p.id})">🔍 정보 보기</button>
+            <button class="card-action-btn btn-practice" onclick="goToPractice('${p.name}')">✍️ 이름 쓰기</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function goToPractice(name) {
+      playBeep('pop');
+      document.querySelectorAll('.nav-btn')[1].click(); // 쓰기 탭 클릭
+      document.getElementById('writing-poke-select').value = name;
+      changeWritingPokemon();
+    }
+
+    // 모달창 열기
+    function openPokeModal(id) {
+      playBeep('pop');
+      const p = POKEMON_DATA.find(x => x.id === id);
+      if (!p) return;
+
+      document.getElementById('modal-img').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png`;
+      document.getElementById('modal-number').textContent = p.num;
+      document.getElementById('modal-name').textContent = `${p.name} (${p.enName})`;
+      document.getElementById('modal-category').textContent = p.category;
+      document.getElementById('modal-story').textContent = p.story;
+      document.getElementById('modal-location').textContent = p.location;
+      document.getElementById('modal-evolution').textContent = p.evolution;
+      document.getElementById('modal-tip').textContent = `💡 ${p.tip}`;
+
+      document.getElementById('modal-types').innerHTML = p.types.map(t => `<span class="type-badge type-${t}">${t}</span>`).join('');
+
+      const movesGrid = document.getElementById('modal-moves');
+      movesGrid.innerHTML = '';
+      p.moves.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'move-cell';
+        div.innerHTML = `
+          <div style="font-weight:bold; font-size:0.95rem; display:flex; justify-content:space-between;">
+            <span>${m.name}</span>
+            <span class="type-badge type-${m.type}" style="font-size:0.75rem; padding:2px 6px;">${m.type}</span>
+          </div>
+          <div style="font-size:0.82rem; color:#718096; margin-top:2px;">${m.desc}</div>
+        `;
+        movesGrid.appendChild(div);
+      });
+
+      document.getElementById('poke-modal').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('poke-modal').classList.remove('show');
+    }
+
+    function closeModalOnBackdrop(e) {
+      if (e.target.id === 'poke-modal') closeModal();
+    }
+
+    // ========================================================
+    // 3. 태블릿 펜슬/터치 캔버스 한글 쓰기장 로직
+    // ========================================================
+    let canvas, ctx;
+    let isDrawing = false;
+    let penMode = 'pen'; // 'pen' or 'eraser'
+    let penColor = '#2D3748';
+    let penSize = 14;
+
+    function initWritingSelect() {
+      const select = document.getElementById('writing-poke-select');
+      const prevVal = select.value;
+      select.innerHTML = '';
+
+      POKEMON_DATA.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.name;
+        opt.textContent = `${p.name} (${p.num})`;
+        select.appendChild(opt);
+      });
+
+      if (prevVal) {
+        select.value = prevVal;
+      }
+      changeWritingPokemon();
+    }
+
+    function changeWritingPokemon() {
+      const name = document.getElementById('writing-poke-select').value;
+      const formatted = name.split('').join(' ');
+      document.getElementById('pad-guide-text').textContent = formatted;
+      clearCanvas();
+      speakCurrentPokemon();
+    }
+
+    function initCanvas() {
+      canvas = document.getElementById('drawing-canvas');
+      ctx = canvas.getContext('2d');
+      resizeCanvas();
+
+      // 마우스 이벤트
+      canvas.addEventListener('mousedown', onPointerDown);
+      canvas.addEventListener('mousemove', onPointerMove);
+      canvas.addEventListener('mouseup', onPointerUp);
+      canvas.addEventListener('mouseleave', onPointerUp);
+
+      // 태블릿 터치 / 애플펜슬 이벤트 (터치 제스처 스크롤 방지 완벽 처리)
+      canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        onPointerDown({ clientX: touch.clientX, clientY: touch.clientY });
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        onPointerMove({ clientX: touch.clientX, clientY: touch.clientY });
+      }, { passive: false });
+
+      canvas.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        onPointerUp();
+      }, { passive: false });
+
+      window.addEventListener('resize', resizeCanvas);
+    }
+
+    function resizeCanvas() {
+      if (!canvas) return;
+      const container = document.getElementById('pad-container');
+      const rect = container.getBoundingClientRect();
+      const tempImage = ctx ? ctx.getImageData(0, 0, canvas.width, canvas.height) : null;
+
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+
+      if (tempImage && ctx) {
+        ctx.putImageData(tempImage, 0, 0);
+      }
+    }
+
+    function onPointerDown(e) {
+      isDrawing = true;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      if (penMode === 'eraser') {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.lineWidth = penSize * 2.2; // 지우개는 좀 더 넉넉하게
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = penColor;
+        ctx.lineWidth = penSize;
+      }
+    }
+
+    function onPointerMove(e) {
+      if (!isDrawing) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+
+    function onPointerUp() {
+      if (isDrawing) {
+        ctx.closePath();
+        isDrawing = false;
+      }
+    }
+
+    function setToolMode(mode) {
+      playBeep('pop');
+      penMode = mode;
+      document.getElementById('btn-mode-pen').classList.toggle('active', mode === 'pen');
+      document.getElementById('btn-mode-eraser').classList.toggle('active', mode === 'eraser');
+    }
+
+    function setPenColor(color, el) {
+      playBeep('pop');
+      setToolMode('pen');
+      penColor = color;
+      document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function setPenSize(size, el) {
+      playBeep('pop');
+      penSize = size;
+      document.querySelectorAll('.pencil-toolbar .tool-btn').forEach(b => {
+        if (b.innerText.includes('가는') || b.innerText.includes('보통') || b.innerText.includes('붓펜')) {
+          b.classList.remove('active');
+        }
+      });
+      el.classList.add('active');
+    }
+
+    function clearCanvas() {
+      playBeep('pop');
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    // 도장 쾅! & 스티커 누적
+    function celebrateStamp() {
+      playBeep('stamp');
+      const stamp = document.getElementById('stamp-overlay');
+      stamp.classList.add('show');
+      launchConfetti();
+
+      // 현재 트레이너 스탬프 개수 +1 누적 저장
+      const data = getTrainerData(currentTrainer);
+      data.stamps = (data.stamps || 0) + 1;
+      saveTrainerData(currentTrainer, data);
+
+      setTimeout(() => {
+        stamp.classList.remove('show');
+      }, 2200);
+    }
+
+    // 음성 읽어주기 (TTS)
+    function speakCurrentPokemon() {
+      const name = document.getElementById('writing-poke-select').value;
+      const p = POKEMON_DATA.find(x => x.name === name);
+      if (!p) return;
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const text = `${p.name}! ${p.types.join('과 ')} 타입 ${p.category}입니다.`;
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR';
+        u.rate = 0.9;
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    // ========================================================
+    // 4. 배틀 상성 시뮬레이터
+    // ========================================================
+    function initBattleSimSelectors() {
+      const mySel = document.getElementById('sim-my-poke');
+      const enemySel = document.getElementById('sim-enemy-poke');
+      mySel.innerHTML = '';
+      enemySel.innerHTML = '';
+
+      POKEMON_DATA.forEach(p => {
+        const o1 = document.createElement('option');
+        o1.value = p.id;
+        o1.textContent = `${p.name} (${p.types.join('/')})`;
+        mySel.appendChild(o1);
+
+        const o2 = document.createElement('option');
+        o2.value = p.id;
+        o2.textContent = `${p.name} (${p.types.join('/')})`;
+        enemySel.appendChild(o2);
+      });
+
+      mySel.value = 25; // 피카츄
+      enemySel.value = 95; // 롱스톤
+      runBattleSim();
+    }
+
+    function runBattleSim() {
+      const myId = parseInt(document.getElementById('sim-my-poke').value);
+      const enemyId = parseInt(document.getElementById('sim-enemy-poke').value);
+      const me = POKEMON_DATA.find(p => p.id === myId);
+      const enemy = POKEMON_DATA.find(p => p.id === enemyId);
+      if (!me || !enemy) return;
+
+      document.getElementById('sim-my-img').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${me.id}.png`;
+      document.getElementById('sim-enemy-img').src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${enemy.id}.png`;
+
+      document.getElementById('sim-my-type').innerHTML = me.types.map(t => `<span class="type-badge type-${t}">${t}</span>`).join('');
+      document.getElementById('sim-enemy-type').innerHTML = enemy.types.map(t => `<span class="type-badge type-${t}">${t}</span>`).join('');
+
+      const box = document.getElementById('sim-result-box');
+      let status = "⚔️ 박빙의 승부!";
+      let desc = "";
+      let advice = "";
+
+      if (me.id === 25 && (enemy.id === 95 || enemy.id === 74)) {
+        status = "⚠️ 주의! 전기가 전혀 통하지 않아요 (0배)!";
+        desc = `피카츄의 전기는 ${enemy.name}의 땅 타입 때문에 땅속으로 흘러가버려요.`;
+        advice = `💡 비법: 피카츄의 9레벨 비기 <strong>'두번치기(격투)'</strong>를 쓰면 바위를 2배로 강타할 수 있어요!`;
+      } else if (me.id === 1 && (enemy.id === 95 || enemy.id === 74)) {
+        status = "🎉 완벽한 압승! (풀 ➔ 바위/땅 4배 데미지!)";
+        desc = `이상해씨의 '덩굴채찍' 한 방이면 ${enemy.name}은 바로 기절해요!`;
+        advice = `💡 비법: 체육관 관장 웅이의 가장 무서운 천적은 바로 이상해씨예요!`;
+      } else if (me.id === 56 && (enemy.id === 95 || enemy.id === 74)) {
+        status = "🥊 한 방에 제압! (격투 ➔ 바위 2배 강타!)";
+        desc = `망키의 격투 주먹은 바위 껍질을 부숴버려요. 무거운 ${enemy.name}에게는 '안다리걸기'가 치명타!`;
+        advice = `💡 비법: 망키를 선두에 세우고 격투 기술을 날리세요!`;
+      } else {
+        status = `⚔️ ${me.name} vs ${enemy.name}`;
+        desc = `${me.name}의 타입은 [${me.types.join('/')}], 상대는 [${enemy.types.join('/')}]입니다.`;
+        advice = `💡 비법: 도감에 적힌 ${me.name}의 추천 BEST 기술을 확인하고 상성이 좋은 기술을 먼저 써보세요!`;
+      }
+
+      box.innerHTML = `
+        <div class="sim-status">${status}</div>
+        <div style="font-size:1rem; line-height:1.6; color:#E2E8F0;">${desc}</div>
+        <div class="sim-recommendation">${advice}</div>
+      `;
+    }
+
+    // ========================================================
+    // 사운드 & 콘페티 효과
+    // ========================================================
+    function playBeep(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const now = ctx.currentTime;
+        if (type === 'stamp') {
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.type = 'triangle';
+            o.frequency.value = freq;
+            g.gain.setValueAtTime(0.2, now + idx * 0.1);
+            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.25);
+            o.start(now + idx * 0.1);
+            o.stop(now + idx * 0.1 + 0.28);
+          });
+        } else if (type === 'correct') {
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.type = 'sine';
+          o.frequency.setValueAtTime(587.33, now);
+          o.frequency.setValueAtTime(880.00, now + 0.1);
+          g.gain.setValueAtTime(0.2, now);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          o.start(now);
+          o.stop(now + 0.3);
+        } else {
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.type = 'sine';
+          o.frequency.setValueAtTime(440, now);
+          g.gain.setValueAtTime(0.12, now);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          o.start(now);
+          o.stop(now + 0.08);
+        }
+      } catch (e) {}
+    }
+
+    function launchConfetti() {
+      const c = document.getElementById('confetti-canvas');
+      const cx = c.getContext('2d');
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
+
+      const particles = [];
+      const colors = ['#FF4554', '#00C3E3', '#FFCC00', '#34C759', '#9B51E0', '#FF8A00'];
+
+      for (let i = 0; i < 80; i++) {
+        particles.push({
+          x: c.width / 2,
+          y: c.height / 2,
+          vx: (Math.random() - 0.5) * 16,
+          vy: (Math.random() - 0.7) * 18,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10
+        });
+      }
+
+      let frame = 0;
+      function anim() {
+        cx.clearRect(0, 0, c.width, c.height);
+        frame++;
+
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.35;
+          p.rotation += p.rotSpeed;
+
+          cx.save();
+          cx.translate(p.x, p.y);
+          cx.rotate((p.rotation * Math.PI) / 180);
+          cx.fillStyle = p.color;
+          cx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          cx.restore();
+        });
+
+        if (frame < 80) {
+          requestAnimationFrame(anim);
+        } else {
+          cx.clearRect(0, 0, c.width, c.height);
+        }
+      }
+      anim();
+    }
+
+    // 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      updateIntroStats();
+      initCanvas();
+    });
+  </script>
+</body>
+</html>
