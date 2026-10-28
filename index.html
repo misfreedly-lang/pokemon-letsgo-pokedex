@@ -1542,6 +1542,87 @@
       color: #CBD5E0;
     }
 
+
+    /* 포켓몬 카드 본문 스토리 말풍선 스타일 */
+    .card-story-box {
+      background: #FFFDF0;
+      border: 1.5px solid #FBD38D;
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin: 8px 0 6px;
+      text-align: left;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    }
+
+    .card-story-label {
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      color: #B7791F;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-story-text {
+      font-size: 0.92rem;
+      color: #4A5568;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .card-tip-box {
+      background: #F0F9FF;
+      border-left: 4px solid #3182CE;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      color: #2B6CB0;
+      text-align: left;
+      margin-bottom: 8px;
+      line-height: 1.45;
+    }
+
+    /* 개인별(예서/서우) 모험 메모 바 */
+    .card-personal-note-box {
+      background: #FAF5FF;
+      border: 1.5px dashed #D6BCFA;
+      border-radius: 12px;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .note-text-display {
+      color: #6B46C1;
+      font-family: 'Jua', sans-serif;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .note-edit-btn {
+      background: white;
+      border: 1px solid #B794F4;
+      color: #6B46C1;
+      border-radius: 8px;
+      padding: 2px 8px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .note-edit-btn:hover {
+      background: #E9D8FD;
+    }
+
 </style>
 </head>
 <body>
@@ -3671,7 +3752,9 @@
       event.stopPropagation();
       const p = POKEMON_DATA.find(x => x.id === id);
       if (!p) return;
-      const text = `${p.name}! ${p.types.join('과 ')} 타입, ${p.category}입니다. 만나는 곳은 ${p.location.split(',')[0]}입니다. 배틀 꿀팁: ${p.tip}`;
+      const note = getTrainerNote(p.id);
+      const personalMsg = note ? ` ${currentTrainer === 'yeseo' ? '예서' : '서우'}의 메모: ${note}.` : '';
+      const text = `${p.name}! ${p.types.join('과 ')} 타입, ${p.category}입니다. 도감 이야기: ${p.story}. 배틀 꿀팁: ${p.tip}.${personalMsg}`;
       speakText(text);
     }
 
@@ -3748,6 +3831,35 @@
     // 2. 다중 사용자 프로필 관리
     let currentTrainer = 'yeseo';
     let currentFilter = 'ceruleanOnly';
+
+    
+    // 트레이너 개인별(예서/서우) 포켓몬 메모 관리
+    function getTrainerNote(pokeId) {
+      const data = getTrainerData(currentTrainer);
+      if (!data.notes) data.notes = {};
+      return data.notes[pokeId] || '';
+    }
+
+    function editTrainerNote(pokeId, event) {
+      if (event) event.stopPropagation();
+      playBeep('pop');
+      const p = POKEMON_DATA.find(x => x.id === pokeId);
+      if (!p) return;
+      const trainerName = currentTrainer === 'yeseo' ? '예서' : '서우';
+      const currentNote = getTrainerNote(pokeId);
+      const newNote = prompt(`[${p.name}]에게 남길 ${trainerName}의 모험 한마디 메모를 입력해주세요:`, currentNote);
+      
+      if (newNote !== null) {
+        const data = getTrainerData(currentTrainer);
+        if (!data.notes) data.notes = {};
+        data.notes[pokeId] = newNote.trim();
+        saveTrainerData(currentTrainer, data);
+        renderPokemonGrid();
+        if (newNote.trim()) {
+          speakText(`${trainerName}의 메모가 저장되었어요: ${newNote.trim()}`);
+        }
+      }
+    }
 
     function getTrainerData(name) {
       const key = `poke_trainer_${name}`;
@@ -3943,9 +4055,29 @@
             <div class="poke-category">${p.category}</div>
             <div class="types-wrap">${typesHtml}</div>
           </div>
+
+          <!-- 📖 포켓몬 개별 도감 스토리 (카드 겉면에 바로 노출!) -->
+          <div class="card-story-box">
+            <div class="card-story-label">📖 <strong>포켓몬 도감 이야기:</strong></div>
+            <p class="card-story-text">${p.story}</p>
+          </div>
+
+          <!-- 💡 배틀 꿀팁 -->
+          <div class="card-tip-box">
+            💡 <strong>배틀 팁:</strong> ${p.tip}
+          </div>
+
+          <!-- 💬 트레이너 개인별 한마디 메모 -->
+          <div class="card-personal-note-box">
+            <span class="note-text-display" id="note-display-${p.id}">
+              💬 ${currentTrainer === 'yeseo' ? '예서' : '서우'}: ${getTrainerNote(p.id) || '메모를 적어보세요!'}
+            </span>
+            <button class="note-edit-btn" onclick="editTrainerNote(${p.id}, event)">✏️ 쓰기</button>
+          </div>
+
           <div class="card-footer-btns">
-            <button class="card-action-btn btn-detail" onclick="openPokeModal(${p.id})">🔍 이야기</button>
-            <button class="card-action-btn btn-practice" onclick="goToPractice('${p.name}')">✍️ 쓰기</button>
+            <button class="card-action-btn btn-detail" onclick="openPokeModal(${p.id})">🔍 크게 보기</button>
+            <button class="card-action-btn btn-practice" onclick="goToPractice('${p.name}')">✍️ 이름 쓰기</button>
           </div>
         `;
         grid.appendChild(card);
