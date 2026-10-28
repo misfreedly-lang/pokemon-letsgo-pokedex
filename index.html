@@ -1697,6 +1697,9 @@
           </div>
 
           <div class="header-action-btns">
+            <button class="switch-user-btn" style="background:#48BB78; color:white; border:none;" onclick="openBackupModal()">
+              <span>🔒 기록 안전 보관함</span>
+            </button>
             <button class="switch-user-btn" onclick="goToHome()">
               <span>🔄 트레이너 바꾸기</span>
             </button>
@@ -3859,6 +3862,230 @@
           speakText(`${trainerName}의 메모가 저장되었어요: ${newNote.trim()}`);
         }
       }
+    }
+
+    
+    // ========================================================
+    // 🔒 데이터 손실 방지 3중 보호 및 안전 백업/복원 시스템
+    // ========================================================
+
+    // 1. 데이터 검증 및 2중 복구 안전 로드
+    function getTrainerData(name) {
+      const primaryKey = `poke_trainer_${name}`;
+      const backupKey = `poke_trainer_${name}_backup_safe`;
+      
+      let rawPrimary = localStorage.getItem(primaryKey);
+      let data = null;
+
+      if (rawPrimary) {
+        try {
+          data = JSON.parse(rawPrimary);
+        } catch (e) {
+          console.error("Primary storage corrupted, attempting backup restore", e);
+        }
+      }
+
+      // 1차 로드 실패 시 안전 백업 슬롯에서 복구!
+      if (!data || !Array.isArray(data.caught)) {
+        let rawBackup = localStorage.getItem(backupKey);
+        if (rawBackup) {
+          try {
+            data = JSON.parse(rawBackup);
+            console.log("Safely restored data from backup slot!");
+          } catch (e) {}
+        }
+      }
+
+      // 그래도 없으면 초기 데이터 생성 (기존 체크 데이터가 있으면 절대 안 건드림!)
+      if (!data) {
+        data = {
+          stage: 7, // 블루시티
+          caught: (name === 'yeseo' ? [25, 16, 19, 10, 1] : [133, 16, 19, 13, 56]),
+          stamps: 0,
+          notes: {}
+        };
+      }
+
+      // 필드 무결성 보장
+      if (!Array.isArray(data.caught)) data.caught = [];
+      if (!data.notes || typeof data.notes !== 'object') data.notes = {};
+      if (!data.stage || data.stage < 7) data.stage = 7;
+
+      // 2중 백업 슬롯 동기화
+      saveTrainerData(name, data);
+      return data;
+    }
+
+    // 2. 실시간 2중 동시 저장 (손실 원천 차단)
+    function saveTrainerData(name, data) {
+      if (!data || !Array.isArray(data.caught)) return;
+      
+      const primaryKey = `poke_trainer_${name}`;
+      const backupKey = `poke_trainer_${name}_backup_safe`;
+      const jsonStr = JSON.stringify(data);
+
+      try {
+        localStorage.setItem(primaryKey, jsonStr);
+        localStorage.setItem(backupKey, jsonStr);
+        // 세션에도 복사
+        sessionStorage.setItem(primaryKey, jsonStr);
+      } catch (err) {
+        console.warn("Storage quota or error:", err);
+      }
+
+      updateIntroStats();
+    }
+
+    // 3. 백업 모달 열기 및 렌더링
+    function openBackupModal() {
+      playBeep('pop');
+      const data = getTrainerData(currentTrainer);
+      const trainerName = currentTrainer === 'yeseo' ? '예서' : '서우';
+
+      document.getElementById('backup-modal-title').textContent = `🔒 ${trainerName}의 도감 기록 보관소`;
+      document.getElementById('backup-summary-label').textContent = `${trainerName}가 잡은 포켓몬`;
+      document.getElementById('backup-count-badge').textContent = `${data.caught.length}마리 / ${POKEMON_DATA.length}마리`;
+
+      // 잡은 포켓몬 칩 렌더링
+      const chipsContainer = document.getElementById('backup-caught-chips');
+      chipsContainer.innerHTML = '';
+
+      if (data.caught.length === 0) {
+        chipsContainer.innerHTML = '<span style="color:#A0AEC0; font-size:0.9rem;">아직 잡은 포켓몬이 없어요. 도감에서 [🔴 잡음] 버튼을 눌러보세요!</span>';
+      } else {
+        data.caught.forEach(id => {
+          const p = POKEMON_DATA.find(x => x.id === id);
+          if (p) {
+            const span = document.createElement('span');
+            span.style.cssText = 'background:white; border:1px solid #CBD5E0; padding:3px 8px; border-radius:10px; font-size:0.82rem; font-weight:bold; color:#2D3748;';
+            span.textContent = `🔴 ${p.name} (${p.num})`;
+            chipsContainer.appendChild(span);
+          }
+        });
+      }
+
+      // 백업 코드 생성 (Base64 인코딩으로 깔끔하고 손쉬운 텍스트)
+      const exportPayload = {
+        trainer: currentTrainer,
+        version: "2.0",
+        timestamp: new Date().toISOString(),
+        data: data
+      };
+      const code = btoa(unescape(encodeURIComponent(JSON.stringify(exportPayload))));
+      document.getElementById('backup-code-input').value = code;
+      document.getElementById('restore-code-input').value = '';
+
+      document.getElementById('backup-modal').classList.add('show');
+    }
+
+    function closeBackupModal() {
+      document.getElementById('backup-modal').classList.remove('show');
+    }
+
+    function closeBackupModalOnBackdrop(e) {
+      if (e.target.id === 'backup-modal') closeBackupModal();
+    }
+
+    // 4. 백업 코드 클립보드 복사
+    function copyBackupCode() {
+      const input = document.getElementById('backup-code-input');
+      input.select();
+      input.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(input.value).then(() => {
+        playBeep('correct');
+        alert("📋 백업 코드가 복사되었어요! 카카오톡이나 메모장에 붙여넣어 안전하게 보관하세요!");
+      }).catch(() => {
+        document.execCommand('copy');
+        alert("📋 백업 코드가 복사되었어요!");
+      });
+    }
+
+    // 5. 백업 코드로 1초 만에 복원
+    function restoreFromCode() {
+      const rawCode = document.getElementById('restore-code-input').value.trim();
+      if (!rawCode) {
+        alert("복원할 백업 코드를 입력해주세요!");
+        return;
+      }
+
+      try {
+        const jsonStr = decodeURIComponent(escape(atob(rawCode)));
+        const payload = JSON.parse(jsonStr);
+
+        if (!payload || !payload.data || !Array.isArray(payload.data.caught)) {
+          throw new Error("Invalid payload");
+        }
+
+        const trainerName = currentTrainer === 'yeseo' ? '예서' : '서우';
+        if (confirm(`정말로 ${trainerName}의 도감 기록을 복원할까요?\n(잡은 포켓몬: ${payload.data.caught.length}마리)`)) {
+          saveTrainerData(currentTrainer, payload.data);
+          playBeep('stamp');
+          launchConfetti();
+          alert(`🎉 축하해요! ${trainerName}의 도감 기록이 안전하게 100% 복원되었습니다!`);
+          closeBackupModal();
+          updateCaughtCounter();
+          renderPokemonGrid();
+          speakText(`${trainerName}의 도감 기록이 성공적으로 복원되었어요!`);
+        }
+      } catch (e) {
+        alert("올바르지 않은 백업 코드입니다. 코드를 다시 한번 확인해주세요!");
+      }
+    }
+
+    // 6. JSON 파일로 다운로드
+    function downloadBackupFile() {
+      const data = getTrainerData(currentTrainer);
+      const trainerName = currentTrainer === 'yeseo' ? '예서' : '서우';
+      const exportPayload = {
+        trainer: currentTrainer,
+        trainerName: trainerName,
+        savedAt: new Date().toLocaleString(),
+        data: data
+      };
+
+      const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `포켓몬도감_${trainerName}_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      playBeep('correct');
+    }
+
+    // 7. JSON 파일에서 불러오기
+    function triggerFileUpload() {
+      document.getElementById('backup-file-input').click();
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const payload = JSON.parse(evt.target.result);
+          if (!payload.data || !Array.isArray(payload.data.caught)) {
+            throw new Error("Invalid file format");
+          }
+
+          const trainerName = currentTrainer === 'yeseo' ? '예서' : '서우';
+          if (confirm(`파일에서 ${trainerName}의 도감 기록을 복원할까요?\n(잡은 포켓몬: ${payload.data.caught.length}마리)`)) {
+            saveTrainerData(currentTrainer, payload.data);
+            playBeep('stamp');
+            launchConfetti();
+            alert(`🎉 파일에서 ${trainerName}의 도감이 완벽하게 복원되었습니다!`);
+            closeBackupModal();
+            updateCaughtCounter();
+            renderPokemonGrid();
+          }
+        } catch (err) {
+          alert("올바른 백업 파일(.json)이 아닙니다.");
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
     }
 
     function getTrainerData(name) {
