@@ -3125,6 +3125,45 @@
       <section id="tab-strategy" class="tab-section">
         <div class="strategy-container">
           
+          <!-- 🎮 레츠고만의 특별한 포획 규칙 안내 -->
+          <div class="strategy-card" style="border-left: 5px solid #E53E3E; background: linear-gradient(to right, #FFF5F5, #FFF);">
+            <div class="strategy-card-header">
+              <h3>🎮 아빠 & 아이 꿀팁: 왜 야생 포켓몬과 배틀을 안 하고 볼만 던질까요?</h3>
+              <button class="tts-speaker-btn" style="background:#E53E3E;" onclick="speakCatchGuide()">🔊 포획 비법 듣기</button>
+            </div>
+            <p>『레츠고! 피카츄/이브이』는 다른 포켓몬 게임과 달리 <strong>포켓몬 GO의 포획 시스템</strong>을 사용해요! 그래서 일반 야생 포켓몬을 만났을 때는 내 포켓몬을 꺼내 배틀하지 않고 조이콘으로 볼만 던져서 잡는답니다!</p>
+            <ul class="strategy-steps">
+              <li class="strategy-step-item">
+                <div class="step-num" style="background:#E53E3E;">1</div>
+                <div>
+                  <strong>🍓 라즈열매 던지기 (포획 확률 대폭 UP!)</strong>
+                  <p>잡기 힘든 포켓몬을 만나면 볼 대신 라즈열매를 먼저 던져보세요! 포획 원 색깔이 빨강/주황에서 <strong>초록색</strong>으로 바뀌며 아주 쉽게 잡혀요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num" style="background:#E53E3E;">2</div>
+                <div>
+                  <strong>🍌 나나열매 던지기 (날뛰는 포켓몬 얌전하게!)</strong>
+                  <p>포켓몬이 이리저리 뛰거나 위협할 때 나나열매를 주면 차분하게 얌전해져서 몬스터볼을 정확히 맞추기 쉬워져요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num" style="background:#E53E3E;">3</div>
+                <div>
+                  <strong>👨‍👧 아빠와 둘이서 2인 동시 투구 (싱크로 보너스!)</strong>
+                  <p>조이콘 2개를 꺼내서 아빠와 아이가 "하나, 둘, 셋!" 하고 동시에 던지면 <strong>'싱크로 보너스'</strong>가 터지며 어떤 포켓몬이든 한 방에 잡히고 경험치도 2배로 받아요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num" style="background:#E53E3E;">4</div>
+                <div>
+                  <strong>⚡ 배틀하고 잡는 유일한 예외: 전설의 포켓몬 & 잠만보!</strong>
+                  <p>길을 막고 있는 잠만보나 프리져, 썬더, 파이어 같은 전설의 포켓몬만 5분 시간제한 배틀로 먼저 쓰러뜨린 후 포획 화면으로 넘어간답니다!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
           <!-- 5·6번 도로 및 지하통로 완벽 공략 -->
           <div class="strategy-card" style="border-left: 5px solid #FF8A00; background: linear-gradient(to right, #FFFDF8, #FFF);">
             <div class="strategy-card-header">
@@ -4126,7 +4165,7 @@
       {
         "name": "노래하기",
         "type": "노말",
-        "desc": "★상대를 100% 재워 쉽게 잡을 수 있게 해줘요!"
+        "desc": "★상대 트레이너 포켓몬을 100% 쿨쿨 재워 공격을 못 하게 만들어요!"
       },
       {
         "name": "막치기",
@@ -4144,7 +4183,7 @@
         "desc": "귀엽게 치근대며 강력한 페어리 펀치를 날려요!"
       }
     ],
-    "tip": "야생 포켓몬을 잡을 때 '노래하기'로 재우면 몬스터볼 포획 확률이 대폭 상승!"
+    "tip": "트레이너 배틀에서 상대를 잠재워 일방적으로 공격하는 사기 기술! (※ 레츠고 야생 포켓몬은 배틀 없이 라즈열매로 잡아요!)"
   },
   {
     "id": 27,
@@ -5349,12 +5388,12 @@
         "desc": "싸움의 춤을 춰서 공격력을 2단계나 껑충 올립니다!"
       },
       {
-        "name": "칼날치기",
-        "type": "노말",
-        "desc": "상대의 체력을 정확히 1만 남겨서 포획할 때 최고!"
+        "name": "깜짝베기",
+        "type": "악",
+        "desc": "기습적으로 대파를 휘둘러 상대의 급소를 찔러요!"
       }
     ],
-    "tip": "포켓몬을 잡을 때 체력을 1만 남겨주는 '칼날치기'를 배울 수 있어 도감 채우기 최고의 도우미예요!"
+    "tip": "대파를 든 파오리는 급소율이 높아 적에게 크리티컬 대미지를 펑펑 터뜨리는 날카로운 공격수예요!"
   },
   {
     "id": 55,
@@ -5563,6 +5602,10 @@
     function speakTownmapOverview() {
       const text = "관동지방 전체 모험 코스 안내입니다! 태초마을을 시작으로 상록숲, 회색시티, 달맞이산을 지나, 현재 우리는 6번째 장소인 블루시티에 도착해 있습니다! 블루시티에서 이슬이를 이기고 파이리와 상트안느호 티켓을 얻은 뒤, 다음 목적지인 갈색시티로 향하게 됩니다!";
       speakText(text);
+    }
+
+    function speakCatchGuide() {
+      speakText("레츠고 포켓몬 포획 비법이에요! 레츠고 피카츄 이브이는 다른 게임과 달리 야생 포켓몬을 만났을 때 배틀하지 않고 볼만 던져서 잡아요! 포켓몬을 쉽게 잡고 싶을 때는 라즈열매를 던져주면 잡힐 확률이 쑥 올라가고, 나나열매를 주면 얌전해져요! 특히 아빠와 함께 조이콘 두 개로 동시에 던지면 싱크로 보너스로 무조건 한 방에 잡힌답니다!");
     }
 
     function speakRoute56Story() {
