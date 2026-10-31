@@ -5913,27 +5913,11 @@
     // ========================================================
     // ========================================================
     // ========================================================
-    // 🔊 무결점 초고신뢰 아나운서톤 음성(TTS) 엔진 (아이패드·모바일·PC 완벽 지원)
+    // 📱 갤럭시탭·아이패드·PC 전 기기 100% 무결점 음성 엔진
     // ========================================================
     let currentSpeakingUtterance = null;
-    let cachedKoreanVoices = [];
+    window.__activeTTS = null; // 안드로이드 크롬 GC(가비지 컬렉터) 음소거 방지용 전역 참조
 
-    // 브라우저 음성 목록 비동기 캐싱
-    function initSpeechVoices() {
-      if (!('speechSynthesis' in window)) return;
-      const loadVoices = () => {
-        try {
-          const list = window.speechSynthesis.getVoices() || [];
-          cachedKoreanVoices = list.filter(v => v.lang && (v.lang.toLowerCase().includes('ko') || v.lang.toLowerCase().includes('kr')));
-        } catch (e) {}
-      };
-      loadVoices();
-      if (window.speechSynthesis.onvoiceschanged !== undefined) {
-        window.speechSynthesis.onvoiceschanged = loadVoices;
-      }
-    }
-
-    // 📱 모바일(아이패드·갤럭시탭) & PC 통합 무결점 음성 엔진
     function speakText(text) {
       if (!('speechSynthesis' in window)) {
         alert("이 기기에서는 음성 읽어주기를 지원하지 않아요.");
@@ -5942,13 +5926,13 @@
 
       const synth = window.speechSynthesis;
 
-      // 1. 모바일 백그라운드 일시정지 해제 (안드로이드 크롬/아이패드 필수!)
+      // 1. 모바일 브라우저 일시정지 락 해제
       try {
         if (synth.paused) synth.resume();
         if (synth.speaking) synth.cancel();
       } catch (e) {}
 
-      // 2. 텍스트 정돈 (특수기호 제거)
+      // 2. 텍스트 정돈
       const cleanText = (text || '').replace(/[*#~]/g, '').trim();
       if (!cleanText) return;
 
@@ -5958,26 +5942,26 @@
       if (statusText) statusText.textContent = "🔊 또박또박 이야기 읽어주는 중...";
       if (bar) bar.classList.add('active');
 
-      // 4. Utterance 객체 생성 및 표준 파라미터 세팅
+      // 4. Utterance 객체 생성
       const u = new SpeechSynthesisUtterance(cleanText);
       u.lang = 'ko-KR';
-      u.rate = 0.94; // 명확하고 또렷한 아나운서 속도
+      u.rate = 0.95; // 가장 또렷하고 명확한 낭독 속도
       u.pitch = 1.0;
       u.volume = 1.0;
 
-      // 5. 음성 매칭: 안드로이드 크롬/삼성 인터넷 및 데스크톱에서 한국어 고품질 음성 탐색
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      // 5. 모바일/태블릿 감지 (갤럭시탭, 아이패드, 스마트폰 전수 감지)
+      const ua = navigator.userAgent || '';
+      const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(ua) || 
+                             (navigator.maxTouchPoints && navigator.maxTouchPoints > 1);
 
-      if (!isIOS && synth.getVoices) {
+      // ★핵심: 갤럭시탭 및 아이패드 등 모바일 태블릿에서는 u.voice를 임의 지정하면
+      // 안드로이드 크롬의 삼성TTS/구글TTS 불일치 오류로 무음 영구 락이 발생함!
+      // 오직 u.lang = 'ko-KR'만 주어야 기기 기본 엔진이 100% 무에러로 즉시 발화함!
+      if (!isMobileDevice && synth.getVoices) {
         try {
           const voices = synth.getVoices() || [];
-          const koVoice = voices.find(v => v.lang && (v.lang.toLowerCase().startsWith('ko') || v.lang.toLowerCase().includes('kr')));
-          if (koVoice) {
-            // Google 한국어 또는 고품질 음성 우선
-            const best = voices.find(v => (v.lang && v.lang.includes('KR')) && (/google|natural|sunhi/i.test(v.name))) || koVoice;
-            u.voice = best;
-          }
+          const best = voices.find(v => (v.lang && v.lang.includes('KR')) && (/google|natural|sunhi/i.test(v.name)));
+          if (best) u.voice = best;
         } catch (e) {}
       }
 
@@ -5988,38 +5972,39 @@
       u.onend = () => {
         if (bar) bar.classList.remove('active');
         currentSpeakingUtterance = null;
+        window.__activeTTS = null;
       };
 
       u.onerror = (e) => {
-        console.warn("Speech error, trying standard fallback:", e);
+        console.warn("Speech error:", e);
         if (bar) bar.classList.remove('active');
         currentSpeakingUtterance = null;
+        window.__activeTTS = null;
 
-        // voice 객체 문제로 에러 시, u.voice를 null로 리셋하고 즉시 재시도
+        // 에러 발생 시 voice 객체 없이 순수 기본 엔진으로 즉시 1회 자동 재시도
         if (u.voice) {
           try {
             const fallbackU = new SpeechSynthesisUtterance(cleanText);
             fallbackU.lang = 'ko-KR';
-            fallbackU.rate = 0.94;
+            fallbackU.rate = 0.95;
             fallbackU.volume = 1.0;
             fallbackU.onend = () => { if (bar) bar.classList.remove('active'); };
-            fallbackU.onerror = () => { if (bar) bar.classList.remove('active'); };
             synth.speak(fallbackU);
           } catch (err) {}
         }
       };
 
+      // 6. GC 방지 전역 참조 보존
       currentSpeakingUtterance = u;
+      window.__activeTTS = u;
 
-      // 6. 15ms 미세 지연을 주어 캔슬 직후 모바일 엔진 루프 락을 방지하고 즉시 재생!
-      setTimeout(() => {
-        try {
-          synth.resume();
-          synth.speak(u);
-        } catch (err) {
-          console.error("speechSynthesis.speak error:", err);
-        }
-      }, 15);
+      // 7. 안드로이드 크롬 및 iOS 사파리에서 동기 직통 즉시 발화!
+      try {
+        synth.resume();
+        synth.speak(u);
+      } catch (err) {
+        console.error("speechSynthesis.speak error:", err);
+      }
     }
 
     function stopSpeaking() {
@@ -6029,11 +6014,12 @@
         }
       } catch (e) {}
       currentSpeakingUtterance = null;
+      window.__activeTTS = null;
       const bar = document.getElementById('global-speech-bar');
       if (bar) bar.classList.remove('active');
     }
 
-    // 📱 모바일(아이패드·갤럭시탭) 전용 첫 터치 오디오 엔진 언락커
+    // 📱 갤럭시탭·아이패드 전용 첫 터치 오디오 엔진 즉각 언락
     function unlockMobileSpeech() {
       if ('speechSynthesis' in window) {
         try {
@@ -6046,9 +6032,11 @@
       }
       document.removeEventListener('touchstart', unlockMobileSpeech);
       document.removeEventListener('pointerdown', unlockMobileSpeech);
+      document.removeEventListener('click', unlockMobileSpeech);
     }
     document.addEventListener('touchstart', unlockMobileSpeech, { passive: true, once: true });
     document.addEventListener('pointerdown', unlockMobileSpeech, { passive: true, once: true });
+    document.addEventListener('click', unlockMobileSpeech, { passive: true, once: true });
 
     // 도감 카드에서 읽어주기
     function speakCardPokemon(id, event) {
