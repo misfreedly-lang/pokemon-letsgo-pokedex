@@ -2525,8 +2525,9 @@
             <input type="text" id="poke-search" placeholder="포켓몬 이름이나 타입 검색 (예: 피카츄, 불꽃, 3번도로)" oninput="filterPokemon()">
           </div>
           <div class="filter-tags">
-            <button class="filter-chip active" style="background:#007AFF; color:white; font-weight:bold;" onclick="setFilter('ceruleanOnly', this)">🌊 블루시티 친구들 (신규!)</button>
-            <button class="filter-chip" onclick="setFilter('currentStage', this)">📍 현재 진도까지</button>
+            <button class="filter-chip active" style="background:#007AFF; color:white; font-weight:bold;" onclick="setFilter('currentStage', this)">📍 내 진도까지 전체 (1~8단계)</button>
+            <button class="filter-chip" onclick="setFilter('route56Only', this)">🛣️ 5·6번 도로 신규</button>
+            <button class="filter-chip" onclick="setFilter('ceruleanOnly', this)">🌊 블루시티</button>
             <button class="filter-chip" onclick="setFilter('caughtOnly', this)">🔴 내가 잡은 친구들</button>
             <button class="filter-chip" onclick="setFilter('all', this)">전체보기</button>
           </div>
@@ -3625,7 +3626,7 @@
     "stage": 1,
     "location": "1·2·3·4번 도로 어디서나",
     "story": "풀숲에서 모래를 차올려 적의 눈을 어지럽힌 뒤 도망치는 얌전한 성격의 아기 새 포켓몬이에요.",
-    "evolution": "Lv.18 피죤 ➔ Lv.36 피죤투",
+    "evolution": "★Lv.18 달성 시 늠름한 피죤으로 진화! ➔ Lv.36에 마하 2로 나는 피죤투로 최종 진화!",
     "moves": [
       {
         "name": "바람일으키기",
@@ -4118,9 +4119,9 @@
     "height": "0.5m",
     "weight": "5.5kg",
     "stage": 4,
-    "location": "3번 도로 풀숲 (가끔 등장)",
-    "story": "초롱초롱한 눈으로 바라보다가 달콤한 자장가를 불러 모든 포켓몬을 잠재워요.",
-    "evolution": "달의돌 ➔ 푸크린",
+    "location": "3·4번 도로 풀숲, 5·6번 도로 풀숲 어디서나 귀엽게 등장!",
+    "story": "초롱초롱한 눈으로 바라보다가 달콤한 자장가를 불러 모든 포켓몬을 쿨쿨 잠재워요. 상대가 안 자면 볼을 빵빵하게 부풀려요!",
+    "evolution": "달맞이산이나 5·6번 도로 지하통로의 '달의 돌'을 사용하면 보들보들한 푸크린으로 진화해요!",
     "moves": [
       {
         "name": "노래하기",
@@ -5433,11 +5434,88 @@
       }
     ],
     "tip": "방어력과 특수공격력이 뛰어나며, 하품으로 상대를 재운 뒤 안전하게 잡거나 공격할 수 있어요!"
+  },
+  {
+    "id": 17,
+    "num": "#017",
+    "name": "피죤",
+    "enName": "Pidgeotto",
+    "types": [
+      "노말",
+      "비행"
+    ],
+    "category": "새포켓몬",
+    "height": "1.1m",
+    "weight": "30.0kg",
+    "stage": 8,
+    "location": "구구가 Lv.18 달성 시 진화, 5·6번 도로 상공 및 풀숲",
+    "story": "발달한 다리 근육과 날카로운 발톱을 가졌어요! 넓은 날개로 하늘을 빙빙 돌며 먹이를 찾아 쏜살같이 급강하해요.",
+    "evolution": "Lv.36에 거대하고 우아한 피죤투로 최종 진화해요!",
+    "moves": [
+      {
+        "name": "에어슬래시",
+        "type": "비행",
+        "desc": "날개로 바람의 칼날을 날려 상대를 풀죽게 해요."
+      },
+      {
+        "name": "전광석화",
+        "type": "노말",
+        "desc": "눈 깜짝할 사이에 번개처럼 먼저 들이받아요."
+      },
+      {
+        "name": "날개치기",
+        "type": "비행",
+        "desc": "크고 힘찬 날개로 적을 강하게 후려쳐요!"
+      },
+      {
+        "name": "깃털댄스",
+        "type": "비행",
+        "desc": "깃털을 흩날려 상대의 공격력을 2단계나 대폭 떨어뜨려요."
+      }
+    ],
+    "tip": "구구를 레벨 18까지 키우면 듬직한 피죤으로 진화해요! 풀·벌레·격투 타입 포켓몬을 한 방에 날려버릴 수 있어요!"
+  },
+  {
+    "id": 18,
+    "num": "#018",
+    "name": "피죤투",
+    "enName": "Pidgeot",
+    "types": [
+      "노말",
+      "비행"
+    ],
+    "category": "새포켓몬",
+    "height": "1.5m",
+    "weight": "39.5kg",
+    "stage": 8,
+    "location": "피죤이 Lv.36 달성 시 진화, 상공 비행",
+    "story": "아름답게 뻗은 머리 깃털과 화려한 날개를 자랑해요! 마하 2의 속도로 날아가며 거센 돌풍을 일으킵니다.",
+    "evolution": "구구의 최종 진화형! (나중에 메가피죤투로 메가진화도 가능해요!)",
+    "moves": [
+      {
+        "name": "폭풍",
+        "type": "비행",
+        "desc": "거대한 태풍을 일으켜 적을 날리고 혼란에 빠뜨려요!"
+      },
+      {
+        "name": "에어슬래시",
+        "type": "비행",
+        "desc": "날카로운 공기의 칼날을 연속으로 발사해요."
+      },
+      {
+        "name": "날개치기",
+        "type": "비행",
+        "desc": "거대한 날개로 바람을 일으키며 강타해요."
+      },
+      {
+        "name": "고속이동",
+        "type": "에스퍼",
+        "desc": "몸을 가볍게 하여 스피드를 2단계 껑충 올려요."
+      }
+    ],
+    "tip": "스피드가 마하 2로 엄청나게 빨라요! 공중에서 선제 공격을 퍼부어 배틀을 유리하게 이끌어갈 수 있어요!"
   }
 ];
-
-    
-    
     // ========================================================
     // ⚔️ 포켓몬 기술 상세 설명 팝업 및 TTS 안내
     // ========================================================
@@ -6101,7 +6179,7 @@
 
     // 2. 다중 사용자 프로필 관리
     let currentTrainer = 'yeseo';
-    let currentFilter = 'ceruleanOnly';
+    let currentFilter = 'currentStage';
 
     
     // 트레이너 개인별(예서/서우) 포켓몬 메모 관리
@@ -6428,6 +6506,10 @@
       }
 
       document.getElementById('stage-select').value = data.stage;
+      currentFilter = 'currentStage';
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      const defaultFilterBtn = document.querySelector('.filter-chip');
+      if (defaultFilterBtn) defaultFilterBtn.classList.add('active');
       updateCaughtCounter();
       renderPokemonGrid();
       initWritingSelect();
@@ -6529,6 +6611,7 @@
       const keyword = document.getElementById('poke-search').value.trim().toLowerCase();
 
       const filtered = POKEMON_DATA.filter(p => {
+        if (currentFilter === 'route56Only' && p.stage !== 8) return false;
         if (currentFilter === 'ceruleanOnly' && p.stage !== 7) return false;
         if (currentFilter === 'currentStage' && p.stage > currentStage) return false;
         if (currentFilter === 'caughtOnly' && !data.caught.includes(p.id)) return false;
