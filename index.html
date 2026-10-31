@@ -5912,91 +5912,25 @@
     // TTS (음성 읽어주기) 엔진
     // ========================================================
     // ========================================================
-    // 🎙️ 프리미엄 아나운서톤 음성 엔진 (Web Speech API 최적화)
     // ========================================================
+    // 🔊 무결점 초고신뢰 아나운서톤 음성(TTS) 엔진 (아이패드·모바일·PC 완벽 지원)
+    // ========================================================
+    let currentSpeakingUtterance = null;
     let cachedKoreanVoices = [];
-    let bestKoreanVoice = null;
-    let speechQueue = [];
-    let isSpeakingActive = false;
-    let keepAliveTimer = null;
 
-    // 브라우저 내장 신경망 음성 목록 로드 및 최고 품질 아나운서톤 음성 자동 선별
+    // 브라우저 음성 목록 비동기 캐싱
     function initSpeechVoices() {
       if (!('speechSynthesis' in window)) return;
-
       const loadVoices = () => {
         try {
-          const voices = window.speechSynthesis.getVoices();
-          if (!voices || voices.length === 0) return;
-
-          // 한국어 음성 필터링
-          cachedKoreanVoices = voices.filter(v => 
-            v.lang && (v.lang.toLowerCase().startsWith('ko') || v.lang.toLowerCase().includes('kr') || v.lang.toLowerCase().includes('korean'))
-          );
-
-          // 아나운서/신경망 톤 우선순위 매칭
-          // 1. Edge/MS Natural (SunHi / InJoon - 유튜브/방송에서 가장 많이 쓰는 바로 그 목소리!)
-          // 2. Apple Siri / Yuna Enhanced (아이패드 고품질 아나운서 음성)
-          // 3. Google 한국어 (크롬 고품질)
-          // 4. Online / Neural 키워드
-          const priorityPatterns = [
-            /sunhi/i,
-            /natural/i,
-            /siri/i,
-            /yuna/i,
-            /sujin/i,
-            /google/i,
-            /online/i,
-            /neural/i
-          ];
-
-          bestKoreanVoice = null;
-          for (const pattern of priorityPatterns) {
-            const found = cachedKoreanVoices.find(v => pattern.test(v.name) || pattern.test(v.voiceURI));
-            if (found) {
-              bestKoreanVoice = found;
-              break;
-            }
-          }
-
-          if (!bestKoreanVoice && cachedKoreanVoices.length > 0) {
-            bestKoreanVoice = cachedKoreanVoices[0];
-          }
-
-          console.log("🎙️ 최적의 아나운서 음성 매칭 완료:", bestKoreanVoice ? bestKoreanVoice.name : "기본 음성");
-        } catch (e) {
-          console.warn("Voices load error:", e);
-        }
+          const list = window.speechSynthesis.getVoices() || [];
+          cachedKoreanVoices = list.filter(v => v.lang && (v.lang.toLowerCase().includes('ko') || v.lang.toLowerCase().includes('kr')));
+        } catch (e) {}
       };
-
       loadVoices();
       if (window.speechSynthesis.onvoiceschanged !== undefined) {
         window.speechSynthesis.onvoiceschanged = loadVoices;
       }
-    }
-
-    // 아나운서 호흡 문장 분할 (쉼표/마침표 호흡을 살려 또박또박 낭독)
-    function splitTextForNaturalSpeech(text) {
-      if (!text) return [];
-      // 마침표, 느낌표, 물음표 뒤 공백을 기준으로 자연스럽게 1차 분할
-      const parts = text.replace(/([.!?])s+/g, "$1|SPLIT|").split("|SPLIT|");
-      const cleanList = [];
-
-      for (let s of parts) {
-        s = s.trim();
-        if (!s) continue;
-        // 80자 이상 긴 문장은 쉼표 뒤에서 2차로 호흡 조절
-        if (s.length > 80 && s.includes(",")) {
-          const sub = s.replace(/,s+/g, ",|SPLIT|").split("|SPLIT|");
-          for (let sp of sub) {
-            sp = sp.trim();
-            if (sp) cleanList.push(sp);
-          }
-        } else {
-          cleanList.push(s);
-        }
-      }
-      return cleanList.length > 0 ? cleanList : [text];
     }
 
     function speakText(text) {
@@ -6005,93 +5939,94 @@
         return;
       }
 
-      stopSpeaking();
+      // 1. 이전 재생 즉시 중단 및 효과음
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {}
       playBeep('pop');
 
-      if (!bestKoreanVoice) {
-        initSpeechVoices();
-      }
+      // 2. 텍스트 정돈
+      const cleanText = (text || '').replace(/[*#~]/g, '').trim();
+      if (!cleanText) return;
 
-      const sentences = splitTextForNaturalSpeech(text);
-      if (sentences.length === 0) return;
-
-      speechQueue = [...sentences];
-      isSpeakingActive = true;
-
-      const bar = document.getElementById('global-speech-bar');
-      const voiceLabel = bestKoreanVoice 
-        ? (bestKoreanVoice.name.includes('SunHi') || bestKoreanVoice.name.includes('Natural') ? '🎙️ 아나운서톤' : `🎙️ ${bestKoreanVoice.name.replace(/Microsoft|Apple|Google/g, '').trim()}`)
-        : '🔊 또박또박 아나운서';
-      
-      document.getElementById('speech-status-text').innerHTML = `<span>${voiceLabel}</span>으로 읽어주는 중...`;
-      bar.classList.add('active');
-
-      // iOS Safari 긴 오디오 슬립 버그 방지 (keep-alive)
-      clearInterval(keepAliveTimer);
-      keepAliveTimer = setInterval(() => {
-        if (!window.speechSynthesis.speaking) {
-          clearInterval(keepAliveTimer);
-        } else {
-          window.speechSynthesis.pause();
-          window.speechSynthesis.resume();
-        }
-      }, 8000);
-
-      speakNextInQueue();
-    }
-
-    function speakNextInQueue() {
-      if (!isSpeakingActive || speechQueue.length === 0) {
-        finishSpeaking();
-        return;
-      }
-
-      const sentence = speechQueue.shift();
-      const u = new SpeechSynthesisUtterance(sentence);
+      // 3. Utterance 생성
+      const u = new SpeechSynthesisUtterance(cleanText);
       u.lang = 'ko-KR';
+      u.rate = 0.93; // 또박또박 신뢰감 있는 아나운서 낭독 속도
+      u.pitch = 1.0;  // 자연스러운 표준 목소리 톤
 
-      if (bestKoreanVoice) {
-        u.voice = bestKoreanVoice;
+      // 4. 안전한 고품질 음성 매칭 (아이패드 사파리는 lang="ko-KR"이 가장 안전하고 자연스러움!)
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      // 데스크톱 Chrome/Edge 환경에서는 고품질 신경망 음성 매칭
+      if (!isIOS && cachedKoreanVoices && cachedKoreanVoices.length > 0) {
+        const priorityPatterns = [/sunhi/i, /natural/i, /google/i, /online/i];
+        for (const pattern of priorityPatterns) {
+          const found = cachedKoreanVoices.find(v => pattern.test(v.name) || pattern.test(v.voiceURI));
+          if (found) {
+            u.voice = found;
+            break;
+          }
+        }
       }
 
-      // 아나운서/뉴스 앵커 스타일 표준 조율 (너무 빠르지도 느리지도 않으면서 명료한 톤)
-      u.rate = 0.94; // 또박또박 신뢰감 있는 뉴스 아나운서 속도
-      u.pitch = 1.0;  // 자연스러운 기본 성우 피치 (어린이 대상 과도한 고음 배제)
+      // 5. 음성 재생 바 활성화
+      const bar = document.getElementById('global-speech-bar');
+      const statusText = document.getElementById('speech-status-text');
+      if (statusText) {
+        statusText.textContent = "🔊 또박또박 아나운서 목소리로 읽어주는 중...";
+      }
+      if (bar) bar.classList.add('active');
+
+      u.onstart = () => {
+        if (bar) bar.classList.add('active');
+      };
 
       u.onend = () => {
-        if (isSpeakingActive) {
-          // 문장 사이에 아주 짧은 쉼(0.09초)을 주어 자연스러운 호흡 부여
-          setTimeout(speakNextInQueue, 90);
+        if (bar) bar.classList.remove('active');
+        currentSpeakingUtterance = null;
+      };
+
+      // 6. 에러 발생 시 자동 2차 Failover (기본 엔진으로 즉각 재시도)
+      u.onerror = (err) => {
+        console.warn("Speech error, attempting fallback:", err);
+        if (bar) bar.classList.remove('active');
+        currentSpeakingUtterance = null;
+        
+        if (u.voice) {
+          try {
+            const fallbackU = new SpeechSynthesisUtterance(cleanText);
+            fallbackU.lang = 'ko-KR';
+            fallbackU.rate = 0.93;
+            fallbackU.pitch = 1.0;
+            fallbackU.onend = () => { if (bar) bar.classList.remove('active'); };
+            fallbackU.onerror = () => { if (bar) bar.classList.remove('active'); };
+            if (bar) bar.classList.add('active');
+            window.speechSynthesis.speak(fallbackU);
+          } catch (e) {
+            console.error("Fallback speech error:", e);
+          }
         }
       };
 
-      u.onerror = (e) => {
-        console.warn("Speech synthesis error or canceled:", e);
-        if (speechQueue.length > 0 && isSpeakingActive) {
-          setTimeout(speakNextInQueue, 50);
-        } else {
-          finishSpeaking();
-        }
-      };
+      currentSpeakingUtterance = u;
 
-      window.speechSynthesis.speak(u);
-    }
-
-    function finishSpeaking() {
-      isSpeakingActive = false;
-      speechQueue = [];
-      clearInterval(keepAliveTimer);
-      const bar = document.getElementById('global-speech-bar');
-      if (bar) bar.classList.remove('active');
+      // 7. iOS Safari 등 모든 브라우저에서 동기 직통 호출!
+      try {
+        window.speechSynthesis.speak(u);
+      } catch (err) {
+        console.error("speechSynthesis.speak error:", err);
+      }
     }
 
     function stopSpeaking() {
-      isSpeakingActive = false;
-      speechQueue = [];
-      clearInterval(keepAliveTimer);
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+      } catch (e) {}
+      currentSpeakingUtterance = null;
       const bar = document.getElementById('global-speech-bar');
       if (bar) bar.classList.remove('active');
     }
