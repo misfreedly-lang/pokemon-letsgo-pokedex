@@ -5933,51 +5933,53 @@
       }
     }
 
+    // 📱 모바일(아이패드·갤럭시탭) & PC 통합 무결점 음성 엔진
     function speakText(text) {
       if (!('speechSynthesis' in window)) {
         alert("이 기기에서는 음성 읽어주기를 지원하지 않아요.");
         return;
       }
 
-      // 1. 이전 재생 즉시 중단 및 효과음
-      try {
-        window.speechSynthesis.cancel();
-      } catch (e) {}
-      playBeep('pop');
+      const synth = window.speechSynthesis;
 
-      // 2. 텍스트 정돈
+      // 1. 모바일 백그라운드 일시정지 해제 (안드로이드 크롬/아이패드 필수!)
+      try {
+        if (synth.paused) synth.resume();
+        if (synth.speaking) synth.cancel();
+      } catch (e) {}
+
+      // 2. 텍스트 정돈 (특수기호 제거)
       const cleanText = (text || '').replace(/[*#~]/g, '').trim();
       if (!cleanText) return;
 
-      // 3. Utterance 생성
+      // 3. 플로팅 음성 바 UI 활성화
+      const bar = document.getElementById('global-speech-bar');
+      const statusText = document.getElementById('speech-status-text');
+      if (statusText) statusText.textContent = "🔊 또박또박 이야기 읽어주는 중...";
+      if (bar) bar.classList.add('active');
+
+      // 4. Utterance 객체 생성 및 표준 파라미터 세팅
       const u = new SpeechSynthesisUtterance(cleanText);
       u.lang = 'ko-KR';
-      u.rate = 0.93; // 또박또박 신뢰감 있는 아나운서 낭독 속도
-      u.pitch = 1.0;  // 자연스러운 표준 목소리 톤
+      u.rate = 0.94; // 명확하고 또렷한 아나운서 속도
+      u.pitch = 1.0;
+      u.volume = 1.0;
 
-      // 4. 안전한 고품질 음성 매칭 (아이패드 사파리는 lang="ko-KR"이 가장 안전하고 자연스러움!)
+      // 5. 음성 매칭: 안드로이드 크롬/삼성 인터넷 및 데스크톱에서 한국어 고품질 음성 탐색
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
                     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-      // 데스크톱 Chrome/Edge 환경에서는 고품질 신경망 음성 매칭
-      if (!isIOS && cachedKoreanVoices && cachedKoreanVoices.length > 0) {
-        const priorityPatterns = [/sunhi/i, /natural/i, /google/i, /online/i];
-        for (const pattern of priorityPatterns) {
-          const found = cachedKoreanVoices.find(v => pattern.test(v.name) || pattern.test(v.voiceURI));
-          if (found) {
-            u.voice = found;
-            break;
+      if (!isIOS && synth.getVoices) {
+        try {
+          const voices = synth.getVoices() || [];
+          const koVoice = voices.find(v => v.lang && (v.lang.toLowerCase().startsWith('ko') || v.lang.toLowerCase().includes('kr')));
+          if (koVoice) {
+            // Google 한국어 또는 고품질 음성 우선
+            const best = voices.find(v => (v.lang && v.lang.includes('KR')) && (/google|natural|sunhi/i.test(v.name))) || koVoice;
+            u.voice = best;
           }
-        }
+        } catch (e) {}
       }
-
-      // 5. 음성 재생 바 활성화
-      const bar = document.getElementById('global-speech-bar');
-      const statusText = document.getElementById('speech-status-text');
-      if (statusText) {
-        statusText.textContent = "🔊 또박또박 아나운서 목소리로 읽어주는 중...";
-      }
-      if (bar) bar.classList.add('active');
 
       u.onstart = () => {
         if (bar) bar.classList.add('active');
@@ -5988,36 +5990,36 @@
         currentSpeakingUtterance = null;
       };
 
-      // 6. 에러 발생 시 자동 2차 Failover (기본 엔진으로 즉각 재시도)
-      u.onerror = (err) => {
-        console.warn("Speech error, attempting fallback:", err);
+      u.onerror = (e) => {
+        console.warn("Speech error, trying standard fallback:", e);
         if (bar) bar.classList.remove('active');
         currentSpeakingUtterance = null;
-        
+
+        // voice 객체 문제로 에러 시, u.voice를 null로 리셋하고 즉시 재시도
         if (u.voice) {
           try {
             const fallbackU = new SpeechSynthesisUtterance(cleanText);
             fallbackU.lang = 'ko-KR';
-            fallbackU.rate = 0.93;
-            fallbackU.pitch = 1.0;
+            fallbackU.rate = 0.94;
+            fallbackU.volume = 1.0;
             fallbackU.onend = () => { if (bar) bar.classList.remove('active'); };
             fallbackU.onerror = () => { if (bar) bar.classList.remove('active'); };
-            if (bar) bar.classList.add('active');
-            window.speechSynthesis.speak(fallbackU);
-          } catch (e) {
-            console.error("Fallback speech error:", e);
-          }
+            synth.speak(fallbackU);
+          } catch (err) {}
         }
       };
 
       currentSpeakingUtterance = u;
 
-      // 7. iOS Safari 등 모든 브라우저에서 동기 직통 호출!
-      try {
-        window.speechSynthesis.speak(u);
-      } catch (err) {
-        console.error("speechSynthesis.speak error:", err);
-      }
+      // 6. 15ms 미세 지연을 주어 캔슬 직후 모바일 엔진 루프 락을 방지하고 즉시 재생!
+      setTimeout(() => {
+        try {
+          synth.resume();
+          synth.speak(u);
+        } catch (err) {
+          console.error("speechSynthesis.speak error:", err);
+        }
+      }, 15);
     }
 
     function stopSpeaking() {
@@ -6030,6 +6032,23 @@
       const bar = document.getElementById('global-speech-bar');
       if (bar) bar.classList.remove('active');
     }
+
+    // 📱 모바일(아이패드·갤럭시탭) 전용 첫 터치 오디오 엔진 언락커
+    function unlockMobileSpeech() {
+      if ('speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.resume();
+          const silentU = new SpeechSynthesisUtterance(' ');
+          silentU.lang = 'ko-KR';
+          silentU.volume = 0.01;
+          window.speechSynthesis.speak(silentU);
+        } catch (e) {}
+      }
+      document.removeEventListener('touchstart', unlockMobileSpeech);
+      document.removeEventListener('pointerdown', unlockMobileSpeech);
+    }
+    document.addEventListener('touchstart', unlockMobileSpeech, { passive: true, once: true });
+    document.addEventListener('pointerdown', unlockMobileSpeech, { passive: true, once: true });
 
     // 도감 카드에서 읽어주기
     function speakCardPokemon(id, event) {
