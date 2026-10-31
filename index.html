@@ -1823,6 +1823,254 @@
       background: #DD6B20;
     }
 
+
+    /* ========================================================
+       초슬림 콤팩트 헤더 & 아이패드 6세대 완벽 최적화 CSS
+       ======================================================== */
+    header.app-compact-header {
+      background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%);
+      color: white;
+      padding: 6px 14px 6px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.2);
+      border-bottom: 3px solid #FFCC00;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    /* 1행: 초슬림 상단 통합 바 */
+    .compact-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+
+    .compact-trainer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.12);
+      padding: 3px 10px 3px 4px;
+      border-radius: 20px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      flex-shrink: 0;
+    }
+
+    .trainer-avatar-mini {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .trainer-avatar-mini img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .trainer-title-compact {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.05rem;
+      color: #FFFA65;
+      white-space: nowrap;
+    }
+
+    .compact-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,0,0,0.3);
+      padding: 3px 10px;
+      border-radius: 16px;
+      flex: 1;
+      max-width: 460px;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .compact-progress-label {
+      font-family: 'Jua', sans-serif;
+      font-size: 0.9rem;
+      color: #E2E8F0;
+    }
+
+    .compact-stage-select {
+      background: #FFCC00;
+      color: #1A202C;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.88rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+      border: 1.5px solid white;
+      outline: none;
+      cursor: pointer;
+      max-width: 220px;
+    }
+
+    .compact-caught-badge {
+      background: rgba(255,255,255,0.22);
+      color: #FFF;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .compact-actions-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .compact-btn {
+      border: none;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .compact-btn.btn-backup {
+      background: #38A169;
+      color: white;
+    }
+
+    .compact-btn.btn-backup:hover {
+      background: #2F855A;
+    }
+
+    .compact-btn.btn-switch {
+      background: #EDF2F7;
+      color: #2D3748;
+    }
+
+    .compact-btn.btn-switch:hover {
+      background: white;
+    }
+
+    /* 2행: 5대 탭 바 (가로 1줄 완벽 고정) */
+    .compact-nav-tabs {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2px;
+      flex-wrap: nowrap !important;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .compact-nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .compact-nav-tabs .nav-btn {
+      background: rgba(255,255,255,0.14);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 6px 14px !important;
+      border-radius: 14px !important;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.98rem !important;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap !important;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .compact-nav-tabs .nav-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .compact-nav-tabs .nav-btn.active {
+      background: #FFCC00 !important;
+      color: #1A202C !important;
+      border-color: #FFCC00 !important;
+      font-weight: 900;
+      box-shadow: 0 2px 8px rgba(255,204,0,0.4);
+      transform: none !important;
+    }
+
+    /* ========================================================
+       아이패드 6세대 (768x1024) 가로/세로 화면 채움 최적화
+       ======================================================== */
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      body {
+        padding-bottom: 30px;
+      }
+
+      main {
+        margin: 10px auto !important;
+        padding: 0 12px !important;
+      }
+
+      /* 가로 모드 (아이패드 기본 사용): 한 화면에 스크롤 없이 쏙 들어오는 캔버스! */
+      @media (orientation: landscape) {
+        .coloring-wrapper-card, .writing-wrapper-card {
+          padding: 12px 14px !important;
+        }
+
+        .coloring-top-bar, .writing-top-bar {
+          margin-bottom: 8px !important;
+        }
+
+        .coloring-canvas-container, .pad-canvas-container {
+          height: 385px !important;
+        }
+
+        .coloring-palette-toolbar, .pencil-toolbar {
+          margin-top: 8px !important;
+          padding: 8px 12px !important;
+        }
+
+        .coloring-outline-img {
+          max-width: 88% !important;
+          max-height: 88% !important;
+        }
+      }
+
+      /* 세로 모드 */
+      @media (orientation: portrait) {
+        .compact-progress-wrap {
+          max-width: 320px;
+        }
+        .compact-stage-select {
+          max-width: 140px;
+        }
+        .coloring-canvas-container, .pad-canvas-container {
+          height: 480px !important;
+        }
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -1885,53 +2133,53 @@
   <div id="view-app">
     
     <!-- 상단 헤더 -->
-    <header>
+    <header class="app-compact-header">
       <div class="header-inner">
-        <!-- 트레이너 전환 및 타이틀 바 -->
-        <div class="top-trainer-bar">
-          <div class="trainer-badge">
+        <!-- 1행: 초슬림 상단 통합 바 (트레이너 정보 + 진도 + 기록수 + 액션버튼 한 줄!) -->
+        <div class="compact-top-bar">
+          <!-- 좌측: 트레이너 뱃지 -->
+          <div class="compact-trainer-badge">
             <div class="trainer-avatar-mini" id="current-avatar-mini">
               <img id="current-trainer-img" src="" alt="파트너">
             </div>
-            <div class="trainer-title" id="current-trainer-title">예서의 도감</div>
+            <span class="trainer-title-compact" id="current-trainer-title">예서의 도감</span>
           </div>
 
-          <div class="header-action-btns">
-            <button class="switch-user-btn" style="background:#48BB78; color:white; border:none;" onclick="openBackupModal()">
-              <span>🔒 기록 안전 보관함</span>
-            </button>
-            <button class="switch-user-btn" onclick="goToHome()">
-              <span>🔄 트레이너 바꾸기</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 각자 진도 맞춤 선택 바 -->
-        <div class="progress-bar-card">
-          <div class="progress-label">
-            <span>📍 현재 내 모험 진도:</span>
-            <select id="stage-select" class="stage-select" onchange="onStageChange()">
-              <option value="1">1단계: 태초마을 ~ 1·2번 도로</option>
-              <option value="2">2단계: 상록숲 (버터플 & 독침붕 & 이상해씨)</option>
-              <option value="3">3단계: 회색시티 체육관 (웅이 바위 배틀)</option>
-              <option value="4" selected>4단계: 3번 도로 (푸린 & 망키 & 니드런)</option>
-              <option value="5">5단계: 4번 도로 포켓몬센터 (500원 잉어킹!)</option>
-              <option value="6">6단계: 달맞이산 동굴 (주뱃 & 삐삐 & 달의돌)</option>
-              <option value="7">7단계: 블루시티 (이슬이 체육관 & 24·25번 도로 & 파이리)</option>
+          <!-- 중앙: 진도 선택기 + 잡은 수 -->
+          <div class="compact-progress-wrap">
+            <span class="compact-progress-label">📍 진도:</span>
+            <select id="stage-select" class="compact-stage-select" onchange="onStageChange()">
+              <option value="1">1단계: 1·2번 도로</option>
+              <option value="2">2단계: 상록숲</option>
+              <option value="3">3단계: 회색시티 (웅이)</option>
+              <option value="4">4단계: 3번 도로</option>
+              <option value="5">5단계: 4번 도로 (잉어킹)</option>
+              <option value="6">6단계: 달맞이산</option>
+              <option value="7" selected>7단계: 블루시티 (이슬이)</option>
             </select>
+            <span class="compact-caught-badge" id="caught-counter-pill">
+              🔴 0 / 39 마리
+            </span>
           </div>
-          <div class="progress-count-pill" id="caught-counter-pill">
-            내가 잡은 포켓몬: 0 / 22 마리 🔴
+
+          <!-- 우측: 컴팩트 액션 버튼들 -->
+          <div class="compact-actions-wrap">
+            <button class="compact-btn btn-backup" onclick="openBackupModal()" title="소중한 기록 백업 및 복원">
+              <span>🔒 보관함</span>
+            </button>
+            <button class="compact-btn btn-switch" onclick="goToHome()" title="트레이너 바꾸기">
+              <span>🔄 전환</span>
+            </button>
           </div>
         </div>
 
-        <!-- 탭 내비게이션 -->
-        <nav class="nav-tabs">
-          <button class="nav-btn active" onclick="switchTab('pokedex')">📖 내 진도 맞춤 도감</button>
-          <button class="nav-btn" onclick="switchTab('coloring')">🎨 포켓몬 색칠하기</button>
-          <button class="nav-btn" onclick="switchTab('writing')">✍️ 패드 펜슬 한글 쓰기</button>
-          <button class="nav-btn" onclick="switchTab('typeClass')">⚖️ 직관적 상성 그림표 & 배틀</button>
-          <button class="nav-btn" onclick="switchTab('strategy')">💡 렛츠고 모험 공략</button>
+        <!-- 2행: 5대 메뉴 탭 (가로 1줄 완벽 안착 & 줄바꿈 절대 방지) -->
+        <nav class="nav-tabs compact-nav-tabs">
+          <button class="nav-btn active" data-tab="pokedex" onclick="switchTab('pokedex', this)">📖 맞춤 도감</button>
+          <button class="nav-btn" data-tab="coloring" onclick="switchTab('coloring', this)">🎨 포켓몬 색칠</button>
+          <button class="nav-btn" data-tab="writing" onclick="switchTab('writing', this)">✍️ 한글 쓰기</button>
+          <button class="nav-btn" data-tab="typeClass" onclick="switchTab('typeClass', this)">⚖️ 상성 & 배틀</button>
+          <button class="nav-btn" data-tab="strategy" onclick="switchTab('strategy', this)">💡 모험 공략</button>
         </nav>
       </div>
     </header>
@@ -4749,10 +4997,10 @@
       document.getElementById('view-app').style.display = 'block';
 
       if (name === 'yeseo') {
-        document.getElementById('current-trainer-title').textContent = "👧 예서의 모험 도감 (피카츄 파트너)";
+        document.getElementById('current-trainer-title').textContent = "👧 예서의 도감 (피카츄)";
         document.getElementById('current-trainer-img').src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png";
       } else {
-        document.getElementById('current-trainer-title').textContent = "👦 서우의 모험 도감 (이브이 파트너)";
+        document.getElementById('current-trainer-title').textContent = "👦 서우의 도감 (이브이)";
         document.getElementById('current-trainer-img').src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png";
       }
 
@@ -4807,27 +5055,33 @@
     function updateCaughtCounter() {
       const data = getTrainerData(currentTrainer);
       const total = POKEMON_DATA.length;
-      document.getElementById('caught-counter-pill').textContent = 
-        `내가 잡은 포켓몬: ${data.caught.length} / ${total} 마리 🔴`;
+      document.getElementById('caught-counter-pill').textContent = `🔴 ${data.caught.length} / ${total} 마리`;
     }
 
-    function switchTab(tabId) {
+    function switchTab(tabId, el) {
       playBeep('pop');
       stopSpeaking();
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabId || btn === el) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
       document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
 
-      event.currentTarget.classList.add('active');
       const targetSec = document.getElementById(`tab-${tabId}`);
       if (targetSec) targetSec.classList.add('active');
 
       if (tabId === 'coloring') {
-        setTimeout(resizeColoringCanvas, 50);
-        setTimeout(resizeColoringCanvas, 200);
+        setTimeout(resizeColoringCanvas, 40);
+        setTimeout(resizeColoringCanvas, 180);
       }
       if (tabId === 'writing') {
-        setTimeout(resizeCanvas, 50);
-        setTimeout(resizeCanvas, 200);
+        setTimeout(resizeCanvas, 40);
+        setTimeout(resizeCanvas, 180);
       }
     }
 
