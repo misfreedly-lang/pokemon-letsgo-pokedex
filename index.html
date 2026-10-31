@@ -2411,7 +2411,8 @@
               <option value="4">4단계: 3번 도로</option>
               <option value="5">5단계: 4번 도로 (잉어킹)</option>
               <option value="6">6단계: 달맞이산</option>
-              <option value="7" selected>7단계: 블루시티 (이슬이)</option>
+              <option value="7">7단계: 블루시티 (이슬이)</option>
+              <option value="8" selected>8단계: 5·6번 도로 & 지하통로 (노랑시티 우회/갈색시티 가는 길)</option>
             </select>
             <span class="compact-caught-badge" id="caught-counter-pill">
               🔴 0 / 39 마리
@@ -2607,28 +2608,33 @@
                 <div class="station-desc">로켓단 첫 조우, 반짝이는 달의 돌(니드킹/푸크린), 화석 선택.</div>
               </div>
 
-              <!-- ★현재 위치 강조! -->
-              <div class="roadmap-station current-pos">
-                <span class="station-cur-tag">🚩 현재 우리 위치!</span>
+              <div class="roadmap-station">
                 <div class="station-badge" style="color:#007AFF;">🌊 6. 블루시티</div>
-                <div class="station-desc"><strong>이슬이 물 체육관, 금구슬 브릿지, 파이리 선물, 이수재의 집!</strong></div>
+                <div class="station-desc">이슬이 물 체육관, 금구슬 브릿지, 파이리 선물, 이수재의 집 클리어!</div>
+              </div>
+
+              <!-- ★현재 예서의 모험 위치 강조! -->
+              <div class="roadmap-station current-pos">
+                <span class="station-cur-tag">🚩 현재 예서의 모험 위치!</span>
+                <div class="station-badge" style="color:#DD6B20;">🛣️ 7. 5·6번 도로 & 지하통로</div>
+                <div class="station-desc"><strong>키우미집 발견! 목마른 경비원으로 노랑시티 우회 & 지하통로 바닥 숨은 보물 싹쓸이!</strong></div>
               </div>
 
               <!-- ★다음 목적지 강조! -->
               <div class="roadmap-station next-pos">
                 <span class="station-cur-tag" style="background:#38A169;">🚀 다음 목적지!</span>
-                <div class="station-badge" style="color:#D69E2E;">🚢 7. 갈색시티</div>
-                <div class="station-desc">호화 유람선 상트안느호, 비술 풀베기, 꼬부기 선물, 마티스(전기).</div>
+                <div class="station-badge" style="color:#D69E2E;">🚢 8. 갈색시티</div>
+                <div class="station-desc">호화 유람선 상트안느호, 비술 사각베기, 여경의 꼬부기 선물, 마티스(전기).</div>
               </div>
 
               <div class="roadmap-station">
-                <div class="station-badge" style="color:#E53E3E;">🌈 8. 무지개시티</div>
+                <div class="station-badge" style="color:#E53E3E;">🌈 9. 무지개시티</div>
                 <div class="station-desc">거대 백화점, 파트너 비행기술 '둥실둥실풍선', 로켓단 지하 아지트.</div>
               </div>
 
               <div class="roadmap-station">
-                <div class="station-badge" style="color:#805AD5;">🏢 9. 노랑시티</div>
-                <div class="station-desc">실프주식회사 탈환, 라프라스 선물, 초련(에스퍼 체육관).</div>
+                <div class="station-badge" style="color:#805AD5;">🏢 10. 노랑시티 (정식 입장)</div>
+                <div class="station-desc">차를 건네고 정식 입장! 실프주식회사 탈환, 라프라스 선물, 초련(에스퍼).</div>
               </div>
 
               <div class="roadmap-station">
@@ -2646,6 +2652,58 @@
                 <div class="station-desc">8개 배지 완성 후 챔피언로드 통과, 사천왕 & 라이벌 챔피언 배틀!</div>
               </div>
             </div>
+          </div>
+
+          <!-- ★5·6번 도로 & 지하통로 특별 이벤트 (현재 예서의 모험!) -->
+          <div class="event-guide-card" style="border-left-color: #FF8A00; background: linear-gradient(to right, #FFFBF0, #FFF); box-shadow: 0 4px 16px rgba(255, 138, 0, 0.12);">
+            <div class="event-card-header">
+              <div class="event-card-title">
+                <span>🛣️ 5·6번 도로 & 지하통로: 노랑시티를 못 들어가는 이유와 비밀 우회법!</span>
+              </div>
+              <button class="tts-speaker-btn" style="background:#FF8A00;" onclick="speakRoute56Story()">🔊 5·6번 도로 이야기 듣기</button>
+            </div>
+            
+            <ul class="event-items-list">
+              <li class="event-item-box">
+                <div class="event-item-icon">🚧</div>
+                <div class="event-item-content">
+                  <strong>1. 노랑시티 게이트 경비 아저씨가 막고 있는 이유 (지금은 못 들어가요!)</strong>
+                  <p>블루시티 도둑맞은 집 뒷구멍을 나와 남쪽으로 내려오면 커다란 대도시 '노랑시티' 게이트가 나타나요! 하지만 경비 아저씨가 <em>"목이 말라... 목이 말라서 아무도 못 지나가..."</em> 하고 문을 꽉 잠그고 있어요! 지금은 물이나 차가 없어서 들어갈 수 없으니 지나쳐야 해요! (나중에 무지개시티에서 맛있는 차를 구해오면 문을 활짝 열어준답니다!)</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🏡</div>
+                <div class="event-item-content">
+                  <strong>2. 5번 도로 '포켓몬 키우미집' ➔ 걷는 만큼 자동 레벨업!</strong>
+                  <p>게이트 왼쪽 언덕길에는 아늑한 <strong>'포켓몬 키우미집'</strong>이 있어요! 여기에 포켓몬을 한 마리 맡겨두면, 예서가 모험하며 걷는 걸음 수만큼 경험치가 차곡차곡 쌓여서 쑥쑥 레벨업을 도와줘요!</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🚇</div>
+                <div class="event-item-content">
+                  <strong>3. 노랑시티 밑을 쏙 통과하는 비밀 지하통로 (5번 도로 ➔ 6번 도로)</strong>
+                  <p>게이트 바로 오른쪽에 있는 작은 건물 계단을 내려가면, 노랑시티 지하를 관통하는 긴 <strong>'지하통로'</strong>가 나와요! 경비원을 피해 지하로 조용히 걸어가면 노랑시티를 쏙 지나쳐 남쪽 6번 도로로 나올 수 있답니다!</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">✨</div>
+                <div class="event-item-content">
+                  <strong>4. ★지하통로 꿀팁: 피카츄 꼬리 레이더 & 매일 반짝이는 숨은 보물!</strong>
+                  <p>지하통로 계단과 긴 복도를 걸을 때, 어깨에 탄 파트너 피카츄(또는 이브이)의 꼬리가 <strong>파닥파닥 격렬하게 흔들려요!</strong> 꼬리가 흔들리는 바로 그 자리에서 A버튼을 누르면 반짝이는 숨은 보물(진주, 큰진주 등 상점에 비싸게 팔 수 있는 보물)을 줍습니다! 이 보물들은 하루가 지나면 또 생겨나요!</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🚢</div>
+                <div class="event-item-content">
+                  <strong>5. 6번 도로 풀숲 ➔ 트레이너 배틀 후 드디어 '갈색시티' 도착!</strong>
+                  <p>지하통로 출구를 나오면 6번 도로예요! 트레이너들과 배틀을 하며 풀숲에서 새로운 포켓몬(고라파덕, 야돈, 모래두지 등)들을 만나고, 남쪽으로 곧장 걸어가면 드디어 바다 향기가 나는 항구 도시 <strong>'갈색시티'</strong>에 도착합니다!</p>
+                </div>
+              </li>
+            </ul>
           </div>
 
           <!-- 2. ★블루시티 특별 이벤트 가이드 (지금 꼭 챙겨야 할 4가지 보물!) -->
@@ -2998,6 +3056,45 @@
       <section id="tab-strategy" class="tab-section">
         <div class="strategy-container">
           
+          <!-- 5·6번 도로 및 지하통로 완벽 공략 -->
+          <div class="strategy-card" style="border-left: 5px solid #FF8A00; background: linear-gradient(to right, #FFFDF8, #FFF);">
+            <div class="strategy-card-header">
+              <h3>🛣️ 8단계 완벽 돌파: 5·6번 도로 & 지하통로 (노랑시티 우회 작전!)</h3>
+              <button class="tts-speaker-btn" style="background:#FF8A00;" onclick="speakRoute56Strategy()">🔊 지하통로 공략 듣기</button>
+            </div>
+            <p>노랑시티 게이트는 왜 막혀있고 어떻게 6번 도로와 갈색시티로 갈까요?</p>
+            <ul class="strategy-steps">
+              <li class="strategy-step-item">
+                <div class="step-num" style="background:#FF8A00;">1</div>
+                <div>
+                  <strong>노랑시티 게이트는 지금 패스! 오른쪽 '지하통로'로 진입하세요!</strong>
+                  <p>경비 아저씨가 갈증 때문에 길을 비켜주지 않아요. 당황하지 말고 게이트 우측의 '지하통로' 입구 건물로 들어가 계단을 내려가세요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num" style="background:#FF8A00;">2</div>
+                <div>
+                  <strong>피카츄 꼬리가 흔들리면 A버튼! 진주/큰진주 줍기!</strong>
+                  <p>지하통로는 매일 숨은 도구가 리젠되는 보물창고예요. 피카츄의 꼬리가 빠르게 흔들리는 지점을 찾아 A버튼을 누르면 비싼 진주를 주워 용돈을 잔뜩 벌 수 있어요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num" style="background:#FF8A00;">3</div>
+                <div>
+                  <strong>5번 도로 키우미집에 레벨 낮은 포켓몬 한 마리 맡기기!</strong>
+                  <p>키우미집 할아버지에게 자주 안 쓰지만 키우고 싶은 포켓몬(예: 잉어킹이나 케이시)을 맡겨두면 모험하는 동안 레벨이 쑥쑥 올라요!</p>
+                </div>
+              </li>
+              <li class="strategy-step-item">
+                <div class="step-num" style="background:#FF8A00;">4</div>
+                <div>
+                  <strong>갈색시티 여경에게 꼬부기 받으려면 포켓몬 60마리 체크!</strong>
+                  <p>갈색시티에 들어가자마자 여경이 꼬부기를 주려면 포켓몬을 총 60마리 이상 잡아야 해요! 5·6번 도로 풀숲에서 포켓몬을 많이 잡아두세요!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
           <!-- 회색시티 웅이 공략 -->
           <div class="strategy-card gym">
             <div class="strategy-card-header">
@@ -4841,6 +4938,398 @@
       }
     ],
     "tip": "24번 도로에서 케이시를 잡아 레벨 16까지만 키우면 파티의 특수공격 에이스로 대활약해요!"
+  },
+  {
+    "id": 7,
+    "num": "#007",
+    "name": "꼬부기",
+    "enName": "Squirtle",
+    "types": [
+      "물"
+    ],
+    "category": "꼬마거북포켓몬",
+    "height": "0.5m",
+    "weight": "9.0kg",
+    "stage": 8,
+    "location": "갈색시티 중앙 여경(순경)에게 선물 (포켓몬 60마리 포획 시), 24·25번 도로 물가",
+    "story": "단단한 등껍질에 쏙 숨어 물을 강력하게 뿜어내요! 갈색시티의 장난꾸러기 꼬부기가 예서의 든든한 물 타입 파트너가 되어줄 거예요.",
+    "evolution": "Lv.16에 어니부기로 진화하고, Lv.36에 거대한 물대포를 장착한 거북왕으로 진화해요!",
+    "moves": [
+      {
+        "name": "물대포",
+        "type": "물",
+        "desc": "입에서 시원한 물줄기를 발사하여 공격해요."
+      },
+      {
+        "name": "거품광선",
+        "type": "물",
+        "desc": "수많은 거품을 뿜어 공격하고 상대의 스피드를 떨어뜨려요."
+      },
+      {
+        "name": "로케트박치기",
+        "type": "노말",
+        "desc": "등껍질에 몸을 웅크려 방어력을 올린 뒤 쾅 돌진해요!"
+      },
+      {
+        "name": "하이드로펌프",
+        "type": "물",
+        "desc": "엄청난 수압의 대포를 뿜어내는 최고의 물 필살기!"
+      }
+    ],
+    "tip": "갈색시티 여경에게 말을 걸어 꼭 동료로 맞이하세요! 물 타입이라 땅·바위·불꽃 포켓몬에게 강력해요!"
+  },
+  {
+    "id": 8,
+    "num": "#008",
+    "name": "어니부기",
+    "enName": "Wartortle",
+    "types": [
+      "물"
+    ],
+    "category": "거북포켓몬",
+    "height": "1.0m",
+    "weight": "22.5kg",
+    "stage": 8,
+    "location": "꼬부기가 Lv.16 달성 시 진화",
+    "story": "푹신한 깃털 같은 귀와 복슬복슬한 꼬리가 아주 매력적이에요! 꼬리를 흔들어 물속에서 빠르게 헤엄쳐요.",
+    "evolution": "Lv.36에 양쪽 어깨에 거대한 강철 물대포를 장착한 거북왕으로 최종 진화해요!",
+    "moves": [
+      {
+        "name": "물의파동",
+        "type": "물",
+        "desc": "초음파 물결로 공격하며 상대를 혼란에 빠뜨려요."
+      },
+      {
+        "name": "아쿠아테일",
+        "type": "물",
+        "desc": "커다란 꼬리를 거친 파도처럼 강하게 내리쳐요."
+      },
+      {
+        "name": "껍질에숨기",
+        "type": "물",
+        "desc": "단단한 등껍질 속에 쏙 숨어 방어력을 쑥 올립니다."
+      },
+      {
+        "name": "냉동빔",
+        "type": "얼음",
+        "desc": "얼음 광선으로 풀 타입이나 드래곤 타입을 꽁꽁 얼려요!"
+      }
+    ],
+    "tip": "진화하면서 방어력이 크게 올라요! 회색시티 웅이의 바위나 홍련섬의 불꽃 포켓몬을 상대할 때 최강입니다."
+  },
+  {
+    "id": 50,
+    "num": "#050",
+    "name": "디그다",
+    "enName": "Diglett",
+    "types": [
+      "땅"
+    ],
+    "category": "두더지포켓몬",
+    "height": "0.2m",
+    "weight": "0.8kg",
+    "stage": 8,
+    "location": "갈색시티 동쪽 '디그다의 굴', 6번 도로 근처",
+    "story": "땅속 얕은 곳을 파고 다니며 채소 뿌리를 먹고 살아요. 빨갛고 동그란 코를 쏙 내밀어 주변을 살핍니다!",
+    "evolution": "Lv.26이 되면 머리가 셋 달린 강력한 닥트리오로 진화해요!",
+    "moves": [
+      {
+        "name": "구멍파기",
+        "type": "땅",
+        "desc": "1턴 땅속으로 숨어 공격을 피하고 다음 턴에 솟구치며 기습!"
+      },
+      {
+        "name": "모래뿌리기",
+        "type": "땅",
+        "desc": "모래를 눈에 뿌려 상대의 명중률을 낮춰요."
+      },
+      {
+        "name": "할퀴기",
+        "type": "노말",
+        "desc": "날카로운 발톱으로 빠르게 할퀴어요."
+      },
+      {
+        "name": "베어가르기",
+        "type": "노말",
+        "desc": "급소에 맞기 쉬운 예리한 발톱 베기 기술!"
+      }
+    ],
+    "tip": "★갈색시티 마티스 체육관의 비밀 병기! 땅 타입이라 마티스의 전기를 100% 무효화(0배)하고 구멍파기로 원샷원킬!"
+  },
+  {
+    "id": 51,
+    "num": "#051",
+    "name": "닥트리오",
+    "enName": "Dugtrio",
+    "types": [
+      "땅"
+    ],
+    "category": "두더지포켓몬",
+    "height": "0.7m",
+    "weight": "33.3kg",
+    "stage": 8,
+    "location": "디그다가 Lv.26에 진화하거나 디그다의 굴 깊은 곳에서 출현",
+    "story": "원래 한 몸에서 자라난 세 쌍둥이 디그다예요! 땅속 100km까지 파고들 수 있을 만큼 힘이 아주 세요.",
+    "evolution": "최종 진화형 포켓몬이에요!",
+    "moves": [
+      {
+        "name": "지진",
+        "type": "땅",
+        "desc": "대지를 뒤흔드는 최강의 땅 타입 광역 공격기!"
+      },
+      {
+        "name": "구멍파기",
+        "type": "땅",
+        "desc": "땅속으로 쏙 숨었다가 솟구치며 적을 날려버려요."
+      },
+      {
+        "name": "스톤샤워",
+        "type": "바위",
+        "desc": "커다란 바위들을 떨어뜨려 적을 풀죽게 만들어요."
+      },
+      {
+        "name": "기습",
+        "type": "악",
+        "desc": "상대가 공격하려 할 때 더 빠르게 튀어나와 기습!"
+      }
+    ],
+    "tip": "스피드가 엄청나게 빨라요! 마티스 체육관뿐만 아니라 나중에 독수(연분홍시티) 체육관에서도 맹활약해요."
+  },
+  {
+    "id": 52,
+    "num": "#052",
+    "name": "냐옹",
+    "enName": "Meowth",
+    "types": [
+      "노말"
+    ],
+    "category": "고양이포켓몬",
+    "height": "0.4m",
+    "weight": "4.2kg",
+    "stage": 8,
+    "location": "5·6번 도로 풀숲 (레츠고 이브이 출현, 갈색시티 퀘스트)",
+    "story": "이마에 반짝이는 황금빛 동전을 달고 있어요! 낮에는 쿨쿨 자다가 밤이 되면 눈을 반짝이며 반짝이는 보물을 찾아요.",
+    "evolution": "Lv.28에 우아하고 날렵한 페르시온으로 진화해요!",
+    "moves": [
+      {
+        "name": "고양이돈받기",
+        "type": "노말",
+        "desc": "동전을 던져 공격하고, 배틀이 끝나면 용돈을 듬뿍 주워요!"
+      },
+      {
+        "name": "속여때리기",
+        "type": "악",
+        "desc": "절대 빗나가지 않는 날렵한 속임수 펀치!"
+      },
+      {
+        "name": "할퀴기",
+        "type": "노말",
+        "desc": "예리한 손톱을 뻗어 적을 긁어요."
+      },
+      {
+        "name": "베어가르기",
+        "type": "노말",
+        "desc": "급소를 노리는 날카로운 발톱 공격!"
+      }
+    ],
+    "tip": "갈색시티에서 벤치에 앉은 신사에게 냐옹 5마리를 보여주면 멋진 페르시온(또는 윈디)을 받을 수 있어요!"
+  },
+  {
+    "id": 59,
+    "num": "#059",
+    "name": "윈디",
+    "enName": "Arcanine",
+    "types": [
+      "불꽃"
+    ],
+    "category": "전설포켓몬",
+    "height": "1.9m",
+    "weight": "155.0kg",
+    "stage": 8,
+    "location": "가디에게 '불꽃의 돌' 사용, 또는 갈색시티 냐옹 5마리 퀘스트 선물(레츠고 피카츄)",
+    "story": "옛날부터 수많은 전설과 그림에 등장하는 멋진 포켓몬이에요! 하루에 10,000km를 달릴 정도로 바람처럼 빨라요.",
+    "evolution": "가디의 최종 진화형! 몬스터볼에서 꺼내면 등에 타고 신나게 달릴 수 있어요!",
+    "moves": [
+      {
+        "name": "화염방사",
+        "type": "불꽃",
+        "desc": "엄청난 불꽃을 길게 뿜어내 상대를 화상 입혀요."
+      },
+      {
+        "name": "불꽃엄니",
+        "type": "불꽃",
+        "desc": "불타는 이빨로 물어뜯어 풀죽거나 화상을 입혀요."
+      },
+      {
+        "name": "신속",
+        "type": "노말",
+        "desc": "눈으로 좇을 수 없는 엄청난 스피드로 먼저 때려요!"
+      },
+      {
+        "name": "플레어드라이브",
+        "type": "불꽃",
+        "desc": "전신을 화염에 감싸고 돌진하는 궁극의 불꽃 돌격기!"
+      }
+    ],
+    "tip": "필드에서 꺼내면 직접 타고 질주할 수 있어요! 스피드와 공격력이 모두 최상급인 든든한 불꽃 에이스!"
+  },
+  {
+    "id": 38,
+    "num": "#038",
+    "name": "나인테일",
+    "enName": "Ninetales",
+    "types": [
+      "불꽃"
+    ],
+    "category": "여우포켓몬",
+    "height": "1.1m",
+    "weight": "19.9kg",
+    "stage": 8,
+    "location": "식스테일에게 '불꽃의 돌' 사용, 또는 갈색시티 가디 5마리 퀘스트 선물(레츠고 이브이)",
+    "story": "황금빛으로 반짝이는 9개의 아름다운 꼬리를 가졌어요. 1000년을 살 수 있을 만큼 신비한 영력이 깃들어 있답니다.",
+    "evolution": "식스테일의 최종 진화형! 몬스터볼에서 꺼내면 우아하게 트레이너 뒤를 따라다녀요.",
+    "moves": [
+      {
+        "name": "화염방사",
+        "type": "불꽃",
+        "desc": "맹렬한 불꽃으로 상대를 활활 태워요."
+      },
+      {
+        "name": "신통력",
+        "type": "에스퍼",
+        "desc": "신비한 정신 에너지로 공격하며 상대를 풀죽게 해요."
+      },
+      {
+        "name": "도깨비불",
+        "type": "불꽃",
+        "desc": "푸른 불꽃을 띄워 상대를 100% 화상 상태로 만들어요."
+      },
+      {
+        "name": "불꽃소용돌이",
+        "type": "불꽃",
+        "desc": "불꽃의 회오리로 상대를 가둬 지속 데미지를 줘요."
+      }
+    ],
+    "tip": "특수공격과 특수방어가 뛰어나며, 도깨비불로 상대의 공격력을 반토막 낼 수 있는 영리한 여우 포켓몬!"
+  },
+  {
+    "id": 83,
+    "num": "#083",
+    "name": "파오리",
+    "enName": "Farfetch'd",
+    "types": [
+      "노말",
+      "비행"
+    ],
+    "category": "청둥오리포켓몬",
+    "height": "0.8m",
+    "weight": "15.0kg",
+    "stage": 8,
+    "location": "갈색시티 민가에서 교환 (또는 12·13번 도로 풀숲)",
+    "story": "언제나 맛있는 대파(식물의 줄기)를 날개에 꼭 들고 다녀요! 이 파를 날카로운 칼처럼 휘둘러 풀이나 적을 베어버립니다.",
+    "evolution": "진화하지 않지만 대파를 든 모습이 너무 귀여운 특별 포켓몬!",
+    "moves": [
+      {
+        "name": "에어슬래시",
+        "type": "비행",
+        "desc": "공기의 칼날을 날려 상대를 풀죽게 만들어요."
+      },
+      {
+        "name": "베어가르기",
+        "type": "노말",
+        "desc": "대파를 날카롭게 휘둘러 급소를 베어요."
+      },
+      {
+        "name": "칼춤",
+        "type": "노말",
+        "desc": "싸움의 춤을 춰서 공격력을 2단계나 껑충 올립니다!"
+      },
+      {
+        "name": "칼날치기",
+        "type": "노말",
+        "desc": "상대의 체력을 정확히 1만 남겨서 포획할 때 최고!"
+      }
+    ],
+    "tip": "포켓몬을 잡을 때 체력을 1만 남겨주는 '칼날치기'를 배울 수 있어 도감 채우기 최고의 도우미예요!"
+  },
+  {
+    "id": 55,
+    "num": "#055",
+    "name": "골덕",
+    "enName": "Golduck",
+    "types": [
+      "물"
+    ],
+    "category": "오리포켓몬",
+    "height": "1.7m",
+    "weight": "76.6kg",
+    "stage": 8,
+    "location": "고라파덕이 Lv.33에 진화, 6번 도로 연못 물가",
+    "story": "이마의 구슬이 붉게 빛날 때 신비한 염동력을 발휘해요! 물갈퀴 달린 손발로 거친 강물도 거침없이 헤엄칩니다.",
+    "evolution": "고라파덕의 최종 진화형! 머리 아픔이 사라지고 멋진 슈퍼 오리가 되었어요!",
+    "moves": [
+      {
+        "name": "하이드로펌프",
+        "type": "물",
+        "desc": "강력한 물대포를 뿜어내 상대를 날려버려요."
+      },
+      {
+        "name": "사념의박치기",
+        "type": "에스퍼",
+        "desc": "이마에 염력을 모아 쾅 들이받아요."
+      },
+      {
+        "name": "냉동빔",
+        "type": "얼음",
+        "desc": "차가운 얼음 광선으로 풀·비행·드래곤 타입을 꽁꽁 얼려요!"
+      },
+      {
+        "name": "아쿠아제트",
+        "type": "물",
+        "desc": "물살을 타고 번개처럼 먼저 공격하는 선제기!"
+      }
+    ],
+    "tip": "물 타입이지만 에스퍼 기술과 냉동빔까지 배워서 풀 타입 적도 거뜬히 상대할 수 있어요!"
+  },
+  {
+    "id": 80,
+    "num": "#080",
+    "name": "야도란",
+    "enName": "Slowbro",
+    "types": [
+      "물",
+      "에스퍼"
+    ],
+    "category": "기생포켓몬",
+    "height": "1.6m",
+    "weight": "78.5kg",
+    "stage": 8,
+    "location": "야돈이 Lv.37에 진화, 6번 도로 연못 물가",
+    "story": "꼬리를 셀러에게 물리는 바람에 두 발로 일어서게 되었어요! 꼬리를 물릴 때마다 새로운 영감이 번뜩 떠오른대요.",
+    "evolution": "야돈의 진화형! 꼬리에 소라 모양 셀러가 꼭 붙어있어요.",
+    "moves": [
+      {
+        "name": "파도타기",
+        "type": "물",
+        "desc": "거대한 파도를 일으켜 시원하게 덮쳐요."
+      },
+      {
+        "name": "사이코키네시스",
+        "type": "에스퍼",
+        "desc": "강력한 염동력으로 상대를 공중에 띄워 내동댕이쳐요!"
+      },
+      {
+        "name": "하품",
+        "type": "노말",
+        "desc": "귀엽게 하품을 해 다음 턴에 상대를 쿨쿨 잠재워요."
+      },
+      {
+        "name": "망각술",
+        "type": "에스퍼",
+        "desc": "머리를 멍하게 비워 특수방어력을 대폭 올립니다!"
+      }
+    ],
+    "tip": "방어력과 특수공격력이 뛰어나며, 하품으로 상대를 재운 뒤 안전하게 잡거나 공격할 수 있어요!"
   }
 ];
 
@@ -4893,6 +5382,14 @@
     function speakTownmapOverview() {
       const text = "관동지방 전체 모험 코스 안내입니다! 태초마을을 시작으로 상록숲, 회색시티, 달맞이산을 지나, 현재 우리는 6번째 장소인 블루시티에 도착해 있습니다! 블루시티에서 이슬이를 이기고 파이리와 상트안느호 티켓을 얻은 뒤, 다음 목적지인 갈색시티로 향하게 됩니다!";
       speakText(text);
+    }
+
+    function speakRoute56Story() {
+      speakText("5번 도로와 6번 도로, 그리고 비밀 지하통로 이야기예요! 블루시티를 지나 남쪽으로 내려오면 커다란 노랑시티 성문이 나오지만, 경비 아저씨가 목이 너무 말라서 아무도 못 지나가게 막고 있어요! 그래서 노랑시티는 아직 못 들어가고 지하통로로 우회해야 해요. 지하통로 계단을 내려가면 노랑시티 지하를 쏙 지나치게 되는데요, 이때 피카츄 꼬리가 파닥파닥 흔들리는 곳에서 A버튼을 누르면 반짝이는 진주 보물을 주울 수 있답니다! 지하통로를 나오면 6번 도로를 지나 드디어 신나는 갈색시티에 도착해요!");
+    }
+
+    function speakRoute56Strategy() {
+      speakText("5번 도로와 지하통로 공략법! 첫째, 노랑시티 게이트는 지금 차가 없어서 못 들어가니 우측 지하통로 건물로 쏙 들어가세요! 둘째, 지하통로 바닥에서 피카츄 꼬리가 흔들릴 때 A버튼을 누르면 비싼 진주와 큰진주를 주워 부자가 될 수 있어요! 셋째, 5번 도로 키우미집에 포켓몬을 맡겨두면 걸을 때마다 레벨업을 해요! 넷째, 갈색시티 여경에게 귀여운 꼬부기를 선물받으려면 포켓몬을 60마리 이상 잡아야 하니 풀숲에서 열심히 잡아보세요!");
     }
 
     function speakCeruleanEvents() {
@@ -5433,7 +5930,11 @@
       // 필드 무결성 보장
       if (!Array.isArray(data.caught)) data.caught = [];
       if (!data.notes || typeof data.notes !== 'object') data.notes = {};
-      if (!data.stage || data.stage < 7) data.stage = 7;
+      if (name === 'yeseo' && (!data.stage || data.stage < 8)) {
+        data.stage = 8; // 예서 최신 진도(5·6번 도로 및 지하통로) 자동 반영!
+      } else if (!data.stage || data.stage < 7) {
+        data.stage = 7;
+      }
 
       // 2중 백업 슬롯 동기화
       saveTrainerData(name, data);
