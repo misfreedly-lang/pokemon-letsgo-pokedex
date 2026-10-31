@@ -5786,7 +5786,8 @@
       speakColoringPokemon();
     }
 
-    function goToColoring(pokeName) {
+    function goToColoring(pokeName, event) {
+      if (event) event.stopPropagation();
       playBeep('pop');
       switchTab('coloring');
       
@@ -5795,8 +5796,8 @@
         select.value = pokeName;
         changeColoringPokemon();
       }
-      setTimeout(resizeColoringCanvas, 60);
-      setTimeout(resizeColoringCanvas, 220);
+      setTimeout(resizeColoringCanvas, 50);
+      setTimeout(resizeColoringCanvas, 200);
     }
 
     function initColoringCanvas() {
@@ -6787,22 +6788,31 @@
           </div>
 
           <div class="card-footer-btns">
-            <button class="card-action-btn btn-color-mode" onclick="goToColoring('${p.name}')">🎨 색칠하기</button>
-            <button class="card-action-btn btn-practice" onclick="goToPractice('${p.name}')">✍️ 쓰기</button>
-            <button class="card-action-btn btn-detail" onclick="openPokeModal(${p.id})">🔍 이야기</button>
+            <button class="card-action-btn btn-color-mode" onclick="goToColoring('${p.name}', event)" title="${p.name} 색칠하기로 이동">🎨 색칠하기</button>
+            <button class="card-action-btn btn-practice" onclick="goToWriting('${p.name}', event)" title="${p.name} 이름 쓰기로 이동">✍️ 이름 쓰기</button>
+            <button class="card-action-btn btn-detail" onclick="openPokeModal(${p.id}, event)" title="${p.name} 이야기 보기">🔍 이야기</button>
           </div>
         `;
         grid.appendChild(card);
       });
     }
 
-    function goToPractice(name) {
+    function goToWriting(pokeName, event) {
+      if (event) event.stopPropagation();
       playBeep('pop');
-      document.querySelectorAll('.nav-btn')[1].click();
-      document.getElementById('writing-poke-select').value = name;
-      changeWritingPokemon();
+      switchTab('writing');
+
+      const select = document.getElementById('writing-poke-select');
+      if (select) {
+        select.value = pokeName;
+        changeWritingPokemon();
+      }
       setTimeout(resizeCanvas, 50);
       setTimeout(resizeCanvas, 200);
+    }
+
+    function goToPractice(name, event) {
+      goToWriting(name, event);
     }
 
     function openPokeModal(id) {
