@@ -747,13 +747,19 @@
       border: 4px solid #48BB78;
     }
 
+    .writing-wrapper-card.workbook-card-theme {
+      background: #FAF5ED;
+      border: 3.5px solid #E2D9C8;
+      box-shadow: 0 12px 30px rgba(140, 94, 60, 0.08);
+    }
+
     .writing-top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .poke-select-box {
@@ -775,10 +781,90 @@
       cursor: pointer;
     }
 
+    .poke-select.workbook-select {
+      border: 2.5px solid #C7A788;
+      background: #FFFDF9;
+      color: #5C3D28;
+    }
+
+    /* 📸 포켓몬 한글 학습지 상단 영역 (설명문 + 진화 계통) */
+    .workbook-top-card {
+      background: #FFFFFF;
+      border: 2px solid #E4D8C5;
+      border-radius: 18px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 4px 12px rgba(140, 94, 60, 0.04);
+    }
+
+    .workbook-story-box {
+      flex: 1;
+      min-width: 240px;
+      font-family: 'Gowun Dodum', 'Noto Sans KR', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.55;
+      color: #3D2E22;
+      background: #FAF7F2;
+      border: 1.5px solid #EADECF;
+      border-radius: 14px;
+      padding: 10px 14px;
+    }
+
+    .workbook-evo-strip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #F5EFEB;
+      padding: 6px 12px;
+      border-radius: 16px;
+      border: 1px solid #E4D7C7;
+      flex-shrink: 0;
+    }
+
+    .workbook-evo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .workbook-evo-item.current {
+      border: 2.5px solid #E53E3E;
+      background: #FFFFFF;
+      border-radius: 14px;
+      padding: 4px 8px;
+      box-shadow: 0 2px 8px rgba(229, 62, 62, 0.2);
+    }
+
+    .workbook-evo-item img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .workbook-evo-badge {
+      font-family: 'Jua', sans-serif;
+      font-size: 0.85rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      color: #FFF;
+      background: #E53E3E;
+      white-space: nowrap;
+    }
+    .workbook-evo-badge.next {
+      background: #718096;
+    }
+
+    /* 📸 하단 워크북 캔버스 패드 */
     .pad-canvas-container {
       position: relative;
       width: 100%;
-      height: 420px;
+      height: 400px;
       background: #FFFDF8;
       border: 4px dashed #CBD5E0;
       border-radius: 24px;
@@ -788,94 +874,101 @@
       box-shadow: inset 0 2px 10px rgba(0,0,0,0.04);
     }
 
+    .pad-canvas-container.workbook-pad-canvas {
+      background: #FAF5ED;
+      border: 3px solid #D8CBB7;
+      border-radius: 24px;
+      box-shadow: inset 0 2px 8px rgba(140, 94, 60, 0.04);
+    }
+
     @media (max-width: 600px) {
-      .pad-canvas-container { height: 300px; }
+      .pad-canvas-container { height: 320px; }
     }
 
-    .pad-grid-lines {
+    /* "따라 써 보세요." 교재 안내 라벨 */
+    .workbook-label-row {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 14px;
+      left: 20px;
+      font-family: 'Gowun Dodum', 'Noto Sans KR', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #5A4A3C;
+      z-index: 2;
       pointer-events: none;
-      background: radial-gradient(#CBD5E0 1.2px, transparent 1.2px);
-      background-size: 26px 26px;
-      opacity: 0.35;
+      user-select: none;
     }
 
-    /* 초등학교 1학년 국어 깍두기 공책 한글 학습 스타일 */
     .guide-text-layer {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 40px; /* 글자 간격 아주 넉넉하게 띄움! */
-      padding: 16px;
+      padding-top: 26px; /* 상단 '따라 써 보세요' 라벨 공간 확보 */
       pointer-events: none;
       user-select: none;
       z-index: 2;
     }
 
-    .korean-syllable-box {
+    /* 📸 사진 속 일체형 연결 깍두기 격자판 (Strip) */
+    .korean-writing-strip {
+      display: inline-flex;
+      background: #FFFFFF;
+      border: 3.5px solid #334155;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      max-width: 96%;
+    }
+
+    /* 각 글자 사각 칸 */
+    .korean-syllable-cell {
       position: relative;
-      border: 3.5px dashed #94A3B8;
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.92);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      border-right: 2.8px solid #334155;
+      background: #FFFFFF;
       flex-shrink: 0;
-      transition: all 0.2s ease;
+    }
+    .korean-syllable-cell:last-child {
+      border-right: none;
     }
 
-    /* 십자 점선 가이드 (초등 1학년 깍두기 공책 자음/모음 중심선) */
-    .korean-syllable-box .cross-line-h {
+    /* 십자 점선 보조선 */
+    .cell-cross-h {
       position: absolute;
-      left: 12px; right: 12px; top: 50%;
-      height: 2px;
-      background: repeating-linear-gradient(to right, #CBD5E0 0, #CBD5E0 8px, transparent 8px, transparent 16px);
+      left: 0; right: 0; top: 50%;
+      height: 0;
+      border-top: 1.8px dashed #CBD5E1;
       pointer-events: none;
     }
-    .korean-syllable-box .cross-line-v {
+    .cell-cross-v {
       position: absolute;
-      top: 12px; bottom: 12px; left: 50%;
-      width: 2px;
-      background: repeating-linear-gradient(to bottom, #CBD5E0 0, #CBD5E0 8px, transparent 8px, transparent 16px);
+      top: 0; bottom: 0; left: 50%;
+      width: 0;
+      border-left: 1.8px dashed #CBD5E1;
       pointer-events: none;
     }
 
-    .syllable-order-badge {
-      position: absolute;
-      top: 10px; left: 12px;
-      background: #E2E8F0;
-      color: #4A5568;
-      font-family: 'Jua', sans-serif;
-      font-size: 1.15rem;
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-    }
-
-    .syllable-char {
+    /* 📸 사진과 100% 동일한 솔리드 연회색 글자 */
+    .cell-char-text {
       position: relative;
       z-index: 3;
-      font-family: 'Gowun Dodum', 'Noto Sans KR', sans-serif; /* 한글 학습에 가장 또박또박한 고운돋움 */
-      font-weight: 700;
-      color: rgba(226, 232, 240, 0.7);
-      -webkit-text-stroke: 3.5px rgba(71, 85, 105, 0.7); /* 어린이가 따라 쓰기 쉬운 또렷한 윤곽선 */
-      text-shadow: 0 2px 10px rgba(100, 116, 139, 0.12);
+      font-family: 'Gowun Dodum', 'Noto Sans KR', sans-serif;
+      font-weight: 800;
+      color: #CBD5E1; /* 사진 속 학습지와 똑같은 부드러운 솔리드 연회색! */
       line-height: 1;
       text-align: center;
       user-select: none;
     }
 
     @media (max-width: 900px) {
-      .guide-text-layer { gap: 16px !important; padding: 8px !important; }
-      .korean-syllable-box { border-width: 2.5px; border-radius: 18px; }
-      .syllable-char { -webkit-text-stroke-width: 2.2px; }
+      .workbook-top-card { flex-direction: column; align-items: stretch; }
+      .workbook-evo-strip { justify-content: center; }
+      .korean-writing-strip { border-width: 2.5px; border-radius: 16px; }
+      .korean-syllable-cell { border-right-width: 2px; }
     }
 
     #drawing-canvas {
@@ -2888,23 +2981,38 @@
       </section>
 
       <section id="tab-writing" class="tab-section">
-        <div class="writing-wrapper-card">
+        <div class="writing-wrapper-card workbook-card-theme">
+          <!-- 상단 1: 포켓몬 선택 및 음성 바 -->
           <div class="writing-top-bar">
             <div class="poke-select-box">
-              <label for="writing-poke-select" style="font-family:'Jua'; font-size:1.2rem;">✏️ 따라 쓸 포켓몬:</label>
-              <select id="writing-poke-select" class="poke-select" onchange="changeWritingPokemon()"></select>
-              <button class="tts-speaker-btn" onclick="speakCurrentPokemon()">🔊 이름 소리 듣기</button>
+              <label for="writing-poke-select" style="font-family:'Jua'; font-size:1.2rem; color:#8C5E3C;">✏️ 포켓몬 선택:</label>
+              <select id="writing-poke-select" class="poke-select workbook-select" onchange="changeWritingPokemon()"></select>
+              <button class="tts-speaker-btn" style="background:#E27D60;" onclick="speakCurrentPokemon()">🔊 이름 소리 듣기</button>
             </div>
-            <div style="font-family:'Jua'; color:#718096; font-size:1.05rem;">
-              애플펜슬 / S펜 / 손가락으로 점선을 따라 써보세요!
+            <div style="font-family:'Jua'; color:#8C7355; font-size:1.05rem;">
+              어린이 포켓몬 한글 학습지처럼 글자 위를 따라 써보세요!
             </div>
           </div>
 
-          <!-- 캔버스 패드 공책 -->
-          <div class="pad-canvas-container" id="pad-container">
-            <div class="pad-grid-lines"></div>
-            <!-- 초등학교 국어 깍두기 공책형 한글 가이드 -->
-            <div class="guide-text-layer" id="pad-guide-container"></div>
+          <!-- 상단 2: 📸 사진 상단 재현 (도감 설명 말풍선 & 진화 단계 카드) -->
+          <div class="workbook-top-card">
+            <div class="workbook-story-box" id="writing-poke-story">
+              뺨 양쪽에 빨간 전기 주머니가 있어요. 화가 나거나 위험을 느끼면 전기를 파지직 방출해요!
+            </div>
+            <div class="workbook-evo-strip" id="writing-evo-strip">
+              <!-- JS에서 [현재 포켓몬] ▶ [진화형] 자동 렌더링 -->
+            </div>
+          </div>
+
+          <!-- 하단: 📸 사진 하단 재현 (연결된 깍두기 공책 캔버스) -->
+          <div class="pad-canvas-container workbook-pad-canvas" id="pad-container">
+            <div class="workbook-label-row">따라 써 보세요.</div>
+            
+            <!-- 일체형 연결 깍두기 격자판 (Strip) -->
+            <div class="guide-text-layer">
+              <div class="korean-writing-strip" id="pad-guide-container"></div>
+            </div>
+
             <canvas id="drawing-canvas"></canvas>
             
             <div class="stamp-overlay" id="stamp-overlay">
@@ -6776,47 +6884,90 @@
       const select = document.getElementById('writing-poke-select');
       if (!select) return;
       const name = select.value;
-      const container = document.getElementById('pad-guide-container');
-      if (!container) return;
+      const p = POKEMON_DATA.find(x => x.name === name);
+      if (!p) return;
 
-      container.innerHTML = '';
+      // 1. 상단 설명문 업데이트
+      const storyEl = document.getElementById('writing-poke-story');
+      if (storyEl) {
+        storyEl.textContent = p.story || `${p.name}! ${p.types.join('과 ')} 타입 ${p.category}입니다.`;
+      }
+
+      // 2. 상단 진화 계통도 미니 뷰 업데이트
+      const evoStrip = document.getElementById('writing-evo-strip');
+      if (evoStrip) {
+        evoStrip.innerHTML = '';
+
+        // 현재 포켓몬 (빨간 테두리 카드)
+        const curItem = document.createElement('div');
+        curItem.className = 'workbook-evo-item current';
+        curItem.innerHTML = `
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png" alt="${p.name}">
+          <span class="workbook-evo-badge">${p.name}</span>
+        `;
+        evoStrip.appendChild(curItem);
+
+        // 진화 설명에서 진화 포켓몬 이름 추출
+        let evoPoke = null;
+        if (p.evolution) {
+          // POKEMON_DATA 중에서 진화문에 언급된 다른 포켓몬 탐색
+          evoPoke = POKEMON_DATA.find(other => other.id !== p.id && p.evolution.includes(other.name));
+        }
+
+        if (evoPoke) {
+          const arrow = document.createElement('div');
+          arrow.style.cssText = 'color:#A0AEC0; font-size:1.3rem; font-weight:bold;';
+          arrow.textContent = '▶';
+          evoStrip.appendChild(arrow);
+
+          const nextItem = document.createElement('div');
+          nextItem.className = 'workbook-evo-item';
+          nextItem.innerHTML = `
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evoPoke.id}.png" alt="${evoPoke.name}">
+            <span class="workbook-evo-badge next">${evoPoke.name}</span>
+          `;
+          evoStrip.appendChild(nextItem);
+        }
+      }
+
+      // 3. 하단 일체형 깍두기 격자판 렌더링
+      const stripContainer = document.getElementById('pad-guide-container');
+      if (!stripContainer) return;
+      stripContainer.innerHTML = '';
+
       const chars = name.split('');
       const charCount = chars.length;
 
-      // 글자 수에 따라 캔버스에 시원시원하게 꽉 차도록 깍두기 박스와 폰트 크기 계산
-      let boxSize = '280px';
-      let fontSize = '9.5rem';
-      let gapSize = '44px';
+      // 글자 수에 따른 정밀 칸 크기 및 폰트 크기 조율
+      let cellSize = 205;
+      let fontSize = '8.8rem';
 
       if (charCount <= 2) {
-        boxSize = '290px';
-        fontSize = '10.5rem';
-        gapSize = '64px';
+        cellSize = 225;
+        fontSize = '9.8rem';
       } else if (charCount === 3) {
-        boxSize = '250px';
-        fontSize = '8.8rem';
-        gapSize = '40px';
-      } else if (charCount >= 4) {
-        boxSize = '205px';
-        fontSize = '7.2rem';
-        gapSize = '26px';
+        cellSize = 195;
+        fontSize = '8.4rem';
+      } else if (charCount === 4) {
+        cellSize = 160;
+        fontSize = '7.0rem';
+      } else {
+        cellSize = 130;
+        fontSize = '5.6rem';
       }
 
-      container.style.gap = gapSize;
+      chars.forEach(ch => {
+        const cell = document.createElement('div');
+        cell.className = 'korean-syllable-cell';
+        cell.style.width = `${cellSize}px`;
+        cell.style.height = `${cellSize}px`;
 
-      chars.forEach((ch, idx) => {
-        const box = document.createElement('div');
-        box.className = 'korean-syllable-box';
-        box.style.width = boxSize;
-        box.style.height = boxSize;
-
-        box.innerHTML = `
-          <div class="cross-line-h"></div>
-          <div class="cross-line-v"></div>
-          <span class="syllable-char" style="font-size: ${fontSize};">${ch}</span>
-          <span class="syllable-order-badge">${idx + 1}</span>
+        cell.innerHTML = `
+          <div class="cell-cross-h"></div>
+          <div class="cell-cross-v"></div>
+          <span class="cell-char-text" style="font-size: ${fontSize};">${ch}</span>
         `;
-        container.appendChild(box);
+        stripContainer.appendChild(cell);
       });
 
       clearCanvas();
