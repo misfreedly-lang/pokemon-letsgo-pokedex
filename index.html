@@ -2071,6 +2071,262 @@
       }
     }
 
+
+    /* ========================================================
+       포켓몬 카드 내 추천 기술 칩 & 기술 설명 팝업 스타일
+       ======================================================== */
+    .card-moves-section {
+      background: #F7FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 8px 10px;
+      margin-bottom: 6px;
+      text-align: left;
+    }
+
+    .card-moves-label {
+      font-family: 'Jua', sans-serif;
+      font-size: 0.88rem;
+      color: #4A5568;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-moves-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .move-chip-btn {
+      border: none;
+      padding: 4px 9px;
+      border-radius: 12px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.84rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .move-chip-btn:hover {
+      transform: translateY(-2px) scale(1.06);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.18);
+    }
+
+    .move-chip-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* 기술 상세 설명 알림 팝업 모달 */
+    .move-modal-card {
+      background: white;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 460px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      border: 4px solid #FFCC00;
+      position: relative;
+      animation: modalPop 0.25s ease;
+      text-align: center;
+    }
+
+    .move-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .move-modal-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.8rem;
+      color: #1A202C;
+    }
+
+    .move-modal-desc-box {
+      background: #FFFDF0;
+      border: 2px solid #FBD38D;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 14px 0;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #744210;
+    }
+
+    /* ========================================================
+       🗺️ 타운맵 & 모험 스토리 / 특별 이벤트 탭 스타일
+       ======================================================== */
+    .townmap-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .townmap-roadmap-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 22px 18px;
+      box-shadow: var(--card-shadow);
+      border: 4px solid #3182CE;
+    }
+
+    .roadmap-title-row {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .roadmap-title-row h3 {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.8rem;
+      color: #2B6CB0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* 관동지방 노선도 그리드 */
+    .roadmap-flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .roadmap-station {
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 12px 14px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .roadmap-station:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      border-color: #3182CE;
+    }
+
+    .roadmap-station.current-pos {
+      background: linear-gradient(180deg, #EBF8FF 0%, #FFFFFF 100%);
+      border: 3px solid #007AFF;
+      box-shadow: 0 0 16px rgba(0,122,255,0.25);
+    }
+
+    .roadmap-station.next-pos {
+      background: linear-gradient(180deg, #F0FFF4 0%, #FFFFFF 100%);
+      border: 2px dashed #38A169;
+    }
+
+    .station-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.15rem;
+      font-weight: bold;
+    }
+
+    .station-desc {
+      font-size: 0.85rem;
+      color: #718096;
+      line-height: 1.45;
+    }
+
+    .station-cur-tag {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: #E53E3E;
+      color: white;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.78rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(229,62,62,0.4);
+      animation: pulse 1.5s infinite;
+    }
+
+    /* 지역별 특별 이벤트 상세 카드들 */
+    .event-guide-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 22px;
+      box-shadow: var(--card-shadow);
+      border-left: 8px solid #007AFF;
+    }
+
+    .event-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .event-card-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.55rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #1A202C;
+    }
+
+    .event-items-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .event-item-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .event-item-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .event-item-content strong {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.12rem;
+      color: #2D3748;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .event-item-content p {
+      font-size: 0.92rem;
+      color: #4A5568;
+      margin: 0;
+      line-height: 1.55;
+    }
+
 </style>
 </head>
 <body>
@@ -2177,6 +2433,7 @@
         <nav class="nav-tabs compact-nav-tabs">
           <button class="nav-btn active" data-tab="pokedex" onclick="switchTab('pokedex', this)">📖 맞춤 도감</button>
           <button class="nav-btn" data-tab="coloring" onclick="switchTab('coloring', this)">🎨 포켓몬 색칠</button>
+          <button class="nav-btn" data-tab="townmap" onclick="switchTab('townmap', this)">🗺️ 지도 & 스토리</button>
           <button class="nav-btn" data-tab="writing" onclick="switchTab('writing', this)">✍️ 한글 쓰기</button>
           <button class="nav-btn" data-tab="typeClass" onclick="switchTab('typeClass', this)">⚖️ 상성 & 배틀</button>
           <button class="nav-btn" data-tab="strategy" onclick="switchTab('strategy', this)">💡 모험 공략</button>
@@ -2301,6 +2558,204 @@
               </button>
             </div>
           </div>
+        </div>
+      </section>
+
+      
+      <!-- ========================================================
+           탭: 🗺️ 타운맵 & 모험 스토리 / 특별 이벤트
+           ======================================================== -->
+      <section id="tab-townmap" class="tab-section">
+        <div class="townmap-container">
+
+          <!-- 1. 관동지방 전체 모험 로드맵 -->
+          <div class="townmap-roadmap-card">
+            <div class="roadmap-title-row">
+              <h3>
+                <span>🗺️ 관동지방 모험 타운맵 (모험 로드맵)</span>
+                <button class="tts-speaker-btn" onclick="speakTownmapOverview()">🔊 전체 코스 안내 듣기</button>
+              </h3>
+              <p style="color:#718096; font-size:0.95rem; margin-top:4px;">
+                우리가 지나온 길과 앞으로 갈 모험 장소를 한눈에 확인해 보세요!
+              </p>
+            </div>
+
+            <!-- 노선도 카드 그리드 -->
+            <div class="roadmap-flow">
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#2D3748;">🏡 1. 태초마을</div>
+                <div class="station-desc">오박사 연구소에서 파트너 피카츄/이브이와 운명적인 첫 만남!</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#38A169;">🌲 2. 상록숲</div>
+                <div class="station-desc">벌레 포켓몬과 풀숲에 숨은 귀한 야생 '이상해씨' 발견!</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#B7791F;">🪨 3. 회색시티</div>
+                <div class="station-desc">1번째 관장 웅이(바위) 돌파! 박물관의 비밀 호박(프테라).</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#DD6B20;">🛣️ 4. 3·4번 도로</div>
+                <div class="station-desc">풀숲의 푸린 포획 & 포켓몬센터 수상한 아저씨의 500원 잉어킹!</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#805AD5;">🌙 5. 달맞이산</div>
+                <div class="station-desc">로켓단 첫 조우, 반짝이는 달의 돌(니드킹/푸크린), 화석 선택.</div>
+              </div>
+
+              <!-- ★현재 위치 강조! -->
+              <div class="roadmap-station current-pos">
+                <span class="station-cur-tag">🚩 현재 우리 위치!</span>
+                <div class="station-badge" style="color:#007AFF;">🌊 6. 블루시티</div>
+                <div class="station-desc"><strong>이슬이 물 체육관, 금구슬 브릿지, 파이리 선물, 이수재의 집!</strong></div>
+              </div>
+
+              <!-- ★다음 목적지 강조! -->
+              <div class="roadmap-station next-pos">
+                <span class="station-cur-tag" style="background:#38A169;">🚀 다음 목적지!</span>
+                <div class="station-badge" style="color:#D69E2E;">🚢 7. 갈색시티</div>
+                <div class="station-desc">호화 유람선 상트안느호, 비술 풀베기, 꼬부기 선물, 마티스(전기).</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#E53E3E;">🌈 8. 무지개시티</div>
+                <div class="station-desc">거대 백화점, 파트너 비행기술 '둥실둥실풍선', 로켓단 지하 아지트.</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#805AD5;">🏢 9. 노랑시티</div>
+                <div class="station-desc">실프주식회사 탈환, 라프라스 선물, 초련(에스퍼 체육관).</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#E53E3E;">🦩 10. 연분홍시티</div>
+                <div class="station-desc">파트너 물기술 '파도가르기', 사파리존 GO파크, 독수 체육관.</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#DD6B20;">🌋 11. 홍련섬</div>
+                <div class="station-desc">포켓몬저택 비밀, 화석 연구소(부활), 강연(불꽃 퀴즈 체육관).</div>
+              </div>
+
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#C53030;">🏆 12. 포켓몬리그</div>
+                <div class="station-desc">8개 배지 완성 후 챔피언로드 통과, 사천왕 & 라이벌 챔피언 배틀!</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. ★블루시티 특별 이벤트 가이드 (지금 꼭 챙겨야 할 4가지 보물!) -->
+          <div class="event-guide-card" style="border-left-color: #007AFF; background: linear-gradient(to right, #F0F9FF, #FFF);">
+            <div class="event-card-header">
+              <div class="event-card-title">
+                <span>🌊 블루시티에서 꼭 해야 할 특별 이벤트 4가지 (★필수!)</span>
+              </div>
+              <button class="tts-speaker-btn" onclick="speakCeruleanEvents()">🔊 블루시티 이벤트 듣기</button>
+            </div>
+            
+            <ul class="event-items-list">
+              <li class="event-item-box">
+                <div class="event-item-icon">⚡</div>
+                <div class="event-item-content">
+                  <strong>1. 포켓몬센터 조련사 아저씨 ➔ 파트너 피카츄 전용기 습득!</strong>
+                  <p>블루시티 포켓몬센터 안 채찍 든 아저씨에게 말을 걸면 <strong>'반짝반짝일격 (전기/선제공격+100% 급소)'</strong>을 공짜로 가르쳐 줍니다! (이브이는 3대 속성기 전수) 배틀 난이도가 확 쉬워져요!</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🌉</div>
+                <div class="event-item-content">
+                  <strong>2. 24번 도로 '금구슬 브릿지' ➔ 트레이너 5연승과 금구슬!</strong>
+                  <p>블루시티 북쪽 긴 다리 위의 트레이너 5명을 연속으로 무찌르면, 상점에 5,000원에 팔 수 있는 보물 <strong>'금구슬'</strong>을 선물로 받아요!</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🔥</div>
+                <div class="event-item-content">
+                  <strong>3. 언덕 위 트레이너 ➔ 스타팅 '파이리(Lv.14)' 무료 입양!</strong>
+                  <p>금구슬 브릿지를 건너 왼쪽 언덕에 서 있는 트레이너에게 말을 걸어보세요. 포켓몬을 50마리 이상 잡았다면 귀여운 <strong>파이리</strong>를 선물로 줍니다!</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🎟️</div>
+                <div class="event-item-content">
+                  <strong>4. 25번 도로 끝 이수재의 집 ➔ '상트안느호 승선권' 획득!</strong>
+                  <p>기계 사고로 삐삐로 변해버린 천재 연구가 이수재를 컴퓨터로 구해주면, 다음 목적지 갈색시티에서 타는 호화 유람선 <strong>'상트안느호 티켓'</strong>을 보답으로 줍니다!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 3. ★갈색시티 모험 예고 (다음 목적지에서 기다리는 것들!) -->
+          <div class="event-guide-card" style="border-left-color: #D69E2E; background: linear-gradient(to right, #FFFDF2, #FFF);">
+            <div class="event-card-header">
+              <div class="event-card-title">
+                <span>🚢 다음 목적지: 갈색시티 특별 이벤트 (★미리보기)</span>
+              </div>
+              <button class="tts-speaker-btn" onclick="speakVermilionEvents()">🔊 갈색시티 예고 듣기</button>
+            </div>
+
+            <ul class="event-items-list">
+              <li class="event-item-box">
+                <div class="event-item-icon">🐢</div>
+                <div class="event-item-content">
+                  <strong>1. 마을 중앙 여경(경찰관)에게 '꼬부기(Lv.12)' 무료 선물 받기!</strong>
+                  <p>마을 한가운데 있는 여경에게 말을 걸면, 장난꾸러기 스타팅 포켓몬 <strong>꼬부기</strong>를 맡아달라며 선물로 줍니다! (포켓몬 60마리 이상 포획 조건)</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🚢</div>
+                <div class="event-item-content">
+                  <strong>2. 호화 유람선 상트안느호 승선 & 비술 '사각베기(풀베기)' 습득!</strong>
+                  <p>이수재에게 받은 티켓으로 유람선에 타서 배 안을 탐험하고, 뱃멀미하는 선장님의 등을 두드려주면 나무를 벨 수 있는 <strong>비술 '사각베기'</strong>를 배웁니다!</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">⚡</div>
+                <div class="event-item-content">
+                  <strong>3. 갈색 체육관 관장 마티스(전기) & 쓰레기통 스위치 퍼즐!</strong>
+                  <p>쓰레기통 속 연속 2개 비밀 스위치를 찾아서 전기 문을 열고, 마티스의 라이츄를 물리쳐 3번째 오렌지배지를 획득하세요!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 4. 지나온 특별 이벤트 복습 (달맞이산 & 4번도로) -->
+          <div class="event-guide-card" style="border-left-color: #805AD5;">
+            <div class="event-card-header">
+              <div class="event-card-title">
+                <span>🌙 달맞이산 & 4번 도로 숨은 보물 복습</span>
+              </div>
+              <button class="tts-speaker-btn" onclick="speakPastEvents()">🔊 복습 듣기</button>
+            </div>
+
+            <ul class="event-items-list">
+              <li class="event-item-box">
+                <div class="event-item-icon">💎</div>
+                <div class="event-item-content">
+                  <strong>달맞이산 분화구 반짝이는 '달의 돌'</strong>
+                  <p>달의 돌을 니드런이나 푸린에게 쓰면 즉시 최강 괴수 니드킹/니드퀸, 피통 깡패 푸크린으로 슈퍼 진화합니다!</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🐟</div>
+                <div class="event-item-content">
+                  <strong>4번 도로 포켓몬센터 500원 잉어킹</strong>
+                  <p>레벨 20까지 꾹 참고 키우면 바다의 최강 에이스 <strong>'갸라도스'</strong>로 환골탈태합니다!</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
         </div>
       </section>
 
@@ -4246,6 +4701,71 @@
 ];
 
     
+    
+    // ========================================================
+    // ⚔️ 포켓몬 기술 상세 설명 팝업 및 TTS 안내
+    // ========================================================
+    let currentModalMoveData = null;
+
+    function showMoveDetail(pokeId, moveIdx, event) {
+      if (event) event.stopPropagation();
+      playBeep('pop');
+
+      const p = POKEMON_DATA.find(x => x.id === pokeId);
+      if (!p || !p.moves || !p.moves[moveIdx]) return;
+      const m = p.moves[moveIdx];
+      currentModalMoveData = { pokeName: p.name, move: m };
+
+      document.getElementById('move-modal-name').textContent = m.name;
+      const badge = document.getElementById('move-modal-type-badge');
+      badge.textContent = m.type;
+      badge.className = `type-badge type-${m.type}`;
+      document.getElementById('move-modal-user').textContent = `${p.name} (${p.num})의 추천 기술`;
+      document.getElementById('move-modal-desc').innerHTML = `
+        <strong>기술 효과:</strong><br>${m.desc}
+      `;
+
+      document.getElementById('move-detail-modal').classList.add('show');
+      speakCurrentMoveModal();
+    }
+
+    function closeMoveModal() {
+      document.getElementById('move-detail-modal').classList.remove('show');
+    }
+
+    function closeMoveModalOnBackdrop(e) {
+      if (e.target.id === 'move-detail-modal') closeMoveModal();
+    }
+
+    function speakCurrentMoveModal() {
+      if (!currentModalMoveData) return;
+      const { pokeName, move } = currentModalMoveData;
+      speakText(`${pokeName}의 ${move.name}! ${move.type} 타입 기술입니다. ${move.desc}`);
+    }
+
+    // ========================================================
+    // 🗺️ 타운맵 & 모험 스토리 음성 가이드
+    // ========================================================
+    function speakTownmapOverview() {
+      const text = "관동지방 전체 모험 코스 안내입니다! 태초마을을 시작으로 상록숲, 회색시티, 달맞이산을 지나, 현재 우리는 6번째 장소인 블루시티에 도착해 있습니다! 블루시티에서 이슬이를 이기고 파이리와 상트안느호 티켓을 얻은 뒤, 다음 목적지인 갈색시티로 향하게 됩니다!";
+      speakText(text);
+    }
+
+    function speakCeruleanEvents() {
+      const text = "블루시티에서 꼭 해야 할 특별 이벤트 4가지입니다! 첫째, 포켓몬센터 안 조련사 아저씨에게 피카츄의 최고 사기 기술인 반짝반짝일격을 공짜로 배우세요! 둘째, 24번 도로 금구슬 브릿지에서 5연승을 하고 5천원짜리 금구슬을 받으세요! 셋째, 다리 건너 왼쪽 언덕 트레이너에게 스타팅 파이리를 무료로 선물 받으세요! 넷째, 25번 도로 끝 이수재의 집에서 삐삐를 구해주고 유람선 상트안느호 승선권을 챙기세요!";
+      speakText(text);
+    }
+
+    function speakVermilionEvents() {
+      const text = "다음 목적지 갈색시티 미리보기입니다! 첫째, 마을 한가운데 여경에게 말을 걸면 귀여운 스타팅 꼬부기를 무료로 선물 받습니다! 둘째, 상트안느호 유람선에 타서 선장님을 돕고 나무를 베는 비술 사각베기를 배웁니다! 셋째, 체육관 관장 마티스의 쓰레기통 스위치 퍼즐을 풀고 3번째 배지를 획득하세요!";
+      speakText(text);
+    }
+
+    function speakPastEvents() {
+      const text = "달맞이산과 4번 도로 숨은 보물 복습입니다! 달맞이산 분화구에서 달의 돌을 주워 니드킹과 푸크린으로 슈퍼 진화시킬 수 있고, 4번 도로 포켓몬센터의 500원 잉어킹은 20레벨에 바다의 용 갸라도스로 진화합니다!";
+      speakText(text);
+    }
+
     // ========================================================
     // 🎨 포켓몬 색칠하기 스케치북 엔진 (아이패드 6세대 & 애플펜슬 대응)
     // ========================================================
@@ -5160,6 +5680,20 @@
             <p class="card-story-text">${p.story}</p>
           </div>
 
+          <!-- ⚔️ 추천 기술 4가지 (터치하면 설명과 소리가 바로 뜸!) -->
+          <div class="card-moves-section">
+            <div class="card-moves-label">
+              <span>⚔️ <strong>추천 기술:</strong> (터치하면 설명이 떠요!)</span>
+            </div>
+            <div class="card-moves-chips">
+              ${p.moves.map((m, idx) => `
+                <button class="move-chip-btn type-badge type-${m.type}" onclick="showMoveDetail(${p.id}, ${idx}, event)" title="${m.name} 기술 설명 보기">
+                  ${m.name}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
           <!-- 💡 배틀 꿀팁 -->
           <div class="card-tip-box">
             💡 <strong>배틀 팁:</strong> ${p.tip}
@@ -5214,12 +5748,16 @@
       p.moves.forEach(m => {
         const div = document.createElement('div');
         div.className = 'move-cell';
+        div.onclick = (e) => showMoveDetail(p.id, p.moves.indexOf(m), e);
+        div.style.cursor = 'pointer';
+        div.title = '터치하면 음성으로 기술을 읽어줘요!';
         div.innerHTML = `
-          <div style="font-weight:bold; font-size:0.95rem; display:flex; justify-content:space-between;">
+          <div style="font-weight:bold; font-size:0.95rem; display:flex; justify-content:space-between; align-items:center;">
             <span>${m.name}</span>
             <span class="type-badge type-${m.type}" style="font-size:0.75rem; padding:2px 6px;">${m.type}</span>
           </div>
-          <div style="font-size:0.82rem; color:#718096; margin-top:2px;">${m.desc}</div>
+          <div style="font-size:0.82rem; color:#4A5568; margin-top:2px;">${m.desc}</div>
+          <div style="font-size:0.75rem; color:#3182CE; text-align:right; margin-top:2px;">🔊 터치해서 듣기</div>
         `;
         movesGrid.appendChild(div);
       });
