@@ -2514,7 +2514,7 @@
           <h2 class="profile-name">👧 예서의 도감</h2>
           <div class="profile-subtitle">⚡ 레츠고 피카츄 파트너!</div>
           <div class="profile-stats-pill">
-            <span>📍 진도: <strong id="intro-yeseo-stage">3번 도로</strong></span>
+            <span>📍 진도: <strong id="intro-yeseo-stage">갈색시티 (마티스 체육관)</strong></span>
             <span>⭐ 도장: <strong id="intro-yeseo-stamps">0개</strong></span>
           </div>
           <button class="profile-enter-btn">모험 시작하기 ➔</button>
@@ -2576,7 +2576,8 @@
               <option value="5">5단계: 4번 도로 (잉어킹)</option>
               <option value="6">6단계: 달맞이산</option>
               <option value="7">7단계: 블루시티 (이슬이)</option>
-              <option value="8" selected>8단계: 5·6번 도로 & 지하통로 (노랑시티 우회/갈색시티 가는 길)</option>
+              <option value="8">8단계: 5·6번 도로 & 지하통로 (노랑시티 우회/갈색시티 가는 길)</option>
+              <option value="9" selected>9단계: 갈색시티 & 마티스 체육관 (오렌지배지)</option>
             </select>
             <span class="compact-caught-badge" id="caught-counter-pill">
               🔴 0 / 39 마리
@@ -2620,8 +2621,9 @@
             <input type="text" id="poke-search" placeholder="포켓몬 이름이나 타입 검색 (예: 피카츄, 불꽃, 3번도로)" oninput="filterPokemon()">
           </div>
           <div class="filter-tags">
-            <button class="filter-chip active" style="background:#007AFF; color:white; font-weight:bold;" onclick="setFilter('currentStage', this)">📍 내 진도까지 전체 (1~8단계)</button>
-            <button class="filter-chip" onclick="setFilter('route56Only', this)">🛣️ 5·6번 도로 신규</button>
+            <button class="filter-chip active" style="background:#007AFF; color:white; font-weight:bold;" onclick="setFilter('currentStage', this)">📍 내 진도까지 전체 (1~9단계)</button>
+            <button class="filter-chip" onclick="setFilter('vermilionOnly', this)">⚡ 갈색시티 체육관 신규</button>
+            <button class="filter-chip" onclick="setFilter('route56Only', this)">🛣️ 5·6번 도로</button>
             <button class="filter-chip" onclick="setFilter('ceruleanOnly', this)">🌊 블루시티</button>
             <button class="filter-chip" onclick="setFilter('caughtOnly', this)">🔴 내가 잡은 친구들</button>
             <button class="filter-chip" onclick="setFilter('all', this)">전체보기</button>
@@ -2778,18 +2780,23 @@
                 <div class="station-desc">이슬이 물 체육관, 금구슬 브릿지, 파이리 선물, 이수재의 집 클리어!</div>
               </div>
 
+              <div class="roadmap-station">
+                <div class="station-badge" style="color:#DD6B20;">🛣️ 7. 5·6번 도로 & 지하통로</div>
+                <div class="station-desc">키우미집 발견! 목마른 경비원으로 노랑시티 우회 & 지하통로 바닥 숨은 보물 싹쓸이 완료!</div>
+              </div>
+
               <!-- ★현재 예서의 모험 위치 강조! -->
               <div class="roadmap-station current-pos">
                 <span class="station-cur-tag">🚩 현재 예서의 모험 위치!</span>
-                <div class="station-badge" style="color:#DD6B20;">🛣️ 7. 5·6번 도로 & 지하통로</div>
-                <div class="station-desc"><strong>키우미집 발견! 목마른 경비원으로 노랑시티 우회 & 지하통로 바닥 숨은 보물 싹쓸이!</strong></div>
+                <div class="station-badge" style="color:#D69E2E;">🚢 8. 갈색시티 & 마티스 체육관</div>
+                <div class="station-desc"><strong>가디 5마리 교환으로 멋진 페르시온 탑승! 상트안느호에서 비술 사각베기 습득 & 마티스(전기) 배틀!</strong></div>
               </div>
 
               <!-- ★다음 목적지 강조! -->
               <div class="roadmap-station next-pos">
                 <span class="station-cur-tag" style="background:#38A169;">🚀 다음 목적지!</span>
-                <div class="station-badge" style="color:#D69E2E;">🚢 8. 갈색시티</div>
-                <div class="station-desc">호화 유람선 상트안느호, 비술 사각베기, 여경의 꼬부기 선물, 마티스(전기).</div>
+                <div class="station-badge" style="color:#805AD5;">⛏️ 9. 디그다의 굴 & 11번 도로</div>
+                <div class="station-desc">땅 타입 디그다·닥트리오 대량 서식! 무지개시티와 2번 도로로 이어지는 비밀 터널.</div>
               </div>
 
               <div class="roadmap-station">
@@ -2915,37 +2922,45 @@
             </ul>
           </div>
 
-          <!-- 3. ★갈색시티 모험 예고 (다음 목적지에서 기다리는 것들!) -->
-          <div class="event-guide-card" style="border-left-color: #D69E2E; background: linear-gradient(to right, #FFFDF2, #FFF);">
+          <!-- ★갈색시티 & 마티스 체육관 특별 이벤트 (현재 예서의 모험!) -->
+          <div class="event-guide-card" style="border-left-color: #FFB300; background: linear-gradient(to right, #FFFDF0, #FFF); box-shadow: 0 4px 16px rgba(255, 179, 0, 0.16);">
             <div class="event-card-header">
               <div class="event-card-title">
-                <span>🚢 다음 목적지: 갈색시티 특별 이벤트 (★미리보기)</span>
+                <span>🚢 갈색시티 특별 이벤트: 가디 5마리 페르시온 교환 & 마티스 체육관 완벽 공략!</span>
               </div>
-              <button class="tts-speaker-btn" onclick="speakVermilionEvents()">🔊 갈색시티 예고 듣기</button>
+              <button class="tts-speaker-btn" style="background:#FF8A00;" onclick="speakVermilionEvents()">🔊 갈색시티 모험 이야기 듣기</button>
             </div>
 
             <ul class="event-items-list">
-              <li class="event-item-box">
-                <div class="event-item-icon">🐢</div>
+              <li class="event-item-box" style="border: 2px solid #F6AD55; background:#FFFAF0;">
+                <div class="event-item-icon">🐱</div>
                 <div class="event-item-content">
-                  <strong>1. 마을 중앙 여경(경찰관)에게 '꼬부기(Lv.12)' 무료 선물 받기!</strong>
-                  <p>마을 한가운데 있는 여경에게 말을 걸면, 장난꾸러기 스타팅 포켓몬 <strong>꼬부기</strong>를 맡아달라며 선물로 줍니다! (포켓몬 60마리 이상 포획 조건)</p>
+                  <strong>1. ★가디 5마리 잡아서 페르시온 교환 성공! (등에 타고 질주하는 멋진 포켓몬!)</strong>
+                  <p>갈색시티 포켓몬센터 옆 의자에 앉아있는 애호가 아저씨에게 <strong>가디 5마리</strong>를 잡아 보여주면 보답으로 크고 아름다운 <strong>'페르시온'</strong>을 선물해 줘요! 페르시온을 몬스터볼에서 꺼내면 예서가 등 위에 직접 타고 바람처럼 쌩쌩 달릴 수 있답니다!</p>
                 </div>
               </li>
 
               <li class="event-item-box">
                 <div class="event-item-icon">🚢</div>
                 <div class="event-item-content">
-                  <strong>2. 호화 유람선 상트안느호 승선 & 비술 '사각베기(풀베기)' 습득!</strong>
-                  <p>이수재에게 받은 티켓으로 유람선에 타서 배 안을 탐험하고, 뱃멀미하는 선장님의 등을 두드려주면 나무를 벨 수 있는 <strong>비술 '사각베기'</strong>를 배웁니다!</p>
+                  <strong>2. 호화 여객선 상트안느호 승선 & 비술 '사각베기(사선베기)' 습득!</strong>
+                  <p>항구에 정박한 멋진 유람선에 이수재의 승선권으로 탑승하세요! 뱃멀미로 괴로워하는 선장님의 등을 토닥토닥 두드려주면 보답으로 길을 막는 나무를 벨 수 있는 <strong>비술 '사각베기'</strong>를 가르쳐 줍니다! (체육관 앞 나무를 베어야 체육관에 들어갈 수 있어요!)</p>
+                </div>
+              </li>
+
+              <li class="event-item-box">
+                <div class="event-item-icon">🐢</div>
+                <div class="event-item-content">
+                  <strong>3. 마을 중앙 여경 아가씨에게 스타팅 '꼬부기(Lv.12)' 무료 입양!</strong>
+                  <p>갈색시티 중앙에 서 있는 여경에게 말을 걸어보세요. 포켓몬을 60마리 이상 잡았다면 장난꾸러기 귀여운 꼬부기를 선물로 맡겨줍니다!</p>
                 </div>
               </li>
 
               <li class="event-item-box">
                 <div class="event-item-icon">⚡</div>
                 <div class="event-item-content">
-                  <strong>3. 갈색 체육관 관장 마티스(전기) & 쓰레기통 스위치 퍼즐!</strong>
-                  <p>쓰레기통 속 연속 2개 비밀 스위치를 찾아서 전기 문을 열고, 마티스의 라이츄를 물리쳐 3번째 오렌지배지를 획득하세요!</p>
+                  <strong>4. 갈색 체육관 관장 마티스 & 전자 배리어 쓰레기통 2연속 스위치 공략!</strong>
+                  <p>체육관 안의 15개 쓰레기통 중 첫 번째 스위치를 찾고, <em>바로 맞닿은(상·하·좌·우) 쓰레기통</em>에서 두 번째 스위치를 연속으로 누르면 전기 문이 열려요! 마티스의 찌리리공(Lv.25), 코일(Lv.25), 라이츄(Lv.26)는 <strong>디그다의 굴에서 잡은 디그다/닥트리오의 땅 타입 '구멍파기'</strong> 한 방이면 전기를 0배로 씹고 가볍게 승리할 수 있습니다!</p>
                 </div>
               </li>
             </ul>
@@ -5663,7 +5678,243 @@
       }
     ],
     "tip": "스피드가 마하 2로 엄청나게 빨라요! 공중에서 선제 공격을 퍼부어 배틀을 유리하게 이끌어갈 수 있어요!"
-  }
+  },
+{
+  "id": 26,
+  "num": "#026",
+  "name": "라이츄",
+  "enName": "Raichu",
+  "types": [
+    "전기"
+  ],
+  "category": "쥐포켓몬",
+  "height": "0.8m",
+  "weight": "30.0kg",
+  "stage": 9,
+  "location": "갈색 체육관(관장 마티스 에이스), 피카츄에게 천둥의 돌 사용",
+  "story": "피카츄가 천둥의 돌을 받아 진화한 포켓몬이에요! 꼬리가 피뢰침 역할을 해서 자신을 감전으로부터 보호해요. 전기가 가득 차면 양 볼이 환하게 빛나요.",
+  "evolution": "피카츄 ▶ (천둥의 돌) ▶ 라이츄",
+  "moves": [
+    {
+      "name": "10만볼트",
+      "type": "전기",
+      "desc": "마티스의 주력기! 강력한 전기를 뿜어내 상대를 마비시켜요."
+    },
+    {
+      "name": "번개펀치",
+      "type": "전기",
+      "desc": "전기를 주먹에 모아 강하게 내리치는 강력한 기술!"
+    },
+    {
+      "name": "전광석화",
+      "type": "노말",
+      "desc": "번개 같은 스피드로 상대보다 먼저 빠르게 공격해요."
+    },
+    {
+      "name": "아이언테일",
+      "type": "강철",
+      "desc": "단단한 꼬리로 강하게 내리쳐 상대의 방어를 떨어뜨려요."
+    }
+  ],
+  "tip": "갈색 체육관 관장 마티스의 비장의 에이스예요! 전기가 매우 강력하지만, 디그다나 닥트리오의 '구멍파기(땅)'를 쓰면 전기를 0배로 무효화하고 쉽게 쓰러뜨릴 수 있어요!"
+},
+{
+  "id": 53,
+  "num": "#053",
+  "name": "페르시온",
+  "enName": "Persian",
+  "types": [
+    "노말"
+  ],
+  "category": "샴고양이포켓몬",
+  "height": "1.0m",
+  "weight": "32.0kg",
+  "stage": 9,
+  "location": "★갈색시티 가디 5마리 교환 선물!, 냐옹 레벨 28 진화",
+  "story": "갈색시티에서 가디 5마리를 잡아서 보여주고 교환으로 선물 받은 예서의 소중하고 멋진 포켓몬이에요! 이마의 붉은 보석이 반짝이며, 주인공이 등 위에 직접 타고 신나게 질주할 수 있어요!",
+  "evolution": "냐옹 ▶ (Lv.28) ▶ 페르시온",
+  "moves": [
+    {
+      "name": "속여때리기",
+      "type": "악",
+      "desc": "상대를 방심하게 만든 뒤 반드시 명중하는 공격!"
+    },
+    {
+      "name": "물기",
+      "type": "악",
+      "desc": "날카로운 이빨로 물어뜯어 상대를 풀죽게 만들어요."
+    },
+    {
+      "name": "베어가르기",
+      "type": "노말",
+      "desc": "날카로운 발톱으로 베어 갈라 급소에 맞기 쉬워요."
+    },
+    {
+      "name": "고양이돈받기",
+      "type": "노말",
+      "desc": "반짝이는 금화를 던져 공격하고 배틀 후 용돈을 주워요!"
+    }
+  ],
+  "tip": "예서가 갈색시티에서 타면 바람처럼 빠르게 달릴 수 있는 최고의 탑승 포켓몬이에요! 스피드가 무척 빨라 언제나 먼저 공격할 수 있어요!"
+},
+{
+  "id": 81,
+  "num": "#081",
+  "name": "코일",
+  "enName": "Magnemite",
+  "types": [
+    "전기",
+    "강철"
+  ],
+  "category": "자석포켓몬",
+  "height": "0.3m",
+  "weight": "6.0kg",
+  "stage": 9,
+  "location": "갈색 체육관(선원 트레이너 & 마티스), 무인발전소",
+  "story": "양옆의 자석에서 강력한 전자파를 내뿜으며 공중에 둥둥 떠다녀요. 전기를 먹기 위해 전선이나 변전소 주위에 모여듭니다.",
+  "evolution": "코일 ▶ (Lv.30) ▶ 레어코일",
+  "moves": [
+    {
+      "name": "전기쇼크",
+      "type": "전기",
+      "desc": "찌릿찌릿 전기로 상대를 감전시켜 마비시켜요."
+    },
+    {
+      "name": "초음파",
+      "type": "노말",
+      "desc": "귀가 아픈 소리를 내어 상대를 혼란 상태로 빠뜨려요."
+    },
+    {
+      "name": "전자포",
+      "type": "전기",
+      "desc": "강력한 전기 구체를 발사해 명중하면 100% 마비!"
+    },
+    {
+      "name": "러스터캐논",
+      "type": "강철",
+      "desc": "강철의 빛을 모아 광선으로 쏘아 상대의 특수방어를 낮춰요."
+    }
+  ],
+  "tip": "강철 타입이 섞여 있어서 풀, 비행, 노말 등 거의 모든 공격에 끄떡없지만, 땅 타입 기술(구멍파기)에는 무려 4배의 치명타를 입고 한 방에 기절해요!"
+},
+{
+  "id": 82,
+  "num": "#082",
+  "name": "레어코일",
+  "enName": "Magneton",
+  "types": [
+    "전기",
+    "강철"
+  ],
+  "category": "자석포켓몬",
+  "height": "1.0m",
+  "weight": "60.0kg",
+  "stage": 9,
+  "location": "코일 레벨 30 진화, 무인발전소",
+  "story": "코일 3마리가 강한 자력으로 단단하게 연결된 포켓몬이에요. 세 마리가 뿜어내는 자력이 엄청나서 근처의 나침반이나 기계가 망가져요.",
+  "evolution": "코일 ▶ (Lv.30) ▶ 레어코일",
+  "moves": [
+    {
+      "name": "트라이어택",
+      "type": "노말",
+      "desc": "3개의 광선을 동시에 쏘아 화상, 얼음, 마비 중 하나를 일으켜요."
+    },
+    {
+      "name": "10만볼트",
+      "type": "전기",
+      "desc": "엄청난 전기를 뿜어 상대를 강력하게 공격해요."
+    },
+    {
+      "name": "러스터캐논",
+      "type": "강철",
+      "desc": "강철의 에너지를 광선으로 발사해요."
+    },
+    {
+      "name": "전자파",
+      "type": "전기",
+      "desc": "약한 전기를 쬐여 상대를 100% 마비시켜 스피드를 깎아요."
+    }
+  ],
+  "tip": "특수공격력이 어마어마하게 강한 전기/강철 포켓몬이에요! 역시 땅 타입(구멍파기/지진)으로 단숨에 제압하세요!"
+},
+{
+  "id": 100,
+  "num": "#100",
+  "name": "찌리리공",
+  "enName": "Voltorb",
+  "types": [
+    "전기"
+  ],
+  "category": "볼포켓몬",
+  "height": "0.5m",
+  "weight": "10.4kg",
+  "stage": 9,
+  "location": "갈색 체육관(엔지니어 트레이너 & 마티스), 무인발전소",
+  "story": "몬스터볼과 똑 닮아서 땅에 떨어진 도구인 줄 알고 만지려다 감전되는 트레이너가 많아요! 조그만 충격에도 펑 터지는(자폭) 성질이 있어요.",
+  "evolution": "찌리리공 ▶ (Lv.30) ▶ 붐볼",
+  "moves": [
+    {
+      "name": "스파크",
+      "type": "전기",
+      "desc": "전기를 휘감고 돌진하여 상대를 공격하고 마비시켜요."
+    },
+    {
+      "name": "구르기",
+      "type": "바위",
+      "desc": "몸을 둥글게 굴리며 공격할 때마다 위력이 배로 세져요."
+    },
+    {
+      "name": "자폭",
+      "type": "노말",
+      "desc": "주변에 엄청난 폭발을 일으키며 스스로 기절해요."
+    },
+    {
+      "name": "싫은소리",
+      "type": "노말",
+      "desc": "귀가 찢어질 듯한 소리를 내어 상대의 방어를 2단계 떨어뜨려요."
+    }
+  ],
+  "tip": "마티스가 첫 번째로 꺼내는 포켓몬이에요! 스피드가 매우 빠르지만, 땅 타입 포켓몬 앞에서는 전기가 전혀 통하지 않아요!"
+},
+{
+  "id": 101,
+  "num": "#101",
+  "name": "붐볼",
+  "enName": "Electrode",
+  "types": [
+    "전기"
+  ],
+  "category": "볼포켓몬",
+  "height": "1.2m",
+  "weight": "66.6kg",
+  "stage": 9,
+  "location": "찌리리공 레벨 30 진화, 무인발전소",
+  "story": "찌리리공이 진화해서 몸의 위아래 색깔이 반대로 뒤집혔어요. 관동지방에서 가장 빠른 스피드를 자랑하며, 전기를 너무 많이 먹으면 바람을 타고 날아다녀요.",
+  "evolution": "찌리리공 ▶ (Lv.30) ▶ 붐볼",
+  "moves": [
+    {
+      "name": "10만볼트",
+      "type": "전기",
+      "desc": "엄청난 전기를 뿜어내 상대를 공격해요."
+    },
+    {
+      "name": "번개",
+      "type": "전기",
+      "desc": "하늘에서 거대한 벼락을 내리쳐 큰 피해를 입혀요."
+    },
+    {
+      "name": "대폭발",
+      "type": "노말",
+      "desc": "자폭보다 훨씬 더 거대한 최강의 폭발로 공격해요."
+    },
+    {
+      "name": "스피드스타",
+      "type": "노말",
+      "desc": "별 모양의 빛을 날려 상대에게 절대 빗나가지 않아요."
+    }
+  ],
+  "tip": "스피드가 전 포켓몬 중 최고 수준이에요! 체력이 조금 남으면 대폭발을 쓸 수 있으니 주의하세요."
+}
 ];
     // ========================================================
     // ⚔️ 포켓몬 기술 상세 설명 팝업 및 TTS 안내
@@ -5710,7 +5961,7 @@
     // 🗺️ 타운맵 & 모험 스토리 음성 가이드
     // ========================================================
     function speakTownmapOverview() {
-      const text = "관동지방 전체 모험 코스 안내입니다! 태초마을을 시작으로 상록숲, 회색시티, 달맞이산을 지나, 현재 우리는 6번째 장소인 블루시티에 도착해 있습니다! 블루시티에서 이슬이를 이기고 파이리와 상트안느호 티켓을 얻은 뒤, 다음 목적지인 갈색시티로 향하게 됩니다!";
+      const text = "관동지방 전체 모험 코스 안내입니다! 태초마을을 시작으로 상록숲, 회색시티, 달맞이산을 지나, 현재 우리는 8번째 장소인 활기찬 항구 도시 갈색시티에 도착해 있습니다! 블루시티에서 이슬이를 이기고 파이리와 상트안느호 티켓을 얻은 뒤, 다음 목적지인 갈색시티로 향하게 됩니다!";
       speakText(text);
     }
 
@@ -5732,7 +5983,7 @@
     }
 
     function speakVermilionEvents() {
-      const text = "다음 목적지 갈색시티 미리보기입니다! 첫째, 마을 한가운데 여경에게 말을 걸면 귀여운 스타팅 꼬부기를 무료로 선물 받습니다! 둘째, 상트안느호 유람선에 타서 선장님을 돕고 나무를 베는 비술 사각베기를 배웁니다! 셋째, 체육관 관장 마티스의 쓰레기통 스위치 퍼즐을 풀고 3번째 배지를 획득하세요!";
+      const text = "갈색시티와 마티스 체육관 모험 가이드입니다! 첫째, 갈색시티에서 가디 5마리를 잡아 보여주고 교환으로 우아한 페르시온을 선물 받으세요! 페르시온 등 위에 타고 신나게 달릴 수 있어요! 둘째, 호화 유람선 상트안느호에서 선장님의 등을 토닥이고 나무를 베는 비술 사각베기를 배웁니다! 셋째, 체육관 앞 나무를 베고 들어가 쓰레기통 연속 스위치를 눌러 전기 배리어를 해제하세요! 넷째, 마티스의 전기 포켓몬들은 디그다의 굴에서 잡은 땅 타입 구멍파기 기술로 한 방에 이길 수 있답니다!";
       speakText(text);
     }
 
@@ -6366,18 +6617,21 @@
       // 그래도 없으면 초기 데이터 생성 (기존 체크 데이터가 있으면 절대 안 건드림!)
       if (!data) {
         data = {
-          stage: 7, // 블루시티
-          caught: (name === 'yeseo' ? [25, 16, 19, 10, 1] : [133, 16, 19, 13, 56]),
+          stage: (name === 'yeseo' ? 9 : 8), // 예서는 갈색시티 체육관!
+          caught: (name === 'yeseo' ? [25, 16, 19, 10, 1, 58, 53] : [133, 16, 19, 13, 56]),
           stamps: 0,
           notes: {}
         };
       }
 
-      // 필드 무결성 보장
+      // 필드 무결성 및 예서 갈색시티(9단계) 진도 & 가디/페르시온 획득 자동 반영
       if (!Array.isArray(data.caught)) data.caught = [];
       if (!data.notes || typeof data.notes !== 'object') data.notes = {};
-      if (name === 'yeseo' && (!data.stage || data.stage < 8)) {
-        data.stage = 8; // 예서 최신 진도(5·6번 도로 및 지하통로) 자동 반영!
+
+      if (name === 'yeseo') {
+        if (!data.stage || data.stage < 9) data.stage = 9; // 예서 최신 진도: 9단계 갈색시티 체육관!
+        if (!data.caught.includes(58)) data.caught.push(58); // 가디 5마리 포획 완료!
+        if (!data.caught.includes(53)) data.caught.push(53); // 가디 5마리로 페르시온 교환 획득!
       } else if (!data.stage || data.stage < 7) {
         data.stage = 7;
       }
@@ -6570,43 +6824,19 @@
       e.target.value = '';
     }
 
-    function getTrainerData(name) {
-      const key = `poke_trainer_${name}`;
-      const saved = localStorage.getItem(key);
-      let data;
-      if (saved) {
-        data = JSON.parse(saved);
-      } else {
-        data = {
-          stage: 7, // 기본값을 7단계(블루시티)로 업그레이드!
-          caught: (name === 'yeseo' ? [25, 16, 19, 10, 1] : [133, 16, 19, 13, 56]),
-          stamps: 0
-        };
-      }
-      // 사용자가 블루시티까지 진도 나갔으므로 stage가 7 미만이면 7로 자동 동기화!
-      if (!data.stage || data.stage < 7) {
-        data.stage = 7;
-        localStorage.setItem(key, JSON.stringify(data));
-      }
-      return data;
-    }
-
-    function saveTrainerData(name, data) {
-      localStorage.setItem(`poke_trainer_${name}`, JSON.stringify(data));
-      updateIntroStats();
-    }
-
     function updateIntroStats() {
       const yData = getTrainerData('yeseo');
       const sData = getTrainerData('seowoo');
       const stageNames = {
-        1: "1·2번 도로", 2: "상록숲", 3: "회색시티(웅이)",
-        4: "3번 도로", 5: "4번 도로(잉어킹)", 6: "달맞이산", 7: "블루시티(이슬이)"
+        1: "1·2번 도로", 2: "상록숲", 3: "회색시티 (웅이)",
+        4: "3번 도로", 5: "4번 도로 (잉어킹)", 6: "달맞이산",
+        7: "블루시티 (이슬이)", 8: "5·6번 도로 (지하통로)",
+        9: "갈색시티 (마티스 체육관)"
       };
 
-      document.getElementById('intro-yeseo-stage').textContent = stageNames[yData.stage] || "3번 도로";
+      document.getElementById('intro-yeseo-stage').textContent = stageNames[yData.stage] || "갈색시티 (체육관)";
       document.getElementById('intro-yeseo-stamps').textContent = `${yData.stamps}개`;
-      document.getElementById('intro-seowoo-stage').textContent = stageNames[sData.stage] || "4번 도로";
+      document.getElementById('intro-seowoo-stage').textContent = stageNames[sData.stage] || "5·6번 도로";
       document.getElementById('intro-seowoo-stamps').textContent = `${sData.stamps}개`;
     }
 
@@ -6737,6 +6967,7 @@
       const keyword = document.getElementById('poke-search').value.trim().toLowerCase();
 
       const filtered = POKEMON_DATA.filter(p => {
+        if (currentFilter === 'vermilionOnly' && p.stage !== 9) return false;
         if (currentFilter === 'route56Only' && p.stage !== 8) return false;
         if (currentFilter === 'ceruleanOnly' && p.stage !== 7) return false;
         if (currentFilter === 'currentStage' && p.stage > currentStage) return false;
