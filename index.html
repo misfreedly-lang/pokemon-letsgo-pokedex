@@ -6812,11 +6812,13 @@
         }
       }
 
+      let isNew = false;
       // 그래도 없으면 초기 데이터 생성 (기존 체크 데이터가 있으면 절대 안 건드림!)
       if (!data) {
+        isNew = true;
         data = {
           stage: (name === 'yeseo' ? 9 : 8), // 예서는 갈색시티 체육관!
-          caught: (name === 'yeseo' ? [25, 16, 19, 10, 1, 58, 53] : [133, 16, 19, 13, 56]),
+          caught: (name === 'yeseo' ? [25, 16, 19, 10, 1, 58, 53, 2, 8] : [133, 16, 19, 13, 56]),
           stamps: 0,
           notes: {}
         };
@@ -6826,18 +6828,28 @@
       if (!Array.isArray(data.caught)) data.caught = [];
       if (!data.notes || typeof data.notes !== 'object') data.notes = {};
 
+      let modified = isNew;
       if (name === 'yeseo') {
-        if (!data.stage || data.stage < 9) data.stage = 9; // 예서 최신 진도: 9단계 갈색시티 체육관!
-        if (!data.caught.includes(58)) data.caught.push(58); // 가디 5마리 포획 완료!
-        if (!data.caught.includes(53)) data.caught.push(53); // 가디 5마리로 페르시온 교환 획득!
-        if (!data.caught.includes(2)) data.caught.push(2);   // 이상해씨 ➔ 이상해풀 진화 성공!
-        if (!data.caught.includes(8)) data.caught.push(8);   // 꼬부기 ➔ 어니부기 진화 성공!
+        if (!data.stage || data.stage < 9) { data.stage = 9; modified = true; } // 예서 최신 진도: 9단계 갈색시티 체육관!
+        if (!data.caught.includes(58)) { data.caught.push(58); modified = true; } // 가디 5마리 포획 완료!
+        if (!data.caught.includes(53)) { data.caught.push(53); modified = true; } // 가디 5마리로 페르시온 교환 획득!
+        if (!data.caught.includes(2)) { data.caught.push(2); modified = true; }   // 이상해씨 ➔ 이상해풀 진화 성공!
+        if (!data.caught.includes(8)) { data.caught.push(8); modified = true; }   // 꼬부기 ➔ 어니부기 진화 성공!
       } else if (!data.stage || data.stage < 7) {
         data.stage = 7;
+        modified = true;
       }
 
-      // 2중 백업 슬롯 동기화
-      saveTrainerData(name, data);
+      // 새로 생성되었거나 진도 마이그레이션 시 직접 스토리지에 동기화 (재귀 방지를 위해 saveTrainerData 미호출)
+      if (modified) {
+        try {
+          const jsonStr = JSON.stringify(data);
+          localStorage.setItem(primaryKey, jsonStr);
+          localStorage.setItem(backupKey, jsonStr);
+          sessionStorage.setItem(primaryKey, jsonStr);
+        } catch (e) {}
+      }
+
       return data;
     }
 
@@ -6852,13 +6864,14 @@
       try {
         localStorage.setItem(primaryKey, jsonStr);
         localStorage.setItem(backupKey, jsonStr);
-        // 세션에도 복사
         sessionStorage.setItem(primaryKey, jsonStr);
       } catch (err) {
         console.warn("Storage quota or error:", err);
       }
 
-      updateIntroStats();
+      if (!window.__updatingIntroStats) {
+        updateIntroStats();
+      }
     }
 
     // 3. 백업 모달 열기 및 렌더링
@@ -7025,19 +7038,29 @@
     }
 
     function updateIntroStats() {
-      const yData = getTrainerData('yeseo');
-      const sData = getTrainerData('seowoo');
-      const stageNames = {
-        1: "1·2번 도로", 2: "상록숲", 3: "회색시티 (웅이)",
-        4: "3번 도로", 5: "4번 도로 (잉어킹)", 6: "달맞이산",
-        7: "블루시티 (이슬이)", 8: "5·6번 도로 (지하통로)",
-        9: "갈색시티 (마티스 체육관)"
-      };
+      if (window.__updatingIntroStats) return;
+      window.__updatingIntroStats = true;
+      try {
+        const yData = getTrainerData('yeseo');
+        const sData = getTrainerData('seowoo');
+        const stageNames = {
+          1: "1·2번 도로", 2: "상록숲", 3: "회색시티 (웅이)",
+          4: "3번 도로", 5: "4번 도로 (잉어킹)", 6: "달맞이산",
+          7: "블루시티 (이슬이)", 8: "5·6번 도로 (지하통로)",
+          9: "갈색시티 (마티스 체육관)"
+        };
 
-      document.getElementById('intro-yeseo-stage').textContent = stageNames[yData.stage] || "갈색시티 (체육관)";
-      document.getElementById('intro-yeseo-stamps').textContent = `${yData.stamps}개`;
-      document.getElementById('intro-seowoo-stage').textContent = stageNames[sData.stage] || "5·6번 도로";
-      document.getElementById('intro-seowoo-stamps').textContent = `${sData.stamps}개`;
+        const yStage = document.getElementById('intro-yeseo-stage');
+        if (yStage) yStage.textContent = stageNames[yData.stage] || "갈색시티 (체육관)";
+        const yStamp = document.getElementById('intro-yeseo-stamps');
+        if (yStamp) yStamp.textContent = `${yData.stamps}개`;
+        const sStage = document.getElementById('intro-seowoo-stage');
+        if (sStage) sStage.textContent = stageNames[sData.stage] || "5·6번 도로";
+        const sStamp = document.getElementById('intro-seowoo-stamps');
+        if (sStamp) sStamp.textContent = `${sData.stamps}개`;
+      } finally {
+        window.__updatingIntroStats = false;
+      }
     }
 
     function selectTrainer(name) {
