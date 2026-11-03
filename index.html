@@ -1056,6 +1056,64 @@
       100% { transform: scale(1); }
     }
 
+    /* 도감으로 돌아가기 버튼 스타일 */
+    .return-pokedex-btn {
+      background: linear-gradient(135deg, #2B6CB0, #3182CE);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 16px;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.15rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(49, 130, 206, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+
+    .return-pokedex-btn:hover {
+      background: linear-gradient(135deg, #2c5282, #2b6cb0);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(49, 130, 206, 0.45);
+    }
+
+    .return-pokedex-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* 도감 카드 복귀 시 시각적 펄스 하이라이트 */
+    @keyframes returnCardHighlight {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.8), 0 8px 24px rgba(0,0,0,0.12);
+        border-color: #007AFF;
+      }
+      25% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(0, 122, 255, 0.3), 0 12px 28px rgba(0, 122, 255, 0.4);
+        border-color: #007AFF;
+      }
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 5px rgba(0, 122, 255, 0.15), 0 8px 20px rgba(0,0,0,0.15);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      }
+    }
+
+    .poke-card.highlight-return {
+      animation: returnCardHighlight 2.4s ease-out;
+      border: 3px solid #007AFF !important;
+      position: relative;
+      z-index: 10;
+    }
+
     .stamp-overlay {
       position: absolute;
       top: 50%; left: 50%;
@@ -2716,13 +2774,16 @@
               <button class="tool-btn" onclick="setColoringSize(32, this)">넓은붓</button>
             </div>
 
-            <!-- 칭찬 및 사진 저장 -->
+            <!-- 칭찬 및 사진 저장 / 도감 복귀 -->
             <div class="tool-group">
               <button class="stamp-btn" style="background: linear-gradient(135deg, #FF8A00, #DD6B20);" onclick="celebrateColoringStamp()">
                 💮 완성 도장 쾅!
               </button>
               <button class="tool-btn" style="background:#2B6CB0; color:white; border:none;" onclick="saveColoringPicture()">
                 💾 그림 사진 저장
+              </button>
+              <button class="return-pokedex-btn" onclick="returnToPokedexFromColoring()" title="도감에서 이 포켓몬 위치로 바로 돌아갑니다">
+                📖 도감으로 돌아가기
               </button>
             </div>
           </div>
@@ -3063,9 +3124,14 @@
               <button class="tool-btn" onclick="setPenSize(26, this)">붓펜</button>
             </div>
 
-            <button class="stamp-btn" onclick="celebrateStamp()">
-              💮 칭찬 도장 쾅!
-            </button>
+            <div class="tool-group">
+              <button class="stamp-btn" onclick="celebrateStamp()">
+                💮 칭찬 도장 쾅!
+              </button>
+              <button class="return-pokedex-btn" onclick="returnToPokedexFromWriting()" title="도감에서 이 포켓몬 위치로 바로 돌아갑니다">
+                📖 도감으로 돌아가기
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -7215,6 +7281,9 @@
       filtered.forEach(p => {
         const isCaught = data.caught.includes(p.id);
         const card = document.createElement('div');
+        card.id = `poke-card-${p.name}`;
+        card.dataset.pokeName = p.name;
+        card.dataset.pokeId = p.id;
         card.className = `poke-card ${isCaught ? 'caught' : ''}`;
 
         const typesHtml = p.types.map(t => `<span class="type-badge type-${t}">${t}</span>`).join('');
@@ -7300,6 +7369,75 @@
 
     function goToPractice(name, event) {
       goToWriting(name, event);
+    }
+
+    function returnToPokedexFromWriting() {
+      playBeep('pop');
+      const select = document.getElementById('writing-poke-select');
+      const currentName = select ? select.value : '';
+      returnToPokedexCard(currentName);
+    }
+
+    function returnToPokedexFromColoring() {
+      playBeep('pop');
+      const select = document.getElementById('coloring-poke-select');
+      const currentName = select ? select.value : '';
+      returnToPokedexCard(currentName);
+    }
+
+    function returnToPokedexCard(pokeName) {
+      if (!pokeName) {
+        switchTab('pokedex');
+        return;
+      }
+
+      // 1. 도감 탭으로 전환
+      switchTab('pokedex');
+
+      // 2. 검색창에 검색어가 있어서 이 포켓몬이 가려질 수 있으므로 검색어 리셋
+      const searchInput = document.getElementById('poke-search');
+      let needRerender = false;
+      if (searchInput && searchInput.value.trim() !== '') {
+        searchInput.value = '';
+        needRerender = true;
+      }
+
+      // 3. 현재 필터에 따라 대상 카드가 화면에 표시되는지 검사
+      const targetPoke = POKEMON_DATA.find(p => p.name === pokeName);
+      if (targetPoke) {
+        const data = getTrainerData(currentTrainer);
+        let isVisibleUnderFilter = true;
+
+        if (currentFilter === 'vermilionOnly' && targetPoke.stage !== 9) isVisibleUnderFilter = false;
+        if (currentFilter === 'route56Only' && targetPoke.stage !== 8) isVisibleUnderFilter = false;
+        if (currentFilter === 'ceruleanOnly' && targetPoke.stage !== 7) isVisibleUnderFilter = false;
+        if (currentFilter === 'currentStage' && targetPoke.stage > data.stage) isVisibleUnderFilter = false;
+        if (currentFilter === 'caughtOnly' && !data.caught.includes(targetPoke.id)) isVisibleUnderFilter = false;
+
+        // 화면에 안 보이는 필터라면 전체('all') 필터로 안전하게 해제
+        if (!isVisibleUnderFilter) {
+          const allBtn = document.querySelector('.filter-chip[onclick*="\'all\'"]');
+          setFilter('all', allBtn);
+        } else if (needRerender) {
+          renderPokemonGrid();
+        }
+      } else if (needRerender) {
+        renderPokemonGrid();
+      }
+
+      // 4. 해당 카드로 부드럽게 스크롤 이동 및 펄스 하이라이트 애니메이션
+      setTimeout(() => {
+        const card = document.getElementById('poke-card-' + pokeName);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.classList.remove('highlight-return');
+          void card.offsetWidth; // reflow 강제
+          card.classList.add('highlight-return');
+          setTimeout(() => {
+            card.classList.remove('highlight-return');
+          }, 2600);
+        }
+      }, 120);
     }
 
     function openPokeModal(id) {
